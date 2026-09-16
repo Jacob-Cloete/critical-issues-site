@@ -1,5 +1,8 @@
 (function () {
-  const SLOT_ORDER = ['var(--series-1)', 'var(--series-2)', 'var(--series-3)', 'var(--series-4)', 'var(--series-5)', 'var(--series-6)', 'var(--series-7)', 'var(--series-8)'];
+  const SECTION_COLORS = {
+    climate: 'var(--series-1)', poverty: 'var(--series-2)', health: 'var(--series-3)', biodiversity: 'var(--series-6)',
+    breakthroughs: 'var(--series-3)', energy: 'var(--series-4)', information: 'var(--series-7)', markets: 'var(--series-5)'
+  };
 
   function resolveVar(cssVar) {
     return getComputedStyle(document.documentElement).getPropertyValue(cssVar.match(/--[\w-]+/)[0]).trim() || cssVar;
@@ -72,7 +75,7 @@
         const tableHeading = heading.cloneNode(true);
         chartEl.append(heading, panelChart);
         tableEl.append(tableHeading, panelTable);
-        const panelColor = resolveVar(panel.color || SLOT_ORDER[(SLOT_ORDER.indexOf(colorVar) + i) % SLOT_ORDER.length]);
+        const panelColor = color;
         const panelOpts = Object.assign({}, commonOpts, {
           data: panel.data, unit: panel.unit || '', seriesLabel: panel.seriesLabel,
           ariaLabel: panel.subtitle, color: panelColor, tableTarget: panelTable,
@@ -116,13 +119,13 @@
     const topic = window.SITE_DATA && window.SITE_DATA[key];
     if (!topic) return;
     if (!topic.datasets) return;
-    const counts = {};
     topic.datasets.forEach(dataset => {
       const hostKey = dataset.section || key;
       const host = document.getElementById(hostKey + '-charts');
       if (!host) return;
-      const i = counts[hostKey] = (counts[hostKey] || 0) + 1;
-      host.appendChild(buildChartCard(dataset, SLOT_ORDER[(i - 1) % SLOT_ORDER.length]));
+      const accent = SECTION_COLORS[hostKey] || 'var(--series-1)';
+      host.closest('.section').style.setProperty('--section-accent', accent);
+      host.appendChild(buildChartCard(dataset, accent));
     });
   }
 
@@ -169,20 +172,31 @@
     });
   }
 
-  function init() {
+  function renderAll() {
+    document.querySelectorAll('.chart-grid').forEach(host => { host.textContent = ''; });
     ['climate', 'poverty', 'health', 'biodiversity', 'innovation', 'markets'].forEach(renderTopic);
+  }
+
+  function init() {
+    let stored = null;
+    try { stored = localStorage.getItem('theme'); } catch (e) {}
+    if (stored === 'dark' || stored === 'light') document.documentElement.setAttribute('data-theme', stored);
+
+    renderAll();
     initViews();
     const yearEl = document.getElementById('year');
     if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
-    const toggle = document.getElementById('theme-toggle');
-    const stored = localStorage.getItem('theme');
-    if (stored === 'dark' || stored === 'light') document.documentElement.setAttribute('data-theme', stored);
-    toggle.addEventListener('click', () => {
-      const current = document.documentElement.getAttribute('data-theme');
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme')
+        || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
       const next = current === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
       try { localStorage.setItem('theme', next); } catch (e) {}
+      renderAll();
+    });
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      if (!document.documentElement.hasAttribute('data-theme')) renderAll();
     });
   }
 

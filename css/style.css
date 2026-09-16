@@ -484,3 +484,8 @@ table.data-table th { color: var(--text-secondary); font-weight: 600; }
   color: var(--text-secondary);
 }
 .panel-title:first-child { margin-top: 4px; }
+
+.section .chart-card {
+  background: color-mix(in srgb, var(--section-accent, transparent) 5%, var(--surface-1));
+  border-color: color-mix(in srgb, var(--section-accent, transparent) 22%, var(--border));
+}
