@@ -158,7 +158,9 @@
         x: pad.left - 8, y: y + 4, 'text-anchor': 'end',
         fill: 'var(--text-muted)', 'font-size': 10.5, 'font-family': 'var(--font)'
       }, svg);
-      if (log) {
+      if (log && unit && t >= 0 && t < 12) {
+        label.textContent = formatCompact(Math.pow(10, t), unit);
+      } else if (log) {
         label.appendChild(document.createTextNode('10'));
         const sup = el('tspan', { dy: -4, 'font-size': 8 }, label);
         sup.textContent = String(t);
