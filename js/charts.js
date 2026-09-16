@@ -229,9 +229,10 @@
 
     const tip = getTooltip(wrap);
 
+    const allXs = [...new Set(series.flatMap(s => s.data.map(d => d.x)))];
     function findNearestX(mouseX) {
-      let nearest = series[0].data[0].x, minDist = Infinity;
-      series[0].data.forEach(d => {
+      let nearest = allXs[0], minDist = Infinity;
+      allXs.map(x => ({ x })).forEach(d => {
         const dist = Math.abs(xScale(d.x) - mouseX);
         if (dist < minDist) { minDist = dist; nearest = d.x; }
       });
