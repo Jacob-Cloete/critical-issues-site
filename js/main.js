@@ -1,7 +1,8 @@
 (function () {
   const SECTION_COLORS = {
     climate: 'var(--series-1)', poverty: 'var(--series-2)', health: 'var(--series-3)', biodiversity: 'var(--series-6)',
-    breakthroughs: 'var(--series-3)', energy: 'var(--series-4)', information: 'var(--series-7)', markets: 'var(--series-5)'
+    energy: 'var(--series-1)', markets: 'var(--series-2)', breakthroughs: 'var(--series-3)', conservation: 'var(--series-6)',
+    information: 'var(--series-7)'
   };
 
   function resolveVar(cssVar) {
@@ -173,8 +174,12 @@
   }
 
   function renderAll() {
+    Object.entries(SECTION_COLORS).forEach(([id, accent]) => {
+      const section = document.getElementById(id);
+      if (section) section.style.setProperty('--section-accent', accent);
+    });
     document.querySelectorAll('.chart-grid').forEach(host => { host.textContent = ''; });
-    ['climate', 'poverty', 'health', 'biodiversity', 'innovation', 'markets'].forEach(renderTopic);
+    ['climate', 'poverty', 'health', 'biodiversity', 'innovation', 'markets', 'conservation'].forEach(renderTopic);
   }
 
   function init() {

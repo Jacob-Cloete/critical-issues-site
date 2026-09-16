@@ -489,3 +489,15 @@ table.data-table th { color: var(--text-secondary); font-weight: 600; }
   background: color-mix(in srgb, var(--section-accent, transparent) 5%, var(--surface-1));
   border-color: color-mix(in srgb, var(--section-accent, transparent) 22%, var(--border));
 }
+
+.pair-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+  border-bottom: 2px solid var(--section-accent, var(--baseline));
+  padding-bottom: 1px;
+}
+.pair-link:hover { color: var(--text-secondary); }

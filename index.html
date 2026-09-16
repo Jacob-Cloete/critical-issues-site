@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>State of the World — Data on Critical Global Problems</title>
 <meta name="description" content="Real, sourced data on the world's most critical problems — climate change, poverty & inequality, public health, biodiversity loss — and the innovation making progress against them.">
-<link rel="stylesheet" href="css/style.css?v=11">
+<link rel="stylesheet" href="css/style.css?v=14">
 </head>
 <body>
 
@@ -24,10 +24,11 @@
       <a href="#sources">Sources</a>
     </nav>
     <nav class="main-nav" data-view-nav="solutions">
-      <a href="#breakthroughs">Medicine &amp; food</a>
       <a href="#energy">Energy</a>
-      <a href="#information">Information &amp; AI</a>
       <a href="#markets">Markets</a>
+      <a href="#breakthroughs">Medicine &amp; food</a>
+      <a href="#conservation">Conservation</a>
+      <a href="#information">Information &amp; AI</a>
       <a href="#sources">Sources</a>
     </nav>
     <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode">◐ Theme</button>
@@ -46,10 +47,11 @@
         <a class="pill" href="#biodiversity"><span class="dot" style="background:var(--series-6)"></span>Biodiversity loss</a>
       </div>
       <div class="hero-links" data-view-pills="solutions">
+        <a class="pill" href="#energy"><span class="dot" style="background:var(--series-1)"></span>Energy &amp; science</a>
+        <a class="pill" href="#markets"><span class="dot" style="background:var(--series-2)"></span>Markets &amp; trade</a>
         <a class="pill" href="#breakthroughs"><span class="dot" style="background:var(--series-3)"></span>Medicine &amp; food</a>
-        <a class="pill" href="#energy"><span class="dot" style="background:var(--series-4)"></span>Energy &amp; science</a>
+        <a class="pill" href="#conservation"><span class="dot" style="background:var(--series-6)"></span>Conservation &amp; regulation</a>
         <a class="pill" href="#information"><span class="dot" style="background:var(--series-7)"></span>Information &amp; AI</a>
-        <a class="pill" href="#markets"><span class="dot" style="background:var(--series-5)"></span>Markets &amp; trade</a>
       </div>
     </div>
   </section>
@@ -62,12 +64,12 @@
         <div>
           <h2>Climate change</h2>
           <p>Rising greenhouse gas concentrations are driving global temperatures upward, reshaping weather, sea levels, and ecosystems.</p>
+          <a class="pair-link" href="#energy">See what’s improving this: Energy &amp; science →</a>
         </div>
       </div>
       <div class="chart-grid" id="climate-charts"></div>
     </div>
   </section>
-
   <section class="section" id="poverty">
     <div class="wrap">
       <div class="section-head">
@@ -75,12 +77,12 @@
         <div>
           <h2>Poverty &amp; inequality</h2>
           <p>Extreme poverty has fallen sharply over decades, but progress is uneven and gains have slowed — while income and wealth remain highly concentrated.</p>
+          <a class="pair-link" href="#markets">See what’s improving this: Markets &amp; trade →</a>
         </div>
       </div>
       <div class="chart-grid" id="poverty-charts"></div>
     </div>
   </section>
-
   <section class="section" id="health">
     <div class="wrap">
       <div class="section-head">
@@ -88,12 +90,12 @@
         <div>
           <h2>Public health</h2>
           <p>Global life expectancy and child survival have improved enormously, yet large gaps persist between regions and disease burden is shifting.</p>
+          <a class="pair-link" href="#breakthroughs">See what’s improving this: Medicine &amp; food breakthroughs →</a>
         </div>
       </div>
       <div class="chart-grid" id="health-charts"></div>
     </div>
   </section>
-
   <section class="section" id="biodiversity">
     <div class="wrap">
       <div class="section-head">
@@ -101,6 +103,7 @@
         <div>
           <h2>Biodiversity loss</h2>
           <p>Wildlife populations and natural habitats are shrinking at an accelerating rate, threatening the ecosystems that sustain life on Earth.</p>
+          <a class="pair-link" href="#conservation">See what’s improving this: Conservation &amp; regulation →</a>
         </div>
       </div>
       <div class="chart-grid" id="biodiversity-charts"></div>
@@ -109,6 +112,32 @@
   </div>
 
   <div data-view-content="solutions">
+  <section class="section" id="energy">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-icon" style="background:color-mix(in srgb, var(--series-1) 16%, transparent); color:var(--series-1)">⚡</div>
+        <div>
+          <h2>Energy &amp; science</h2>
+          <p>Clean-energy technologies have become dramatically cheaper as they scaled, while the world invests more than ever in research itself.</p>
+          <a class="pair-link" href="#climate">← The problem this addresses: Climate change</a>
+        </div>
+      </div>
+      <div class="chart-grid" id="energy-charts"></div>
+    </div>
+  </section>
+  <section class="section" id="markets">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-icon" style="background:color-mix(in srgb, var(--series-2) 16%, transparent); color:var(--series-2)">🏛️</div>
+        <div>
+          <h2>Markets &amp; trade</h2>
+          <p>Economic openness and market reforms correlate with some of the largest welfare gains on record — the data below, not a conclusion.</p>
+          <a class="pair-link" href="#poverty">← The problem this addresses: Poverty &amp; inequality</a>
+        </div>
+      </div>
+      <div class="chart-grid" id="markets-charts"></div>
+    </div>
+  </section>
   <section class="section" id="breakthroughs">
     <div class="wrap">
       <div class="section-head">
@@ -116,48 +145,35 @@
         <div>
           <h2>Medicine &amp; food breakthroughs</h2>
           <p>Specific discoveries — vaccines, synthetic fertilizer, high-yield crops, cheap gene sequencing — and the measurable difference they made to how long and how well people live.</p>
+          <a class="pair-link" href="#health">← The problem this addresses: Public health</a>
         </div>
       </div>
       <div class="chart-grid" id="breakthroughs-charts"></div>
     </div>
   </section>
-
-  <section class="section" id="energy">
+  <section class="section" id="conservation">
     <div class="wrap">
       <div class="section-head">
-        <div class="section-icon" style="background:color-mix(in srgb, var(--series-4) 16%, transparent); color:var(--series-4)">⚡</div>
+        <div class="section-icon" style="background:color-mix(in srgb, var(--series-6) 16%, transparent); color:var(--series-6)">🌿</div>
         <div>
-          <h2>Energy &amp; science</h2>
-          <p>Clean-energy technologies have become dramatically cheaper as they scaled, while the world invests more than ever in research itself.</p>
+          <h2>Conservation &amp; regulation</h2>
+          <p>Laws, treaties and protection programmes that measurably reduced pollution and brought species back from the brink.</p>
+          <a class="pair-link" href="#biodiversity">← The problem this addresses: Biodiversity loss</a>
         </div>
       </div>
-      <div class="chart-grid" id="energy-charts"></div>
+      <div class="chart-grid" id="conservation-charts"></div>
     </div>
   </section>
-
   <section class="section" id="information">
     <div class="wrap">
       <div class="section-head">
         <div class="section-icon" style="background:color-mix(in srgb, var(--series-7) 16%, transparent); color:var(--series-7)">🌐</div>
         <div>
           <h2>Information &amp; AI</h2>
-          <p>From mass literacy to the internet to machine learning, access to information keeps spreading faster — though not evenly.</p>
+          <p>Cross-cutting progress that helps with every challenge: from mass literacy to the internet to machine learning, access to information keeps spreading faster — though not evenly.</p>
         </div>
       </div>
       <div class="chart-grid" id="information-charts"></div>
-    </div>
-  </section>
-
-  <section class="section" id="markets">
-    <div class="wrap">
-      <div class="section-head">
-        <div class="section-icon" style="background:color-mix(in srgb, var(--series-5) 16%, transparent); color:var(--series-5)">🏛️</div>
-        <div>
-          <h2>Markets &amp; trade</h2>
-          <p>Economic openness and market reforms correlate with some of the largest welfare gains on record — the data below, not a conclusion.</p>
-        </div>
-      </div>
-      <div class="chart-grid" id="markets-charts"></div>
     </div>
   </section>
   </div>
@@ -170,13 +186,14 @@
   </div>
 </footer>
 
-<script src="data/climate.js?v=11"></script>
-<script src="data/poverty.js?v=11"></script>
-<script src="data/health.js?v=11"></script>
-<script src="data/biodiversity.js?v=11"></script>
-<script src="data/innovation.js?v=11"></script>
-<script src="data/markets.js?v=11"></script>
-<script src="js/charts.js?v=11"></script>
-<script src="js/main.js?v=11"></script>
+<script src="data/climate.js?v=14"></script>
+<script src="data/poverty.js?v=14"></script>
+<script src="data/health.js?v=14"></script>
+<script src="data/biodiversity.js?v=14"></script>
+<script src="data/innovation.js?v=14"></script>
+<script src="data/markets.js?v=14"></script>
+<script src="data/conservation.js?v=14"></script>
+<script src="js/charts.js?v=14"></script>
+<script src="js/main.js?v=14"></script>
 </body>
 </html>

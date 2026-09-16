@@ -185,7 +185,12 @@
 
     const single = series.length === 1;
 
-    series.forEach(s => {
+    // End labels that would overlap another series' label are dropped; the
+    // legend and tooltip still carry those values.
+    const endYs = series.map(s => yScale(s.data[s.data.length - 1].y));
+    const labelFits = endYs.map((y, i) => endYs.every((other, j) => j === i || Math.abs(other - y) >= 14));
+
+    series.forEach((s, si) => {
       const data = s.data;
       const color = s.color || defaultColor;
 
@@ -209,6 +214,7 @@
       const last = data[data.length - 1];
       el('circle', { cx: xScale(last.x), cy: yScale(last.y), r: 5, fill: color, stroke: 'var(--surface-1)', 'stroke-width': 2 }, svg);
 
+      if (!labelFits[si]) return;
       const endLabel = el('text', {
         x: xScale(last.x), y: yScale(last.y) - 10, 'text-anchor': 'end',
         fill: 'var(--text-primary)', 'font-size': 11, 'font-weight': 650, 'font-family': 'var(--font)'
