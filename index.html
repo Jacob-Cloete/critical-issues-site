@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>State of the World — Data on Critical Global Problems</title>
-<meta name="description" content="Real, sourced data on the world's most critical problems: climate change, poverty & inequality, public health, and biodiversity loss.">
+<meta name="description" content="Real, sourced data on the world's most critical problems — climate change, poverty & inequality, public health, biodiversity loss — and the innovation making progress against them.">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -17,6 +17,7 @@
       <a href="#poverty">Poverty</a>
       <a href="#health">Health</a>
       <a href="#biodiversity">Biodiversity</a>
+      <a href="#innovation">Innovation</a>
       <a href="#sources">Sources</a>
     </nav>
     <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode">◐ Theme</button>
@@ -26,13 +27,14 @@
 <main id="top">
   <section class="hero">
     <div class="wrap">
-      <h1>Critical problems in our world, in real data.</h1>
-      <p class="lead">A running look at the numbers behind the four challenges that define our era — pulled from public research organizations, not opinion. Every chart cites its source.</p>
+      <h1>What does the data say about our world?</h1>
+      <p class="lead">A running look at the numbers behind the challenges that define our era — and the progress being made against them — pulled from public research organizations, not opinion. Every chart cites its source.</p>
       <div class="hero-links">
         <a class="pill" href="#climate"><span class="dot" style="background:var(--series-1)"></span>Climate change</a>
         <a class="pill" href="#poverty"><span class="dot" style="background:var(--series-2)"></span>Poverty &amp; inequality</a>
         <a class="pill" href="#health"><span class="dot" style="background:var(--series-3)"></span>Public health</a>
         <a class="pill" href="#biodiversity"><span class="dot" style="background:var(--series-6)"></span>Biodiversity loss</a>
+        <a class="pill" href="#innovation"><span class="dot" style="background:var(--series-7)"></span>Innovation</a>
       </div>
     </div>
   </section>
@@ -88,11 +90,24 @@
       <div class="chart-grid" id="biodiversity-charts"></div>
     </div>
   </section>
+
+  <section class="section" id="innovation">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-icon" style="background:color-mix(in srgb, var(--series-7) 16%, transparent); color:var(--series-7)">💡</div>
+        <div>
+          <h2>Innovation &amp; progress</h2>
+          <p>Alongside the challenges, human ingenuity keeps making the impossible cheap and the inaccessible common — here’s where that progress shows up in the numbers.</p>
+        </div>
+      </div>
+      <div class="chart-grid" id="innovation-charts"></div>
+    </div>
+  </section>
 </main>
 
 <footer class="site-footer" id="sources">
   <div class="wrap">
-    <p>All figures are drawn from public research organizations — Our World in Data, the World Bank, WHO, NASA/NOAA, IUCN, and WWF — and cited beneath each chart. This is an independent, non-commercial project for public awareness.</p>
+    <p>All figures are drawn from public research organizations — Our World in Data, the World Bank, WHO, NASA/NOAA, IUCN, WWF, IRENA, IEA, and the OECD, among others — and cited beneath each chart. This is an independent, non-commercial project for public awareness.</p>
     <p>&copy; <span id="year"></span> State of the World.</p>
   </div>
 </footer>
@@ -101,6 +116,7 @@
 <script src="data/poverty.js"></script>
 <script src="data/health.js"></script>
 <script src="data/biodiversity.js"></script>
+<script src="data/innovation.js"></script>
 <script src="js/charts.js"></script>
 <script src="js/main.js"></script>
 </body>

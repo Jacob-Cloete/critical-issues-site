@@ -352,7 +352,29 @@
       hitRow.addEventListener('pointerleave', deactivate);
     });
 
-    if (opts.tableTarget) buildTable(opts.tableTarget, ['Category', opts.seriesLabel || 'Value'], items.map(i => [i.category, formatCompact(i.value, unit)]));
+    if (opts.legend && opts.legend.length) {
+      const legend = document.createElement('div');
+      legend.className = 'legend';
+      opts.legend.forEach(entry => {
+        const item = document.createElement('div');
+        item.className = 'item';
+        const swatch = document.createElement('span');
+        swatch.className = 'swatch bar';
+        swatch.style.background = entry.color;
+        const label = document.createElement('span');
+        label.textContent = entry.label;
+        item.appendChild(swatch);
+        item.appendChild(label);
+        legend.appendChild(item);
+      });
+      container.appendChild(legend);
+    }
+
+    if (opts.tableTarget) {
+      const rows = items.map(i => opts.legend ? [i.category, formatCompact(i.value, unit), i.legendLabel || ''] : [i.category, formatCompact(i.value, unit)]);
+      const headers = opts.legend ? ['Category', opts.seriesLabel || 'Value', 'Classification'] : ['Category', opts.seriesLabel || 'Value'];
+      buildTable(opts.tableTarget, headers, rows);
+    }
   }
 
   /* ---------------- Table fallback ---------------- */

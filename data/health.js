@@ -39,24 +39,30 @@ window.SITE_DATA.health = {
       source: { name: 'UN Inter-agency Group for Child Mortality Estimation (2025), 1950 onward; Gapminder (2015), pre-1950; via Our World in Data', url: 'https://ourworldindata.org/grapher/child-mortality' }
     },
     {
-      title: 'Global deaths by major cause, 2021',
+      title: 'Global deaths by leading cause, 2023',
       type: 'bar',
       unit: 'M',
       seriesLabel: 'Deaths',
-      takeaway: 'Cardiovascular disease alone killed more people in 2021 (19.2 million) than cancer and COVID-19 combined — it remains, by far, the world’s biggest killer.',
+      takeaway: '2023 is the most recent year with real published data and, unlike 2021, isn’t distorted by a COVID-19 peak (COVID fell to about 0.8M deaths that year, down from 8.7M in 2021). Bars are colored by how avoidable each cause is, using the OECD/Eurostat “avoidable mortality” classification — many of the biggest killers are at least partly preventable.',
       data: [
-        {category:'Cardiovascular diseases', value:19.21},
-        {category:'Cancers (all)', value:9.81},
-        {category:'COVID-19', value:8.72},
-        {category:'Injuries (all)', value:4.48},
-        {category:'Chronic respiratory diseases', value:4.28},
-        {category:'Digestive diseases', value:2.50},
-        {category:'Neurological conditions', value:2.54},
-        {category:'Lower respiratory infections', value:2.45},
-        {category:'Neonatal conditions', value:1.93},
-        {category:'Diabetes mellitus', value:1.62}
+        {category:'Ischaemic heart disease', value:8.91, color:'var(--series-4)', legendLabel:'Mixed'},
+        {category:'Stroke', value:6.79, color:'var(--series-4)', legendLabel:'Mixed'},
+        {category:'COPD', value:3.43, color:'var(--series-1)', legendLabel:'Preventable'},
+        {category:'Lower respiratory infections', value:2.50, color:'var(--series-4)', legendLabel:'Mixed'},
+        {category:'Alzheimer’s & other dementias', value:2.21, color:'var(--text-muted)', legendLabel:'Not classified (age-related)'},
+        {category:'Tracheal, bronchus & lung cancer', value:2.04, color:'var(--series-1)', legendLabel:'Preventable'},
+        {category:'Diabetes mellitus', value:2.00, color:'var(--series-4)', legendLabel:'Mixed'},
+        {category:'Neonatal disorders', value:1.63, color:'var(--series-3)', legendLabel:'Treatable'},
+        {category:'Chronic kidney disease', value:1.52, color:'var(--series-3)', legendLabel:'Treatable'},
+        {category:'Hypertensive heart disease', value:1.49, color:'var(--series-4)', legendLabel:'Mixed'}
       ],
-      source: { name: 'WHO Global Health Estimates 2021', url: 'https://www.who.int/data/gho/data/themes/mortality-and-global-health-estimates/ghe-leading-causes-of-death' }
+      legend: [
+        { label: 'Preventable (primary prevention)', color: 'var(--series-1)' },
+        { label: 'Treatable (with timely healthcare)', color: 'var(--series-3)' },
+        { label: 'Mixed (both, per OECD/Eurostat)', color: 'var(--series-4)' },
+        { label: 'Not classified (age-related)', color: 'var(--text-muted)' }
+      ],
+      source: { name: 'GBD 2023 Causes of Death Collaborators, The Lancet (2025); classification: OECD/Eurostat avoidable mortality list (2022)', url: 'https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(25)01917-8/fulltext' }
     },
     {
       title: 'Life expectancy by country income group, 2023',

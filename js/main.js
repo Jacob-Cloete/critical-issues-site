@@ -61,7 +61,7 @@
     };
 
     if (dataset.type === 'bar') {
-      window.Viz.renderBarChart(chartEl, Object.assign({ data: dataset.data }, commonOpts));
+      window.Viz.renderBarChart(chartEl, Object.assign({ data: dataset.data, legend: dataset.legend }, commonOpts));
     } else if (dataset.series) {
       const resolvedSeries = dataset.series.map(s => Object.assign({}, s, { color: resolveVar(s.color) }));
       window.Viz.renderLineChart(chartEl, Object.assign({}, commonOpts, { series: resolvedSeries }));
@@ -100,7 +100,7 @@
   }
 
   function init() {
-    ['climate', 'poverty', 'health', 'biodiversity'].forEach(renderTopic);
+    ['climate', 'poverty', 'health', 'biodiversity', 'innovation'].forEach(renderTopic);
     const yearEl = document.getElementById('year');
     if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
