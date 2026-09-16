@@ -73,10 +73,17 @@
         chartEl.append(heading, panelChart);
         tableEl.append(tableHeading, panelTable);
         const panelColor = resolveVar(panel.color || SLOT_ORDER[(SLOT_ORDER.indexOf(colorVar) + i) % SLOT_ORDER.length]);
-        window.Viz.renderBarChart(panelChart, Object.assign({}, commonOpts, {
+        const panelOpts = Object.assign({}, commonOpts, {
           data: panel.data, unit: panel.unit || '', seriesLabel: panel.seriesLabel,
-          ariaLabel: panel.subtitle, color: panelColor, tableTarget: panelTable
-        }));
+          ariaLabel: panel.subtitle, color: panelColor, tableTarget: panelTable,
+          logScale: panel.logScale
+        });
+        if (panel.type === 'line') {
+          if (panel.series) panelOpts.series = panel.series.map(s => Object.assign({}, s, { color: resolveVar(s.color) }));
+          window.Viz.renderLineChart(panelChart, panelOpts);
+        } else {
+          window.Viz.renderBarChart(panelChart, panelOpts);
+        }
       });
     } else if (dataset.type === 'bar') {
       window.Viz.renderBarChart(chartEl, Object.assign({ data: dataset.data, legend: dataset.legend }, commonOpts));
