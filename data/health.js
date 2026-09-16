@@ -126,24 +126,6 @@ window.SITE_DATA.health = {
       ],
       source: { name: 'UNAIDS, Global AIDS Update (2026), via Our World in Data', url: 'https://ourworldindata.org/grapher/deaths-from-aids-un' }
     },
-    {
-      title: 'Global adult obesity prevalence',
-      type: 'line',
-      unit: '%',
-      seriesLabel: 'Obesity prevalence',
-      trend: 'worsening',
-      takeaway: 'Age-standardized adult obesity has nearly tripled worldwide, from about 5.4% in 1980 to about 16.2% in 2024, with the rise showing no sign of slowing.',
-      data: [
-        {x:1980,y:5.45},{x:1981,y:5.54},{x:1982,y:5.64},{x:1983,y:5.75},{x:1984,y:5.86},{x:1985,y:5.98},
-        {x:1986,y:6.1},{x:1987,y:6.24},{x:1988,y:6.37},{x:1989,y:6.52},{x:1990,y:6.67},{x:1991,y:6.83},
-        {x:1992,y:7.01},{x:1993,y:7.18},{x:1994,y:7.37},{x:1995,y:7.57},{x:1996,y:7.78},{x:1997,y:8.01},
-        {x:1998,y:8.24},{x:1999,y:8.49},{x:2000,y:8.74},{x:2001,y:9.0},{x:2002,y:9.27},{x:2003,y:9.53},
-        {x:2004,y:9.8},{x:2005,y:10.08},{x:2006,y:10.36},{x:2007,y:10.64},{x:2008,y:10.93},{x:2009,y:11.21},
-        {x:2010,y:11.49},{x:2011,y:11.78},{x:2012,y:12.06},{x:2013,y:12.36},{x:2014,y:12.66},{x:2015,y:12.98},
-        {x:2016,y:13.31},{x:2017,y:13.64},{x:2018,y:13.96},{x:2019,y:14.3},{x:2020,y:14.64},{x:2021,y:15.0},
-        {x:2022,y:15.37},{x:2023,y:15.76},{x:2024,y:16.17}
-      ],
-      source: { name: 'NCD Risk Factor Collaboration (NCD-RisC), via WHO Global Health Observatory / Our World in Data', url: 'https://ourworldindata.org/grapher/obesity-prevalence-adults-who-gho' }
-    }
+    {"title": "Too little and too much food: undernourishment vs obesity", "type": "line", "trend": "mixed", "takeaway": "Two sides of the global food problem on one chart. The share of people who are undernourished fell from 12.7% in 2000 to a low of 7.1% in 2017, then rose again after the pandemic (8.2% in 2024). Meanwhile adult obesity has nearly tripled since 1980, to 16.2% — about double the undernourishment rate. Note the bases differ: undernourishment is a share of the whole population, obesity a share of adults (age-standardised).", "unit": "%", "series": [{"label": "Adults who are obese", "color": "var(--series-2)", "data": [{"x": 1980, "y": 5.45}, {"x": 1981, "y": 5.54}, {"x": 1982, "y": 5.64}, {"x": 1983, "y": 5.75}, {"x": 1984, "y": 5.86}, {"x": 1985, "y": 5.98}, {"x": 1986, "y": 6.1}, {"x": 1987, "y": 6.24}, {"x": 1988, "y": 6.37}, {"x": 1989, "y": 6.52}, {"x": 1990, "y": 6.67}, {"x": 1991, "y": 6.83}, {"x": 1992, "y": 7.01}, {"x": 1993, "y": 7.18}, {"x": 1994, "y": 7.37}, {"x": 1995, "y": 7.57}, {"x": 1996, "y": 7.78}, {"x": 1997, "y": 8.01}, {"x": 1998, "y": 8.24}, {"x": 1999, "y": 8.49}, {"x": 2000, "y": 8.74}, {"x": 2001, "y": 9}, {"x": 2002, "y": 9.27}, {"x": 2003, "y": 9.53}, {"x": 2004, "y": 9.8}, {"x": 2005, "y": 10.08}, {"x": 2006, "y": 10.36}, {"x": 2007, "y": 10.64}, {"x": 2008, "y": 10.93}, {"x": 2009, "y": 11.21}, {"x": 2010, "y": 11.49}, {"x": 2011, "y": 11.78}, {"x": 2012, "y": 12.06}, {"x": 2013, "y": 12.36}, {"x": 2014, "y": 12.66}, {"x": 2015, "y": 12.98}, {"x": 2016, "y": 13.31}, {"x": 2017, "y": 13.64}, {"x": 2018, "y": 13.96}, {"x": 2019, "y": 14.3}, {"x": 2020, "y": 14.64}, {"x": 2021, "y": 15}, {"x": 2022, "y": 15.37}, {"x": 2023, "y": 15.76}, {"x": 2024, "y": 16.17}]}, {"label": "Population undernourished", "color": "var(--series-3)", "data": [{"x": 2000, "y": 12.7}, {"x": 2001, "y": 12.8}, {"x": 2002, "y": 13}, {"x": 2003, "y": 12.7}, {"x": 2004, "y": 12.6}, {"x": 2005, "y": 12}, {"x": 2006, "y": 11}, {"x": 2007, "y": 10}, {"x": 2008, "y": 9.3}, {"x": 2009, "y": 9.1}, {"x": 2010, "y": 8.7}, {"x": 2011, "y": 8.2}, {"x": 2012, "y": 8.1}, {"x": 2013, "y": 7.9}, {"x": 2014, "y": 7.5}, {"x": 2015, "y": 7.7}, {"x": 2016, "y": 7.6}, {"x": 2017, "y": 7.1}, {"x": 2018, "y": 7.3}, {"x": 2019, "y": 7.5}, {"x": 2020, "y": 8.5}, {"x": 2021, "y": 8.8}, {"x": 2022, "y": 8.7}, {"x": 2023, "y": 8.5}, {"x": 2024, "y": 8.2}]}], "source": {"name": "FAO (undernourishment); NCD Risk Factor Collaboration via WHO (obesity); via Our World in Data", "url": "https://ourworldindata.org/grapher/prevalence-of-undernourishment"}}
   ]
 };

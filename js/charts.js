@@ -273,7 +273,11 @@
       const rows = [];
       let py = pad.top;
       series.forEach((s, i) => {
-        const point = s.data.reduce((a, b) => Math.abs(a.x - nearestX) < Math.abs(b.x - nearestX) ? a : b);
+        const point = s.data.find(d => d.x === nearestX);
+        if (!point) {
+          hoverDots[i].setAttribute('opacity', 0);
+          return;
+        }
         const y = yScale(point.y);
         hoverDots[i].setAttribute('cx', px);
         hoverDots[i].setAttribute('cy', y);
