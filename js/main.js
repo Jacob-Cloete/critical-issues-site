@@ -5,31 +5,11 @@
     return getComputedStyle(document.documentElement).getPropertyValue(cssVar.match(/--[\w-]+/)[0]).trim() || cssVar;
   }
 
-  function buildStatTile(stat) {
-    const tile = document.createElement('div');
-    tile.className = 'stat-tile';
-    const label = document.createElement('div');
-    label.className = 'label';
-    label.textContent = stat.label;
-    const value = document.createElement('div');
-    value.className = 'value';
-    value.textContent = stat.value;
-    tile.appendChild(label);
-    tile.appendChild(value);
-    if (stat.source) {
-      const src = document.createElement('div');
-      src.className = 'source';
-      const link = document.createElement('a');
-      link.href = stat.source.url;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      link.textContent = stat.source.name;
-      src.appendChild(document.createTextNode('Source: '));
-      src.appendChild(link);
-      tile.appendChild(src);
-    }
-    return tile;
-  }
+  const TREND_META = {
+    improving: { label: 'Improving', className: 'trend-good' },
+    worsening: { label: 'Worsening', className: 'trend-bad' },
+    mixed: { label: 'Mixed', className: 'trend-mixed' }
+  };
 
   function buildChartCard(dataset, colorVar) {
     const card = document.createElement('div');
@@ -37,9 +17,19 @@
 
     const head = document.createElement('div');
     head.className = 'chart-head';
+    const titleWrap = document.createElement('div');
+    titleWrap.className = 'chart-title-wrap';
     const h3 = document.createElement('h3');
     h3.textContent = dataset.title;
-    head.appendChild(h3);
+    titleWrap.appendChild(h3);
+    if (dataset.trend && TREND_META[dataset.trend]) {
+      const meta = TREND_META[dataset.trend];
+      const badge = document.createElement('span');
+      badge.className = 'trend-badge ' + meta.className;
+      badge.textContent = meta.label;
+      titleWrap.appendChild(badge);
+    }
+    head.appendChild(titleWrap);
 
     const toggleBtn = document.createElement('button');
     toggleBtn.className = 'table-toggle';
@@ -100,11 +90,7 @@
   function renderTopic(key) {
     const topic = window.SITE_DATA && window.SITE_DATA[key];
     if (!topic) return;
-    const statsHost = document.getElementById(key + '-stats');
     const chartsHost = document.getElementById(key + '-charts');
-    if (statsHost && topic.heroStats) {
-      topic.heroStats.forEach(stat => statsHost.appendChild(buildStatTile(stat)));
-    }
     if (chartsHost && topic.datasets) {
       topic.datasets.forEach((dataset, i) => {
         const colorVar = SLOT_ORDER[i % SLOT_ORDER.length];

@@ -267,7 +267,12 @@
     const gap = 2;
     const rowH = 34;
     const width = 640;
-    const pad = { top: 8, right: 70, bottom: 8, left: 130 };
+    const hasNegative = items.some(i => i.value < 0);
+    const catLabelX = 120; // fixed position for the category label, regardless of mode
+    // Reserve extra room left of the bar area for negative-bar value labels,
+    // so they never collide with the category labels further left.
+    const negLabelPad = hasNegative ? 44 : 0;
+    const pad = { top: 8, right: 70, bottom: hasNegative ? 24 : 8, left: 130 + negLabelPad };
     const innerW = width - pad.left - pad.right;
     const height = pad.top + pad.bottom + items.length * rowH;
 
@@ -278,34 +283,52 @@
 
     const svg = el('svg', { viewBox: `0 0 ${width} ${height}`, role: 'img', 'aria-label': opts.ariaLabel || '' }, wrap);
 
+    const minVal = Math.min(...items.map(i => i.value), 0);
     const maxVal = Math.max(...items.map(i => i.value), 0);
-    const scale = (v) => (v / (maxVal || 1)) * innerW;
+    const domain = (maxVal - minVal) || 1;
+    const scaleX = (v) => pad.left + ((v - minVal) / domain) * innerW;
+    const zeroX = scaleX(0);
+
+    if (hasNegative) {
+      el('line', { x1: zeroX, x2: zeroX, y1: pad.top, y2: pad.top + items.length * rowH, stroke: 'var(--baseline)', 'stroke-width': 1 }, svg);
+      [minVal, 0, maxVal].forEach(t => {
+        const label = el('text', {
+          x: scaleX(t), y: pad.top + items.length * rowH + 16, 'text-anchor': 'middle',
+          fill: 'var(--text-muted)', 'font-size': 10.5, 'font-family': 'var(--font)'
+        }, svg);
+        label.textContent = formatCompact(t, unit);
+      });
+    }
 
     const tip = getTooltip(wrap);
 
     items.forEach((item, i) => {
       const y = pad.top + i * rowH;
-      const barW = Math.max(scale(item.value) - gap, 2);
       const barH = barMax;
       const barY = y + (rowH - barH) / 2;
+      const valueX = scaleX(item.value);
+      const positive = item.value >= 0;
+      const barX = positive ? zeroX : valueX;
+      const barW = Math.max(Math.abs(valueX - zeroX) - (hasNegative ? gap / 2 : gap), 2);
 
       const label = el('text', {
-        x: pad.left - 10, y: barY + barH / 2 + 4, 'text-anchor': 'end',
+        x: catLabelX, y: barY + barH / 2 + 4, 'text-anchor': 'end',
         fill: 'var(--text-secondary)', 'font-size': 11.5, 'font-family': 'var(--font)'
       }, svg);
       label.textContent = item.category;
 
       const rowColor = item.color || color;
       const bar = el('rect', {
-        x: pad.left, y: barY, width: barW, height: barH,
+        x: barX, y: barY, width: barW, height: barH,
         rx: 4, ry: 4, fill: rowColor
       }, svg);
 
       const valueLabel = el('text', {
-        x: pad.left + scale(item.value) + 8, y: barY + barH / 2 + 4,
+        x: positive ? valueX + 8 : valueX - 8, y: barY + barH / 2 + 4,
+        'text-anchor': positive ? 'start' : 'end',
         fill: 'var(--text-primary)', 'font-size': 11.5, 'font-weight': 650, 'font-family': 'var(--font)'
       }, svg);
-      valueLabel.textContent = formatCompact(item.value, unit);
+      valueLabel.textContent = (positive && hasNegative ? '+' : '') + formatCompact(item.value, unit);
 
       const hitRow = el('rect', {
         x: 0, y, width, height: rowH, fill: 'transparent'
@@ -316,7 +339,7 @@
         const svgRect = svg.getBoundingClientRect();
         const scaleXpx = svgRect.width / width;
         const scaleYpx = svgRect.height / height;
-        showTooltip(tip, wrap, (pad.left + scale(item.value) / 2) * scaleXpx, (barY) * scaleYpx, item.category, [
+        showTooltip(tip, wrap, ((barX + barX + barW) / 2) * scaleXpx, (barY) * scaleYpx, item.category, [
           { color: rowColor, label: opts.seriesLabel || 'Value', value: formatCompact(item.value, unit) }
         ]);
       }

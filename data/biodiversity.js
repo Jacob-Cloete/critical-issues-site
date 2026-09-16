@@ -1,28 +1,12 @@
 window.SITE_DATA = window.SITE_DATA || {};
 window.SITE_DATA.biodiversity = {
-  heroStats: [
-    {
-      label: 'Wildlife population decline since 1970',
-      value: '73%',
-      source: { name: 'WWF Living Planet Report 2024', url: 'https://www.worldwildlife.org/press-releases/catastrophic-73-decline-in-the-average-size-of-global-wildlife-populations-in-just-50-years-reveals-a-system-in-peril' }
-    },
-    {
-      label: 'Species threatened with extinction',
-      value: '47,187 of 169,420 assessed',
-      source: { name: 'IUCN Red List Update, April 2025', url: 'https://iucn.org/news/202504/iucn-red-list-update-global-impacts-regional-statuses-and-way-forward' }
-    },
-    {
-      label: '2024 tree cover loss',
-      value: '~30M hectares',
-      source: { name: 'World Resources Institute / Global Forest Watch', url: 'https://www.wri.org/news/release-global-forest-loss-shatters-records-2024-fueled-massive-fires' }
-    }
-  ],
   datasets: [
     {
       title: 'Global wildlife population decline (Living Planet Index)',
       type: 'line',
       unit: '',
       seriesLabel: 'Index (1970 = 100)',
+      trend: 'worsening',
       takeaway: 'The average size of monitored wildlife populations has fallen by 73% since 1970 — the typical tracked population today is barely more than a quarter of what it was two generations ago.',
       data: [
         {x:1970,y:100},{x:1971,y:99.41},{x:1972,y:98.14},{x:1973,y:96.62},{x:1974,y:94.81},{x:1975,y:92.66},
@@ -42,6 +26,7 @@ window.SITE_DATA.biodiversity = {
       type: 'line',
       unit: 'ha',
       seriesLabel: 'Tree cover lost',
+      trend: 'worsening',
       takeaway: '2024 was the worst year on record for tree cover loss (~29.6 million hectares, roughly the size of Ecuador), driven largely by an unprecedented surge in forest fires.',
       data: [
         {x:2001,y:13227583},{x:2002,y:16346752},{x:2003,y:14404470},{x:2004,y:19794442},{x:2005,y:17999578},
@@ -56,6 +41,7 @@ window.SITE_DATA.biodiversity = {
       title: 'Share of Earth’s land and ocean under legal protection',
       type: 'line',
       unit: '%',
+      trend: 'improving',
       takeaway: 'Protected land and ocean area has grown steadily but both remain far short of the “30x30” global target of protecting 30% of land and sea by 2030.',
       series: [
         {
@@ -107,6 +93,59 @@ window.SITE_DATA.biodiversity = {
         {category:'Europe & Central Asia', value:35.3}
       ],
       source: { name: 'WWF & Zoological Society of London, Living Planet Index by region (2024), via Our World in Data', url: 'https://ourworldindata.org/grapher/living-planet-index-by-region' }
+    },
+    {
+      title: 'IUCN Red List Index of species survival',
+      type: 'line',
+      unit: '',
+      seriesLabel: 'Red List Index',
+      trend: 'worsening',
+      takeaway: 'IUCN’s own extinction-risk index has declined steadily since 1993 (1 = least concern for all species, 0 = all extinct), showing an ongoing worsening of species survival prospects worldwide with no reversal in over three decades.',
+      data: [
+        {x:1993,y:0.81},{x:1994,y:0.81},{x:1995,y:0.80},{x:1996,y:0.80},{x:1997,y:0.80},{x:1998,y:0.80},
+        {x:1999,y:0.80},{x:2000,y:0.80},{x:2001,y:0.80},{x:2002,y:0.79},{x:2003,y:0.79},{x:2004,y:0.79},
+        {x:2005,y:0.79},{x:2006,y:0.79},{x:2007,y:0.79},{x:2008,y:0.78},{x:2009,y:0.78},{x:2010,y:0.78},
+        {x:2011,y:0.78},{x:2012,y:0.77},{x:2013,y:0.77},{x:2014,y:0.77},{x:2015,y:0.77},{x:2016,y:0.77},
+        {x:2017,y:0.76},{x:2018,y:0.76},{x:2019,y:0.76},{x:2020,y:0.76},{x:2021,y:0.75},{x:2022,y:0.75},
+        {x:2023,y:0.75},{x:2024,y:0.75},{x:2025,y:0.74}
+      ],
+      source: { name: 'BirdLife International and IUCN, processed by Our World in Data', url: 'https://ourworldindata.org/grapher/red-list-index' }
+    },
+    {
+      title: 'Net forest area change by region, 1990–2025',
+      type: 'bar',
+      unit: '%',
+      seriesLabel: 'Change since 1990',
+      trend: 'mixed',
+      takeaway: 'Global forest area has shrunk about 4.7% since 1990 — but the regional picture is genuinely mixed: Asia and Europe have gained forest (largely China’s afforestation programs and European regrowth) while Africa and South America have lost 15–17% of theirs to agricultural expansion and deforestation.',
+      data: [
+        {category:'Asia', value:8.25, color:'var(--status-good)'},
+        {category:'Europe', value:4.13, color:'var(--status-good)'},
+        {category:'North America', value:0.62, color:'var(--status-good)'},
+        {category:'Oceania', value:-0.28, color:'var(--status-critical)'},
+        {category:'World (net)', value:-4.68, color:'var(--status-critical)'},
+        {category:'Africa', value:-15.00, color:'var(--status-critical)'},
+        {category:'South America', value:-17.49, color:'var(--status-critical)'}
+      ],
+      source: { name: 'FAO Global Forest Resources Assessment 2025, via Our World in Data', url: 'https://ourworldindata.org/grapher/forest-area-km' }
+    },
+    {
+      title: 'Brazilian Amazon annual deforestation rate',
+      type: 'line',
+      unit: ' km²',
+      seriesLabel: 'Deforestation',
+      trend: 'mixed',
+      takeaway: 'Amazon deforestation peaked at 27,772 km² in 2004, fell over 80% by 2012 under strong enforcement, rose again to a second peak in 2021, and has fallen for three straight years since — driven by renewed enforcement.',
+      data: [
+        {x:1988,y:21050},{x:1989,y:17770},{x:1990,y:13730},{x:1991,y:11030},{x:1992,y:13786},{x:1993,y:14896},
+        {x:1994,y:14896},{x:1995,y:29059},{x:1996,y:18161},{x:1997,y:13227},{x:1998,y:17383},{x:1999,y:17259},
+        {x:2000,y:18226},{x:2001,y:18165},{x:2002,y:21650},{x:2003,y:25396},{x:2004,y:27772},{x:2005,y:19014},
+        {x:2006,y:14286},{x:2007,y:11651},{x:2008,y:12911},{x:2009,y:7464},{x:2010,y:7000},{x:2011,y:6418},
+        {x:2012,y:4571},{x:2013,y:5891},{x:2014,y:5012},{x:2015,y:6207},{x:2016,y:7893},{x:2017,y:6947},
+        {x:2018,y:7536},{x:2019,y:10129},{x:2020,y:10851},{x:2021,y:13038},{x:2022,y:11594},{x:2023,y:9064},
+        {x:2024,y:6518},{x:2025,y:5731}
+      ],
+      source: { name: 'INPE (Instituto Nacional de Pesquisas Espaciais), PRODES Amazon Deforestation Monitoring Program', url: 'https://terrabrasilis.dpi.inpe.br/app/dashboard/deforestation/biomes/legal_amazon/rates' }
     }
   ]
 };

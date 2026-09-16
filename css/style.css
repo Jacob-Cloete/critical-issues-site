@@ -217,48 +217,6 @@ a { color: var(--series-1); }
 .pill:hover { border-color: var(--baseline); }
 .pill .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
 
-/* ---------- stat tiles ---------- */
-
-.stat-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 14px;
-}
-
-.stat-tile {
-  background: var(--surface-1);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 18px 18px 16px;
-}
-
-.stat-tile .label {
-  color: var(--text-secondary);
-  font-size: 0.82rem;
-  margin-bottom: 8px;
-}
-
-.stat-tile .value {
-  font-size: 1.9rem;
-  font-weight: 650;
-  letter-spacing: -0.01em;
-  color: var(--text-primary);
-}
-
-.stat-tile .value sup {
-  font-size: 0.55em;
-  font-weight: 600;
-  color: var(--text-secondary);
-}
-
-.stat-tile .source {
-  margin-top: 10px;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-
-.stat-tile .source a { color: var(--text-muted); text-decoration: underline; }
-
 /* ---------- section ---------- */
 
 .section {
@@ -299,10 +257,6 @@ a { color: var(--series-1); }
   max-width: 70ch;
 }
 
-.section .stat-row {
-  margin-bottom: 28px;
-}
-
 /* ---------- chart cards ---------- */
 
 .chart-grid {
@@ -327,11 +281,53 @@ a { color: var(--series-1); }
   margin-bottom: 4px;
 }
 
+.chart-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .chart-card h3 {
   margin: 0;
   font-size: 1.02rem;
   letter-spacing: -0.005em;
 }
+
+.trend-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 999px;
+  flex: none;
+}
+.trend-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex: none;
+}
+.trend-badge.trend-good {
+  color: var(--status-good);
+  background: color-mix(in srgb, var(--status-good) 14%, transparent);
+}
+.trend-badge.trend-good::before { background: var(--status-good); }
+.trend-badge.trend-bad {
+  color: var(--status-critical);
+  background: color-mix(in srgb, var(--status-critical) 14%, transparent);
+}
+.trend-badge.trend-bad::before { background: var(--status-critical); }
+.trend-badge.trend-mixed {
+  color: var(--status-warning);
+  background: color-mix(in srgb, var(--status-warning) 18%, transparent);
+}
+.trend-badge.trend-mixed::before { background: var(--status-warning); }
 
 .chart-card .takeaway {
   color: var(--text-secondary);
