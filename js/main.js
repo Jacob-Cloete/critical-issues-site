@@ -15,7 +15,53 @@
     mixed: { label: 'Mixed', className: 'trend-mixed' }
   };
 
+  function buildExplainerCard(dataset) {
+    const card = document.createElement('div');
+    card.className = 'chart-card explainer-card';
+    const h3 = document.createElement('h3');
+    h3.textContent = dataset.title;
+    card.appendChild(h3);
+    if (dataset.takeaway) {
+      const p = document.createElement('p');
+      p.className = 'takeaway';
+      p.textContent = dataset.takeaway;
+      card.appendChild(p);
+    }
+    const grid = document.createElement('div');
+    grid.className = 'explainer-grid';
+    dataset.items.forEach(item => {
+      const block = document.createElement('div');
+      block.className = 'explainer-item';
+      const name = document.createElement('h4');
+      name.textContent = item.name;
+      const desc = document.createElement('p');
+      desc.textContent = item.description;
+      const list = document.createElement('ul');
+      item.examples.forEach(ex => {
+        const li = document.createElement('li');
+        li.textContent = ex;
+        list.appendChild(li);
+      });
+      block.append(name, desc, list);
+      grid.appendChild(block);
+    });
+    card.appendChild(grid);
+    if (dataset.source) {
+      const src = document.createElement('div');
+      src.className = 'chart-source';
+      const link = document.createElement('a');
+      link.href = dataset.source.url;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.textContent = dataset.source.name;
+      src.append(document.createTextNode('Source: '), link);
+      card.appendChild(src);
+    }
+    return card;
+  }
+
   function buildChartCard(dataset, colorVar) {
+    if (dataset.type === 'explainer') return buildExplainerCard(dataset);
     const card = document.createElement('div');
     card.className = 'chart-card';
 

@@ -501,3 +501,19 @@ table.data-table th { color: var(--text-secondary); font-weight: 600; }
   padding-bottom: 1px;
 }
 .pair-link:hover { color: var(--text-secondary); }
+
+.explainer-card { grid-column: 1 / -1; }
+.explainer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+  margin-top: 6px;
+}
+.explainer-item {
+  border-top: 3px solid var(--section-accent, var(--baseline));
+  padding-top: 10px;
+}
+.explainer-item h4 { margin: 0 0 4px; font-size: 0.92rem; }
+.explainer-item p { margin: 0 0 6px; font-size: 0.82rem; color: var(--text-secondary); }
+.explainer-item ul { margin: 0; padding-left: 16px; font-size: 0.8rem; color: var(--text-secondary); }
+.explainer-item li { margin-bottom: 2px; }
