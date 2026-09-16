@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>State of the World — Data on Critical Global Problems</title>
+<meta name="description" content="Real, sourced data on the world's most critical problems: climate change, poverty & inequality, public health, and biodiversity loss.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#top">State of the <span>World</span></a>
+    <nav class="main-nav">
+      <a href="#climate">Climate</a>
+      <a href="#poverty">Poverty</a>
+      <a href="#health">Health</a>
+      <a href="#biodiversity">Biodiversity</a>
+      <a href="#sources">Sources</a>
+    </nav>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode">◐ Theme</button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <h1>Critical problems in our world, in real data.</h1>
+      <p class="lead">A running look at the numbers behind the four challenges that define our era — pulled from public research organizations, not opinion. Every chart cites its source.</p>
+      <div class="hero-links">
+        <a class="pill" href="#climate"><span class="dot" style="background:var(--series-1)"></span>Climate change</a>
+        <a class="pill" href="#poverty"><span class="dot" style="background:var(--series-2)"></span>Poverty &amp; inequality</a>
+        <a class="pill" href="#health"><span class="dot" style="background:var(--series-3)"></span>Public health</a>
+        <a class="pill" href="#biodiversity"><span class="dot" style="background:var(--series-6)"></span>Biodiversity loss</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="climate">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-icon" style="background:color-mix(in srgb, var(--series-1) 16%, transparent); color:var(--series-1)">🌡️</div>
+        <div>
+          <h2>Climate change</h2>
+          <p>Rising greenhouse gas concentrations are driving global temperatures upward, reshaping weather, sea levels, and ecosystems.</p>
+        </div>
+      </div>
+      <div class="stat-row" id="climate-stats"></div>
+      <div class="chart-grid" id="climate-charts"></div>
+    </div>
+  </section>
+
+  <section class="section" id="poverty">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-icon" style="background:color-mix(in srgb, var(--series-2) 16%, transparent); color:var(--series-2)">⚖️</div>
+        <div>
+          <h2>Poverty &amp; inequality</h2>
+          <p>Extreme poverty has fallen sharply over decades, but progress is uneven and gains have slowed — while income and wealth remain highly concentrated.</p>
+        </div>
+      </div>
+      <div class="stat-row" id="poverty-stats"></div>
+      <div class="chart-grid" id="poverty-charts"></div>
+    </div>
+  </section>
+
+  <section class="section" id="health">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-icon" style="background:color-mix(in srgb, var(--series-3) 16%, transparent); color:var(--series-3)">🩺</div>
+        <div>
+          <h2>Public health</h2>
+          <p>Global life expectancy and child survival have improved enormously, yet large gaps persist between regions and disease burden is shifting.</p>
+        </div>
+      </div>
+      <div class="stat-row" id="health-stats"></div>
+      <div class="chart-grid" id="health-charts"></div>
+    </div>
+  </section>
+
+  <section class="section" id="biodiversity">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-icon" style="background:color-mix(in srgb, var(--series-6) 16%, transparent); color:var(--series-6)">🦋</div>
+        <div>
+          <h2>Biodiversity loss</h2>
+          <p>Wildlife populations and natural habitats are shrinking at an accelerating rate, threatening the ecosystems that sustain life on Earth.</p>
+        </div>
+      </div>
+      <div class="stat-row" id="biodiversity-stats"></div>
+      <div class="chart-grid" id="biodiversity-charts"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" id="sources">
+  <div class="wrap">
+    <p>All figures are drawn from public research organizations — Our World in Data, the World Bank, WHO, NASA/NOAA, IUCN, and WWF — and cited beneath each chart. This is an independent, non-commercial project for public awareness.</p>
+    <p>&copy; <span id="year"></span> State of the World.</p>
+  </div>
+</footer>
+
+<script src="data/climate.js"></script>
+<script src="data/poverty.js"></script>
+<script src="data/health.js"></script>
+<script src="data/biodiversity.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
