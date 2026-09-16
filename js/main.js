@@ -62,7 +62,23 @@
       dotsOnly: dataset.dotsOnly
     };
 
-    if (dataset.type === 'bar') {
+    if (dataset.panels) {
+      dataset.panels.forEach((panel, i) => {
+        const heading = document.createElement('h4');
+        heading.className = 'panel-title';
+        heading.textContent = panel.subtitle;
+        const panelChart = document.createElement('div');
+        const panelTable = document.createElement('div');
+        const tableHeading = heading.cloneNode(true);
+        chartEl.append(heading, panelChart);
+        tableEl.append(tableHeading, panelTable);
+        const panelColor = resolveVar(panel.color || SLOT_ORDER[(SLOT_ORDER.indexOf(colorVar) + i) % SLOT_ORDER.length]);
+        window.Viz.renderBarChart(panelChart, Object.assign({}, commonOpts, {
+          data: panel.data, unit: panel.unit || '', seriesLabel: panel.seriesLabel,
+          ariaLabel: panel.subtitle, color: panelColor, tableTarget: panelTable
+        }));
+      });
+    } else if (dataset.type === 'bar') {
       window.Viz.renderBarChart(chartEl, Object.assign({ data: dataset.data, legend: dataset.legend }, commonOpts));
     } else if (dataset.series) {
       const resolvedSeries = dataset.series.map(s => Object.assign({}, s, { color: resolveVar(s.color) }));

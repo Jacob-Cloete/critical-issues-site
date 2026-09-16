@@ -476,3 +476,11 @@ table.data-table th { color: var(--text-secondary); font-weight: 600; }
   .section { padding-block: 40px; }
   .chart-grid { grid-template-columns: 1fr; }
 }
+
+.panel-title {
+  margin: 14px 0 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.panel-title:first-child { margin-top: 4px; }
