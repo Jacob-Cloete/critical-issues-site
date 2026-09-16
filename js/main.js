@@ -57,7 +57,9 @@
       color,
       seriesLabel: dataset.seriesLabel || dataset.title,
       ariaLabel: dataset.title,
-      tableTarget: tableEl
+      tableTarget: tableEl,
+      logScale: dataset.logScale,
+      dotsOnly: dataset.dotsOnly
     };
 
     if (dataset.type === 'bar') {
@@ -90,17 +92,63 @@
   function renderTopic(key) {
     const topic = window.SITE_DATA && window.SITE_DATA[key];
     if (!topic) return;
-    const chartsHost = document.getElementById(key + '-charts');
-    if (chartsHost && topic.datasets) {
-      topic.datasets.forEach((dataset, i) => {
-        const colorVar = SLOT_ORDER[i % SLOT_ORDER.length];
-        chartsHost.appendChild(buildChartCard(dataset, colorVar));
-      });
-    }
+    if (!topic.datasets) return;
+    const counts = {};
+    topic.datasets.forEach(dataset => {
+      const hostKey = dataset.section || key;
+      const host = document.getElementById(hostKey + '-charts');
+      if (!host) return;
+      const i = counts[hostKey] = (counts[hostKey] || 0) + 1;
+      host.appendChild(buildChartCard(dataset, SLOT_ORDER[(i - 1) % SLOT_ORDER.length]));
+    });
+  }
+
+  const VIEWS = ['problems', 'solutions'];
+
+  function setView(view, scrollTop) {
+    if (!VIEWS.includes(view)) view = 'problems';
+    document.querySelectorAll('[data-view-content],[data-view-nav],[data-view-pills]').forEach(node => {
+      const owner = node.dataset.viewContent || node.dataset.viewNav || node.dataset.viewPills;
+      node.hidden = owner !== view;
+    });
+    document.querySelectorAll('[data-view-btn]').forEach(btn => {
+      const active = btn.dataset.viewBtn === view;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-selected', String(active));
+    });
+    try { localStorage.setItem('view', view); } catch (e) {}
+    if (scrollTop) window.scrollTo({ top: 0 });
+  }
+
+  function viewForHash(hash) {
+    const target = hash && hash.length > 1 ? document.getElementById(hash.slice(1)) : null;
+    const container = target && target.closest('[data-view-content]');
+    return container ? container.dataset.viewContent : null;
+  }
+
+  function initViews() {
+    let stored = null;
+    try { stored = localStorage.getItem('view'); } catch (e) {}
+    const hashView = viewForHash(location.hash);
+    setView(hashView || stored || 'problems', false);
+    if (hashView) requestAnimationFrame(() => document.getElementById(location.hash.slice(1)).scrollIntoView());
+
+    document.querySelectorAll('[data-view-btn]').forEach(btn => {
+      btn.addEventListener('click', () => setView(btn.dataset.viewBtn, true));
+    });
+
+    window.addEventListener('hashchange', () => {
+      const view = viewForHash(location.hash);
+      if (view) {
+        setView(view, false);
+        document.getElementById(location.hash.slice(1)).scrollIntoView();
+      }
+    });
   }
 
   function init() {
-    ['climate', 'poverty', 'health', 'biodiversity', 'innovation'].forEach(renderTopic);
+    ['climate', 'poverty', 'health', 'biodiversity', 'innovation', 'markets'].forEach(renderTopic);
+    initViews();
     const yearEl = document.getElementById('year');
     if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 

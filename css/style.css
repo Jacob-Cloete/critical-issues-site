@@ -90,6 +90,8 @@
 
 * { box-sizing: border-box; }
 
+[hidden] { display: none !important; }
+
 html { scroll-behavior: smooth; }
 
 body {
@@ -129,7 +131,8 @@ a { color: var(--series-1); }
   gap: 16px;
   min-height: 60px;
   flex-wrap: wrap;
-  padding-block: 8px;
+  padding-block: 8px 2px;
+  row-gap: 2px;
 }
 
 .brand {
@@ -147,7 +150,12 @@ a { color: var(--series-1); }
   display: flex;
   gap: 4px;
   flex-wrap: wrap;
+  order: 3;
+  width: 100%;
+  margin-inline: -10px;
 }
+
+.view-toggle { margin-left: auto; }
 
 .main-nav a {
   color: var(--text-secondary);
@@ -171,6 +179,34 @@ a { color: var(--series-1); }
   font-family: var(--font);
 }
 .theme-toggle:hover { color: var(--text-primary); }
+
+.view-toggle {
+  display: inline-flex;
+  background: var(--gridline);
+  border-radius: 999px;
+  padding: 3px;
+  gap: 2px;
+  flex: none;
+}
+
+.view-btn {
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 650;
+  padding: 7px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: var(--font);
+  white-space: nowrap;
+}
+.view-btn:hover { color: var(--text-primary); }
+.view-btn.active {
+  background: var(--surface-1);
+  color: var(--text-primary);
+  box-shadow: var(--shadow);
+}
 
 /* ---------- hero ---------- */
 
@@ -222,7 +258,7 @@ a { color: var(--series-1); }
 .section {
   padding-block: 52px;
   border-bottom: 1px solid var(--border);
-  scroll-margin-top: 70px;
+  scroll-margin-top: 110px;
 }
 
 .section:last-of-type { border-bottom: none; }

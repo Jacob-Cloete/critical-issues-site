@@ -24,7 +24,17 @@
     else if (abs >= 1e3) out = (value / 1e3).toFixed(abs >= 1e4 ? 0 : 1).replace(/\.0$/, '') + 'K';
     else if (Number.isInteger(value)) out = String(value);
     else out = value.toFixed(Math.abs(value) < 10 ? 2 : 1);
+    if (unit === '$') return (value < 0 ? '-$' + out.slice(1) : '$' + out);
     return out + unit;
+  }
+
+  const SUPERSCRIPT = { '0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','-':'⁻' };
+
+  function formatScientific(value, unit) {
+    if (Math.abs(value) < 1e6) return formatCompact(value, unit);
+    const [mant, exp] = value.toExponential(1).split('e');
+    const sup = String(Number(exp)).split('').map(c => SUPERSCRIPT[c]).join('');
+    return `${mant}×10${sup}${unit || ''}`;
   }
 
   function niceTicks(min, max, count) {
@@ -114,26 +124,47 @@
 
     const svg = el('svg', { viewBox: `0 0 ${width} ${height}`, role: 'img', 'aria-label': opts.ariaLabel || '' }, wrap);
 
+    const log = !!opts.logScale;
+    const dotsOnly = !!opts.dotsOnly;
+    const fmt = (v) => log ? formatScientific(v, unit) : formatCompact(v, unit);
+
     const allPoints = series.flatMap(s => s.data);
     const xs = allPoints.map(d => d.x);
-    const ys = allPoints.map(d => d.y);
+    const ys = allPoints.map(d => log ? Math.log10(d.y) : d.y);
     const xMin = Math.min(...xs), xMax = Math.max(...xs);
     const yMinRaw = Math.min(...ys), yMaxRaw = Math.max(...ys);
-    const yTicks = niceTicks(Math.min(0, yMinRaw), yMaxRaw, 4);
+    let yTicks;
+    if (log) {
+      const lo = Math.floor(yMinRaw), hi = Math.ceil(yMaxRaw);
+      const step = Math.max(1, Math.ceil((hi - lo) / 5));
+      yTicks = [];
+      for (let t = lo; t <= hi + step - 1; t += step) yTicks.push(t);
+    } else {
+      yTicks = niceTicks(Math.min(0, yMinRaw), yMaxRaw, 4);
+    }
     const yMin = yTicks[0], yMax = yTicks[yTicks.length - 1];
 
     const xScale = (x) => pad.left + ((x - xMin) / (xMax - xMin || 1)) * innerW;
-    const yScale = (y) => pad.top + innerH - ((y - yMin) / (yMax - yMin || 1)) * innerH;
+    const yScale = (y) => {
+      const v = log ? Math.log10(y) : y;
+      return pad.top + innerH - ((v - yMin) / (yMax - yMin || 1)) * innerH;
+    };
 
-    // gridlines + y ticks
+    // gridlines + y ticks (tick values are exponents when log-scaled)
     yTicks.forEach(t => {
-      const y = yScale(t);
+      const y = pad.top + innerH - ((t - yMin) / (yMax - yMin || 1)) * innerH;
       el('line', { x1: pad.left, x2: width - pad.right, y1: y, y2: y, stroke: 'var(--gridline)', 'stroke-width': 1 }, svg);
       const label = el('text', {
         x: pad.left - 8, y: y + 4, 'text-anchor': 'end',
         fill: 'var(--text-muted)', 'font-size': 10.5, 'font-family': 'var(--font)'
       }, svg);
-      label.textContent = formatCompact(t, unit);
+      if (log) {
+        label.appendChild(document.createTextNode('10'));
+        const sup = el('tspan', { dy: -4, 'font-size': 8 }, label);
+        sup.textContent = String(t);
+      } else {
+        label.textContent = formatCompact(t, unit);
+      }
     });
 
     // baseline
@@ -156,7 +187,14 @@
       const data = s.data;
       const color = s.color || defaultColor;
 
-      if (single) {
+      if (dotsOnly) {
+        data.forEach(d => {
+          el('circle', { cx: xScale(d.x), cy: yScale(d.y), r: 4.5, fill: color, stroke: 'var(--surface-1)', 'stroke-width': 2 }, svg);
+        });
+        return;
+      }
+
+      if (single && !log) {
         const areaPoints = data.map(d => `${xScale(d.x)},${yScale(d.y)}`).join(' L ');
         const baseY = yScale(Math.max(yMin, 0));
         const areaPath = `M ${xScale(data[0].x)},${baseY} L ${areaPoints} L ${xScale(data[data.length - 1].x)},${baseY} Z`;
@@ -173,7 +211,7 @@
         x: xScale(last.x), y: yScale(last.y) - 10, 'text-anchor': 'end',
         fill: 'var(--text-primary)', 'font-size': 11, 'font-weight': 650, 'font-family': 'var(--font)'
       }, svg);
-      endLabel.textContent = formatCompact(last.y, unit);
+      endLabel.textContent = fmt(last.y);
     });
 
     // crosshair (shared across series)
@@ -192,7 +230,27 @@
       return nearest;
     }
 
+    function onMoveDots(evt) {
+      const svgRect = svg.getBoundingClientRect();
+      const mx = (evt.clientX - svgRect.left) * (width / svgRect.width);
+      const my = (evt.clientY - svgRect.top) * (height / svgRect.height);
+      let best = null, bestDist = Infinity;
+      series[0].data.forEach(d => {
+        const dist = Math.hypot(xScale(d.x) - mx, yScale(d.y) - my);
+        if (dist < bestDist) { bestDist = dist; best = d; }
+      });
+      const px = xScale(best.x), py = yScale(best.y);
+      hoverDots[0].setAttribute('cx', px);
+      hoverDots[0].setAttribute('cy', py);
+      hoverDots[0].setAttribute('opacity', 1);
+      const head = best.label ? `${best.label} (${best.x})` : String(best.x);
+      showTooltip(tip, wrap, px * (svgRect.width / width), py * (svgRect.height / height), head, [
+        { color: series[0].color || defaultColor, label: series[0].label, value: fmt(best.y) }
+      ]);
+    }
+
     function onMove(evt) {
+      if (dotsOnly) return onMoveDots(evt);
       const svgRect = svg.getBoundingClientRect();
       const scaleX = width / svgRect.width;
       const mouseX = (evt.clientX - svgRect.left) * scaleX;
@@ -213,7 +271,7 @@
         hoverDots[i].setAttribute('cy', y);
         hoverDots[i].setAttribute('opacity', 1);
         py = Math.min(py, y);
-        rows.push({ color: s.color || defaultColor, label: s.label, value: formatCompact(point.y, unit) });
+        rows.push({ color: s.color || defaultColor, label: s.label, value: fmt(point.y) });
       });
       showTooltip(tip, wrap, px * scaleXpx, py * scaleYpx, String(nearestX), rows);
     }
@@ -244,8 +302,10 @@
     }
 
     if (opts.tableTarget) {
-      if (single) {
-        buildTable(opts.tableTarget, ['Year', series[0].label], series[0].data.map(d => [String(d.x), formatCompact(d.y, unit)]));
+      if (dotsOnly) {
+        buildTable(opts.tableTarget, ['System', 'Year', series[0].label], series[0].data.map(d => [d.label || '', String(d.x), fmt(d.y)]));
+      } else if (single) {
+        buildTable(opts.tableTarget, ['Year', series[0].label], series[0].data.map(d => [String(d.x), fmt(d.y)]));
       } else {
         const years = [...new Set(series.flatMap(s => s.data.map(d => d.x)))].sort((a, b) => a - b);
         const rows = years.map(y => [String(y), ...series.map(s => {
