@@ -121,6 +121,12 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:4
 .rcard a{font:400 11px/1.3 var(--mono);overflow-wrap:anywhere}
 .rjoin{font:400 11px/1.4 var(--mono);color:var(--muted);margin:0 0 0 14px;padding:8px 0 8px 12px;border-left:1px solid var(--dim)}
 
+.rd{margin:16px 0 0;border-top:1px solid var(--rule)}
+.rd summary{cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:8px;padding:12px 0 0;font:500 12px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.rd summary::-webkit-details-marker{display:none}
+.rd summary::before{content:"+";display:inline-block;width:1ch;font-size:15px}
+.rd[open] summary::before{content:"−"}
+.rd .road{margin-top:4px;border-top:0}
 @media (max-width:720px){
   .axis,.crow{grid-template-columns:minmax(0,1fr) 70px}
   .axis .lblh{display:none}
@@ -147,7 +153,7 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:4
   <section>
     <span class="k">v2060 · what is worth building by 2060</span>
     <h1>How far is each field from its <span>fundamental limit?</span></h1>
-    <p class="lede">Forecasts drift. Physical limits don't. I compared today's commercial state of the art against the hard limit set by thermodynamics, quantum mechanics or information theory across 27 fields. <strong>Most mature energy technology is already within 1.5× of its ceiling.</strong> The big openings are in computation, separations, battery chemistry, materials and robots.</p>
+    <p class="lede">Forecasts drift. Physical limits don't. A logic gate still burns <strong>about 10,000×</strong> the energy physics requires.</p>
   </section>
 
   <section aria-labelledby="c1">
@@ -173,95 +179,41 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:4
         <p class="why">A logic gate today burns about 10⁴–10⁵ times the Landauer minimum for erasing a bit. Whole systems are further off still: even the most efficient supercomputer spends about 10⁻¹¹ J per FP64 operation. Meanwhile data centres are heading from 415 TWh (2024) to about 945 TWh (2030).</p>
         <div class="ladder" data-k="compute"></div>
         <p class="rank"><b>Why first:</b> it has the biggest headroom of anything with fast-growing demand. Every other field on this list uses more compute to design and run it, so gains here compound.</p>
-        <figure class="road" data-r="compute"></figure>
+        <details class="rd"><summary>See the roadmap to the limit</summary><figure class="road" data-r="compute"></figure></details>
       </div></li>
       <li class="pick"><div class="n">2</div><div>
         <h3>Separations and industrial chemistry</h3>
         <p class="why">Pulling one thing out of a mixture uses 10–15 % of the world's energy, mostly through distillation, which runs at 5–20 % of its second-law efficiency. Direct air capture uses about 20× its minimum. Ammonia, aluminium, cement and steel each sit about 2× above theirs, at enormous scale.</p>
         <div class="ladder" data-k="dac"></div>
         <p class="rank"><b>Why second:</b> it has the largest share of real energy use with a 2–20× gap, and the physics targets are exact. Water scarcity in South Africa makes it close to home too.</p>
-        <figure class="road" data-r="dac"></figure>
+        <details class="rd"><summary>See the roadmap to the limit</summary><figure class="road" data-r="dac"></figure></details>
       </div></li>
       <li class="pick"><div class="n">3</div><div>
         <h3>Energy storage chemistry</h3>
         <p class="why">Lithium-ion is close to its own ceiling, at 1.5–2×. The headroom is in new chemistries: lithium–sulfur and lithium–air cells have 9–12× the theoretical energy of today's cells. Electric commuter aircraft need about 1,000 Wh/kg at pack level to replace most short routes, and today's packs manage about 250.</p>
         <div class="ladder" data-k="battery"></div>
         <p class="rank"><b>Why third:</b> the headroom is big and it unlocks aviation and cheap grid storage. It ranks below 1 and 2 because it needs a chemistry change, which has repeatedly taken longer than predicted.</p>
-        <figure class="road" data-r="battery"></figure>
+        <details class="rd"><summary>See the roadmap to the limit</summary><figure class="road" data-r="battery"></figure></details>
       </div></li>
       <li class="pick"><div class="n">4</div><div>
         <h3>Materials near theoretical strength</h3>
         <p class="why">Graphene's specific strength is about 16× that of the best carbon fibre and about 1,000× that of structural steel. What's missing is length: the record strengths exist only in tiny, defect-free samples.</p>
         <div class="ladder" data-k="strength"></div>
         <p class="rank"><b>Why fourth:</b> the headroom is huge, from 16× to 1,000×, and lighter structures cut energy use everywhere. Launch costs, which are 3,000× above the energy floor, depend partly on it. The gap is defect control at scale, which is less certain to close by 2060.</p>
-        <figure class="road" data-r="strength"></figure>
+        <details class="rd"><summary>See the roadmap to the limit</summary><figure class="road" data-r="strength"></figure></details>
       </div></li>
       <li class="pick"><div class="n">5</div><div>
         <h3>Efficient robots for an ageing world</h3>
         <p class="why">Legged robots use 3–14× more energy per kilogram per metre than a walking human. Electric motors already beat muscle on power, so the gap is in control, efficient force at low speed, and compliance. By the late 2070s, people over 65 will outnumber children.</p>
         <div class="ladder" data-k="robot"></div>
         <p class="rank"><b>Why fifth:</b> the demand is certain because of demographics, and the gap is real. The benchmark is biology rather than a hard physical limit, though, so it's the least rigorous of the five.</p>
-        <figure class="road" data-r="robot"></figure>
+        <details class="rd"><summary>See the roadmap to the limit</summary><figure class="road" data-r="robot"></figure></details>
       </div></li>
     </ol>
   </section>
 
-  <section aria-labelledby="n1">
-    <div class="sec-head"><h2 id="n1">Also on the radar, and where not to aim</h2></div>
-    <div class="cols">
-      <div><h3>Big but different</h3><ul>
-        <li><b>Launch to orbit:</b> about 3,000× above the energy floor. The gap is hardware and operations cost, not physics.</li>
-        <li><b>Fusion:</b> NIF reached a target gain of 4.13 in 2025. A plant needs about 50–100 at the target, before counting how efficiently the laser turns grid power into light.</li>
-        <li><b>Quantum computing:</b> breaking RSA-2048 needs under a million physical qubits at 0.1 % error. Today's devices have hundreds to about a thousand.</li>
-        <li><b>Crops:</b> photosynthesis runs at 0.5–1 % against a 4.6–6 % limit. Sub-Saharan yields sit at 20–30 % of their water-limited potential.</li>
-      </ul></div>
-      <div><h3>Already near the ceiling</h3><ul>
-        <li><b>Electric motors:</b> 95–97.5 % efficient.</li>
-        <li><b>Wind turbines:</b> Cp about 0.48 against the Betz limit of 0.593.</li>
-        <li><b>Gas combined cycle:</b> 63 % against about 84 % Carnot.</li>
-        <li><b>Electrolysers:</b> 1.4× their minimum.</li>
-        <li><b>Fibre and radio links:</b> within 1–2 dB of Shannon. Gains now come from more bandwidth and more channels, not better coding.</li>
-      </ul></div>
-    </div>
-  </section>
 
-  <section class="method" aria-labelledby="m1">
-    <div class="sec-head"><h2 id="m1">Method and caveats</h2></div>
-    <p>Headroom is the typical commercial value divided by the fundamental limit, or the other way round where lower is better. Where sources disagree, the bar shows the range. Limits are physical (Landauer, Carnot, Shockley–Queisser, Betz, Shannon, minimum work of separation) except where marked as a biological benchmark or an engineering requirement.</p>
-    <p>A few figures are estimates rather than sourced values: the physics floors for aircraft and road vehicles, typical EV consumption, and the most optimistic transistor-density limit. Treat headroom as an order of magnitude, not a precise number.</p>
-    <ul class="src">
-      <li><a href="https://www.iea.org/reports/energy-and-ai/executive-summary">IEA, Energy and AI (2025)</a></li>
-      <li><a href="https://arxiv.org/html/2312.08595v1">Ho et al., limits of CMOS energy efficiency</a></li>
-      <li><a href="https://top500.org/lists/green500/list/2026/06/">Green500, June 2026</a></li>
-      <li><a href="https://coefficientgiving.org/research/how-much-computational-power-does-it-take-to-match-the-human-brain/">Carlsmith, brain compute estimate</a></li>
-      <li><a href="https://www.nature.com/articles/532435a">Sholl &amp; Lively, Nature 2016 (separations)</a></li>
-      <li><a href="https://www.sciencedirect.com/science/article/pii/S2542435118302253">Keith et al., Joule 2018 (direct air capture)</a></li>
-      <li><a href="https://albertsk.org/wp-content/uploads/2012/08/science-2011-elimelech-712-71.pdf">Elimelech &amp; Phillip, Science 2011 (desalination)</a></li>
-      <li><a href="https://iea.blob.core.windows.net/assets/6ee41bb9-8e81-4b64-8701-2acc064ff6e4/AmmoniaTechnologyRoadmap.pdf">IEA Ammonia Technology Roadmap</a></li>
-      <li><a href="https://www.energy.gov/sites/default/files/2017/12/f46/Cement_bandwidth_study_2017.pdf">US DOE cement bandwidth study</a></li>
-      <li><a href="https://www.energy.gov/sites/prod/files/2015/08/f26/iron_and_steel_bandwidth_report_0.pdf">US DOE iron &amp; steel bandwidth study</a></li>
-      <li><a href="https://en.wikipedia.org/wiki/Hall%E2%80%93H%C3%A9roult_process">Hall–Héroult process</a></li>
-      <li><a href="https://theicct.org/aviation-global-expecting-electric-jul22/">ICCT, electric aviation</a></li>
-      <li><a href="https://amprius.com/the-all-new-amprius-500-wh-kg-battery-platform-is-here/">Amprius 500 Wh/kg cells</a></li>
-      <li><a href="https://en.wikipedia.org/wiki/Specific_strength">Specific strength of materials</a></li>
-      <li><a href="https://en.wikipedia.org/wiki/Falcon_9">Falcon 9 pricing</a></li>
-      <li><a href="https://www.frontiersin.org/journals/robotics-and-ai/articles/10.3389/frobt.2018.00129/full">Legged robot cost of transport, Frontiers 2018</a></li>
-      <li><a href="https://electrek.co/2025/10/22/yasa-record-power-density-axial-flux-motor/">YASA axial-flux motor record</a></li>
-      <li><a href="https://www.un.org/en/global-issues/ageing">UN, Ageing</a></li>
-      <li><a href="https://www.fluxim.com/research-blogs/perovskite-silicon-tandem-pv-record-updates">Perovskite–silicon tandem records</a></li>
-      <li><a href="https://annual.llnl.gov/fy-2025/national-ignition-facility-2025">LLNL, NIF 2025</a></li>
-      <li><a href="https://arxiv.org/abs/2505.15917">Gidney 2025, RSA-2048 resources</a></li>
-      <li><a href="https://www.nict.go.jp/en/press/2025/11/11-1.html">NICT fibre record, 2025</a></li>
-      <li><a href="https://www.nature.com/articles/nnano.2016.131">Kalff et al., atomic memory</a></li>
-      <li><a href="https://doi.org/10.1016/j.copbio.2008.02.004">Zhu, Long &amp; Ort 2008, photosynthesis</a></li>
-      <li><a href="https://news.unl.edu/article/yield-gap-study-highlights-potential-for-higher-crop-yields-in-africa">Global Yield Gap Atlas, Africa</a></li>
-      <li><a href="https://www.energy.gov/sites/default/files/2024-12/hydrogen-shot-water-electrolysis-technology-assessment.pdf">US DOE electrolysis assessment</a></li>
-      <li><a href="https://www.ge.com/news/press-releases/ha-technology-now-available-industry-first-64-percent-efficiency">GE HA combined cycle</a></li>
-      <li><a href="https://en.wikipedia.org/wiki/Betz%27s_law">Betz's law</a></li>
-    </ul>
-  </section>
-
-  <footer><span>v2060 · jacobcloete.pro</span><span>Limits are physics. Rankings are judgement.</span></footer>
+  <footer><span>v2060 · jacobcloete.pro · <a href="/notes/">Method, sources and other fields</a></span><span>Limits are physics. Rankings are judgement.</span></footer>
 </div>
 <div id="tip" hidden></div>
 
@@ -475,6 +427,7 @@ const L={
     });
   }
   render();
+  document.querySelectorAll('details.rd').forEach(dt=>dt.addEventListener('toggle',render));
   let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(render,150)});
 })();
 
@@ -591,13 +544,15 @@ const R={
     tip.style.left=Math.min(innerWidth-tip.offsetWidth-8,Math.max(8,px+14))+'px';tip.style.top=Math.max(8,py-tip.offsetHeight-12)+'px'}
   function render(){
     document.querySelectorAll('.road').forEach(el=>{
+      const dt=el.closest('details');if(dt&&!dt.open)return;
       const k=el.dataset.r,d=R[k],mode=el.clientWidth<600?'v':'h';
       if(el.dataset.mode===mode)return;el.dataset.mode=mode;
-      el.innerHTML=`<p class="k">Roadmap to the limit</p>${mode==='h'?svg(k,d):cards(k,d)}<figcaption>${esc(d.cap)}${mode==='h'?' Hover a stage for who is working on it and what blocks it; click to open the source.':''} Stages marked (est.) are extrapolations.</figcaption>`;
+      el.innerHTML=`${mode==='h'?svg(k,d):cards(k,d)}<figcaption>${esc(d.cap)}${mode==='h'?' Hover a stage for who is working on it and what blocks it; click to open the source.':''} Stages marked (est.) are extrapolations.</figcaption>`;
       el.querySelectorAll('a.node').forEach(a=>{a.addEventListener('mousemove',e=>showTip(e,a));a.addEventListener('mouseleave',()=>tip.hidden=true);a.addEventListener('focus',()=>showTip(null,a));a.addEventListener('blur',()=>tip.hidden=true)});
     });
   }
   render();
+  document.querySelectorAll('details.rd').forEach(dt=>dt.addEventListener('toggle',render));
   let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(render,150)});
 })();
 </script>

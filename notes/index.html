@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Method, sources and the other fields behind v2060: how far engineering sits from its physical limits.">
+<meta property="og:title" content="v2060 notes · Jacob Cloete">
+<meta property="og:description" content="Limits are physics. Rankings are judgement. Where engineering still has room to grow by 2060.">
+<title>v2060 notes · Jacob Cloete</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0B0E12; --raise:#11161C; --ink:#E4E8EC; --soft:#C3CAD1; --muted:#85909A; --dim:#56606A; --rule:#222A32;
+  --accent:#8CC4FF; --limit:#E0B25C;
+  --display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--body);padding-inline:clamp(16px,5vw,64px);padding-block:0}
+.wrap{max-width:1040px;margin:0 auto;display:grid;gap:clamp(56px,8vw,96px);padding-block:28px 56px}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+header.top{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:500 12px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--rule);padding-bottom:14px}
+.mark{text-transform:none;color:var(--ink);font:800 15px/1 var(--display);font-stretch:125%}
+.k{font:500 11px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+h1{font:800 clamp(34px,6.4vw,72px)/.98 var(--display);font-stretch:112%;letter-spacing:-.02em;margin:12px 0 20px;text-wrap:balance;max-width:16ch}
+h1 span{color:var(--accent)}
+.lede{max-width:62ch;color:var(--soft);font-size:18px;margin:0}
+.lede strong{color:var(--ink);font-weight:500}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--ink);padding-bottom:12px;margin-bottom:20px}
+h2{font:700 clamp(22px,3.2vw,32px)/1.1 var(--display);font-stretch:118%;margin:0}
+.sec-head p{margin:0;color:var(--muted);font-size:14px;max-width:50ch}
+
+/* chart */
+.chart{position:relative}
+.axis,.crow{display:grid;grid-template-columns:minmax(150px,240px) minmax(0,1fr) 128px;gap:14px;align-items:center}
+.axis{font:400 11px/1 var(--mono);color:var(--muted);margin-bottom:6px}
+.axis .scale{position:relative;height:14px}
+.axis .scale span{position:absolute;transform:translateX(-50%);font-variant-numeric:tabular-nums}
+.crow{padding:5px 0;border-radius:2px;cursor:default}
+.crow:hover{background:var(--raise)}
+.crow .lbl{font-size:14px;color:var(--soft);line-height:1.25}
+.crow .lbl small{display:block;font:400 11px/1.3 var(--mono);color:var(--muted)}
+.crow .val{font:500 13px/1 var(--mono);text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
+.track{position:relative;height:22px}
+.track .grid{position:absolute;top:0;bottom:0;width:1px;background:var(--rule)}
+.track .ref{position:absolute;top:-4px;bottom:-4px;width:0;border-left:1px dashed var(--limit);opacity:.7}
+.track .bar{position:absolute;top:9px;height:4px;border-radius:2px;background:var(--accent)}
+.track .dot{position:absolute;top:5px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 2px var(--bg)}
+.track .trail{position:absolute;top:10px;height:2px;background:var(--dim)}
+.track .then{position:absolute;top:6px;width:10px;height:10px;margin-left:-5px;border-radius:50%;border:2px solid var(--muted);background:var(--bg)}
+.crow .val small{display:block;margin-top:4px;font:400 11px/1 var(--mono);color:var(--muted)}
+.crow.req .bar{background:transparent;border:1px dashed var(--accent);height:6px;top:8px}
+.crow.req .dot{background:var(--bg);border:2px solid var(--accent)}
+.chart-note{font:400 12px/1.5 var(--mono);color:var(--muted);margin:14px 0 0;max-width:90ch}
+.chart-note b{color:var(--limit);font-weight:500}
+.group{font:500 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent);padding:18px 0 8px;border-bottom:1px solid var(--rule);margin-bottom:4px}
+.group.near{color:var(--muted)}
+#tip{position:fixed;pointer-events:none;z-index:5;max-width:320px;background:var(--raise);border:1px solid var(--dim);padding:10px 12px;font:400 12px/1.5 var(--mono);color:var(--soft);border-radius:3px}
+#tip b{color:var(--ink);font-weight:500;display:block;margin-bottom:4px;font-family:var(--body);font-size:13px}
+
+
+/* milestone ladders */
+.legend{display:flex;flex-wrap:wrap;gap:8px 22px;font:400 12px/1.4 var(--mono);color:var(--muted);margin:0 0 6px}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.legend svg{flex:none}
+.ladder{overflow-x:auto;margin-top:6px;border-top:1px solid var(--rule)}
+.ladder svg{display:block;height:auto}
+.ladder svg.h{width:100%;min-width:640px}
+.ladder svg.v{max-width:100%}
+.ladder .cap{font:400 12px/1.5 var(--mono);color:var(--muted);margin:2px 0 0}
+.ladder .cap b{color:var(--accent);font-weight:500}
+
+/* top 5 */
+.top5{list-style:none;margin:0;padding:0;counter-reset:r}
+.pick{display:grid;grid-template-columns:64px minmax(0,1fr);gap:20px;padding:26px 0;border-bottom:1px solid var(--rule)}
+.pick .n{font:800 44px/1 var(--display);font-stretch:125%;color:var(--accent)}
+.pick h3{font:700 22px/1.2 var(--display);font-stretch:108%;margin:0 0 6px}
+.pick .why{margin:0 0 14px;max-width:66ch;color:var(--soft)}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--rule)}
+.facts div{padding:10px 14px 0 0;display:grid;gap:3px;align-content:start}
+.facts div + div{padding-left:14px;border-left:1px solid var(--rule)}
+.facts .v{font:500 18px/1.25 var(--mono);font-variant-numeric:tabular-nums}
+.facts .v.l{color:var(--limit)}
+.facts .u{font:400 11px/1.4 var(--mono);color:var(--muted)}
+.pick .rank{margin:14px 0 0;font:400 13px/1.5 var(--mono);color:var(--muted);max-width:80ch}
+.pick .rank b{color:var(--ink);font-weight:500}
+
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(24px,4vw,48px)}
+.cols h3{font:700 18px/1.2 var(--display);font-stretch:108%;margin:0 0 10px}
+.cols ul{margin:0;padding-left:18px;color:var(--soft);display:grid;gap:8px}
+.cols li b{color:var(--ink);font-weight:500}
+
+.method p{max-width:70ch;color:var(--soft);margin:0 0 12px}
+.src{font:400 12px/1.7 var(--mono);color:var(--muted);columns:2;column-gap:40px;margin:0;padding-left:18px}
+.src li{break-inside:avoid}
+footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:400 12px/1.5 var(--mono);color:var(--muted);border-top:1px solid var(--rule);padding-top:16px}
+
+/* roadmap flow charts */
+.road{margin:22px 0 0;padding-top:10px;border-top:1px solid var(--rule)}
+.road svg{display:block;width:100%;height:auto;margin-top:4px}
+.road a.node rect{transition:stroke .15s}
+.road a.node:hover rect,.road a.node:focus rect{stroke:var(--accent)}
+.road a.node:focus{outline:none}
+.road figcaption{font:400 12px/1.5 var(--mono);color:var(--muted);margin-top:8px;max-width:90ch}
+.rsteps{list-style:none;margin:10px 0 0;padding:0}
+.rrow{display:grid;gap:8px}
+.rrow.par{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.rrow.par .k{grid-column:1/-1}
+.rcard{background:var(--raise);border:1px solid var(--rule);border-radius:3px;padding:10px 12px;display:grid;gap:4px;align-content:start}
+.rcard.end{border-color:var(--limit)}
+.rcard .w{font:400 11px/1.3 var(--mono);color:var(--muted)}
+.rcard b{font:500 15px/1.3 var(--body)}
+.rcard .m{font:400 12px/1.45 var(--mono);color:var(--accent)}
+.rcard .lim{font:400 12px/1.45 var(--mono);color:var(--limit)}
+.rcard .bk{font-size:13px;line-height:1.4;color:var(--soft)}
+.rcard a{font:400 11px/1.3 var(--mono);overflow-wrap:anywhere}
+.rjoin{font:400 11px/1.4 var(--mono);color:var(--muted);margin:0 0 0 14px;padding:8px 0 8px 12px;border-left:1px solid var(--dim)}
+
+.rd{margin:16px 0 0;border-top:1px solid var(--rule)}
+.rd summary{cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:8px;padding:12px 0 0;font:500 12px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.rd summary::-webkit-details-marker{display:none}
+.rd summary::before{content:"+";display:inline-block;width:1ch;font-size:15px}
+.rd[open] summary::before{content:"−"}
+.rd .road{margin-top:4px;border-top:0}
+@media (max-width:720px){
+  .axis,.crow{grid-template-columns:minmax(0,1fr) 70px}
+  .axis .lblh{display:none}
+  .axis .scale{grid-column:1 / -1;grid-row:1}
+  .axis .valh{display:none}
+  .crow .lbl{grid-column:1 / 2}
+  .crow .val{grid-column:2;grid-row:1}
+  .crow .track{grid-column:1 / -1}
+  .pick{grid-template-columns:1fr;gap:6px}
+  .cols{grid-template-columns:1fr}
+  .src{columns:1}
+}
+@media (max-width:480px){
+  .facts{grid-template-columns:1fr}
+  .facts div + div{padding-left:0;border-left:0;border-top:1px solid var(--rule);margin-top:8px}
+}
+</style>
+<style>html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top"><a class="mark" href="/" style="text-decoration:none">v2060</a><span>Notes · updated 28 Sep 2026</span></header>
+  <section aria-labelledby="n1">
+    <div class="sec-head"><h2 id="n1">Also on the radar, and where not to aim</h2></div>
+    <div class="cols">
+      <div><h3>Big but different</h3><ul>
+        <li><b>Launch to orbit:</b> about 3,000× above the energy floor. The gap is hardware and operations cost, not physics.</li>
+        <li><b>Fusion:</b> NIF reached a target gain of 4.13 in 2025. A plant needs about 50–100 at the target, before counting how efficiently the laser turns grid power into light.</li>
+        <li><b>Quantum computing:</b> breaking RSA-2048 needs under a million physical qubits at 0.1 % error. Today's devices have hundreds to about a thousand.</li>
+        <li><b>Crops:</b> photosynthesis runs at 0.5–1 % against a 4.6–6 % limit. Sub-Saharan yields sit at 20–30 % of their water-limited potential.</li>
+      </ul></div>
+      <div><h3>Already near the ceiling</h3><ul>
+        <li><b>Electric motors:</b> 95–97.5 % efficient.</li>
+        <li><b>Wind turbines:</b> Cp about 0.48 against the Betz limit of 0.593.</li>
+        <li><b>Gas combined cycle:</b> 63 % against about 84 % Carnot.</li>
+        <li><b>Electrolysers:</b> 1.4× their minimum.</li>
+        <li><b>Fibre and radio links:</b> within 1–2 dB of Shannon. Gains now come from more bandwidth and more channels, not better coding.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section class="method" aria-labelledby="m1">
+    <div class="sec-head"><h2 id="m1">Method and caveats</h2></div>
+    <p>Headroom is the typical commercial value divided by the fundamental limit, or the other way round where lower is better. Where sources disagree, the bar shows the range. Limits are physical (Landauer, Carnot, Shockley–Queisser, Betz, Shannon, minimum work of separation) except where marked as a biological benchmark or an engineering requirement.</p>
+    <p>A few figures are estimates rather than sourced values: the physics floors for aircraft and road vehicles, typical EV consumption, and the most optimistic transistor-density limit. Treat headroom as an order of magnitude, not a precise number.</p>
+    <ul class="src">
+      <li><a href="https://www.iea.org/reports/energy-and-ai/executive-summary">IEA, Energy and AI (2025)</a></li>
+      <li><a href="https://arxiv.org/html/2312.08595v1">Ho et al., limits of CMOS energy efficiency</a></li>
+      <li><a href="https://top500.org/lists/green500/list/2026/06/">Green500, June 2026</a></li>
+      <li><a href="https://coefficientgiving.org/research/how-much-computational-power-does-it-take-to-match-the-human-brain/">Carlsmith, brain compute estimate</a></li>
+      <li><a href="https://www.nature.com/articles/532435a">Sholl &amp; Lively, Nature 2016 (separations)</a></li>
+      <li><a href="https://www.sciencedirect.com/science/article/pii/S2542435118302253">Keith et al., Joule 2018 (direct air capture)</a></li>
+      <li><a href="https://albertsk.org/wp-content/uploads/2012/08/science-2011-elimelech-712-71.pdf">Elimelech &amp; Phillip, Science 2011 (desalination)</a></li>
+      <li><a href="https://iea.blob.core.windows.net/assets/6ee41bb9-8e81-4b64-8701-2acc064ff6e4/AmmoniaTechnologyRoadmap.pdf">IEA Ammonia Technology Roadmap</a></li>
+      <li><a href="https://www.energy.gov/sites/default/files/2017/12/f46/Cement_bandwidth_study_2017.pdf">US DOE cement bandwidth study</a></li>
+      <li><a href="https://www.energy.gov/sites/prod/files/2015/08/f26/iron_and_steel_bandwidth_report_0.pdf">US DOE iron &amp; steel bandwidth study</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Hall%E2%80%93H%C3%A9roult_process">Hall–Héroult process</a></li>
+      <li><a href="https://theicct.org/aviation-global-expecting-electric-jul22/">ICCT, electric aviation</a></li>
+      <li><a href="https://amprius.com/the-all-new-amprius-500-wh-kg-battery-platform-is-here/">Amprius 500 Wh/kg cells</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Specific_strength">Specific strength of materials</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Falcon_9">Falcon 9 pricing</a></li>
+      <li><a href="https://www.frontiersin.org/journals/robotics-and-ai/articles/10.3389/frobt.2018.00129/full">Legged robot cost of transport, Frontiers 2018</a></li>
+      <li><a href="https://electrek.co/2025/10/22/yasa-record-power-density-axial-flux-motor/">YASA axial-flux motor record</a></li>
+      <li><a href="https://www.un.org/en/global-issues/ageing">UN, Ageing</a></li>
+      <li><a href="https://www.fluxim.com/research-blogs/perovskite-silicon-tandem-pv-record-updates">Perovskite–silicon tandem records</a></li>
+      <li><a href="https://annual.llnl.gov/fy-2025/national-ignition-facility-2025">LLNL, NIF 2025</a></li>
+      <li><a href="https://arxiv.org/abs/2505.15917">Gidney 2025, RSA-2048 resources</a></li>
+      <li><a href="https://www.nict.go.jp/en/press/2025/11/11-1.html">NICT fibre record, 2025</a></li>
+      <li><a href="https://www.nature.com/articles/nnano.2016.131">Kalff et al., atomic memory</a></li>
+      <li><a href="https://doi.org/10.1016/j.copbio.2008.02.004">Zhu, Long &amp; Ort 2008, photosynthesis</a></li>
+      <li><a href="https://news.unl.edu/article/yield-gap-study-highlights-potential-for-higher-crop-yields-in-africa">Global Yield Gap Atlas, Africa</a></li>
+      <li><a href="https://www.energy.gov/sites/default/files/2024-12/hydrogen-shot-water-electrolysis-technology-assessment.pdf">US DOE electrolysis assessment</a></li>
+      <li><a href="https://www.ge.com/news/press-releases/ha-technology-now-available-industry-first-64-percent-efficiency">GE HA combined cycle</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Betz%27s_law">Betz's law</a></li>
+    </ul>
+  </section>
+
+  <footer><span><a href="/">← Back to v2060</a></span><span>Limits are physics. Rankings are judgement.</span></footer>
+</div>
+</body>
+</html>
