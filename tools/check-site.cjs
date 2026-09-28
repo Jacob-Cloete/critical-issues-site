@@ -29,7 +29,7 @@ for (const file of files) {
     try { new Function(body); } catch (e) { fail(file, 'inline script: ' + e.message); }
   }
   for (const [, ref] of text.matchAll(/(?:href|src)="([^"#]+)"/g)) {
-    if (/^(https?:|mailto:|tel:|data:|\/\/)/.test(ref)) continue;
+    if (/^(https?:|mailto:|tel:|data:|\/\/)/.test(ref) || ref.includes("${")) continue; // skip external links and JS template placeholders
     const clean = ref.split('?')[0];
     const target = clean.startsWith('/') ? path.join(root, clean) : path.join(path.dirname(file), clean);
     const exists = fs.existsSync(target) && (fs.statSync(target).isFile() || fs.existsSync(path.join(target, 'index.html')));

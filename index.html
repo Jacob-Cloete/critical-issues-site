@@ -100,6 +100,27 @@ h2{font:700 clamp(22px,3.2vw,32px)/1.1 var(--display);font-stretch:118%;margin:0
 .src li{break-inside:avoid}
 footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:400 12px/1.5 var(--mono);color:var(--muted);border-top:1px solid var(--rule);padding-top:16px}
 
+/* roadmap flow charts */
+.road{margin:22px 0 0;padding-top:10px;border-top:1px solid var(--rule)}
+.road svg{display:block;width:100%;height:auto;margin-top:4px}
+.road a.node rect{transition:stroke .15s}
+.road a.node:hover rect,.road a.node:focus rect{stroke:var(--accent)}
+.road a.node:focus{outline:none}
+.road figcaption{font:400 12px/1.5 var(--mono);color:var(--muted);margin-top:8px;max-width:90ch}
+.rsteps{list-style:none;margin:10px 0 0;padding:0}
+.rrow{display:grid;gap:8px}
+.rrow.par{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.rrow.par .k{grid-column:1/-1}
+.rcard{background:var(--raise);border:1px solid var(--rule);border-radius:3px;padding:10px 12px;display:grid;gap:4px;align-content:start}
+.rcard.end{border-color:var(--limit)}
+.rcard .w{font:400 11px/1.3 var(--mono);color:var(--muted)}
+.rcard b{font:500 15px/1.3 var(--body)}
+.rcard .m{font:400 12px/1.45 var(--mono);color:var(--accent)}
+.rcard .lim{font:400 12px/1.45 var(--mono);color:var(--limit)}
+.rcard .bk{font-size:13px;line-height:1.4;color:var(--soft)}
+.rcard a{font:400 11px/1.3 var(--mono);overflow-wrap:anywhere}
+.rjoin{font:400 11px/1.4 var(--mono);color:var(--muted);margin:0 0 0 14px;padding:8px 0 8px 12px;border-left:1px solid var(--dim)}
+
 @media (max-width:720px){
   .axis,.crow{grid-template-columns:minmax(0,1fr) 70px}
   .axis .lblh{display:none}
@@ -152,30 +173,35 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:4
         <p class="why">A logic gate today burns about 10⁴–10⁵ times the Landauer minimum for erasing a bit. Whole systems are further off still: even the most efficient supercomputer spends about 10⁻¹¹ J per FP64 operation. Meanwhile data centres are heading from 415 TWh (2024) to about 945 TWh (2030).</p>
         <div class="ladder" data-k="compute"></div>
         <p class="rank"><b>Why first:</b> it has the biggest headroom of anything with fast-growing demand. Every other field on this list uses more compute to design and run it, so gains here compound.</p>
+        <figure class="road" data-r="compute"></figure>
       </div></li>
       <li class="pick"><div class="n">2</div><div>
         <h3>Separations and industrial chemistry</h3>
         <p class="why">Pulling one thing out of a mixture uses 10–15 % of the world's energy, mostly through distillation, which runs at 5–20 % of its second-law efficiency. Direct air capture uses about 20× its minimum. Ammonia, aluminium, cement and steel each sit about 2× above theirs, at enormous scale.</p>
         <div class="ladder" data-k="dac"></div>
         <p class="rank"><b>Why second:</b> it has the largest share of real energy use with a 2–20× gap, and the physics targets are exact. Water scarcity in South Africa makes it close to home too.</p>
+        <figure class="road" data-r="dac"></figure>
       </div></li>
       <li class="pick"><div class="n">3</div><div>
         <h3>Energy storage chemistry</h3>
-        <p class="why">Lithium-ion is close to its own ceiling, at 1.5–2×. The headroom is in new chemistries: lithium–sulfur and lithium–air cells have 9–12× the theoretical energy of today's cells. Electric regional aircraft need about 1,500 Wh/kg at pack level, and today's packs manage about 250.</p>
+        <p class="why">Lithium-ion is close to its own ceiling, at 1.5–2×. The headroom is in new chemistries: lithium–sulfur and lithium–air cells have 9–12× the theoretical energy of today's cells. Electric commuter aircraft need about 1,000 Wh/kg at pack level to replace most short routes, and today's packs manage about 250.</p>
         <div class="ladder" data-k="battery"></div>
         <p class="rank"><b>Why third:</b> the headroom is big and it unlocks aviation and cheap grid storage. It ranks below 1 and 2 because it needs a chemistry change, which has repeatedly taken longer than predicted.</p>
+        <figure class="road" data-r="battery"></figure>
       </div></li>
       <li class="pick"><div class="n">4</div><div>
         <h3>Materials near theoretical strength</h3>
         <p class="why">Graphene's specific strength is about 16× that of the best carbon fibre and about 1,000× that of structural steel. What's missing is length: the record strengths exist only in tiny, defect-free samples.</p>
         <div class="ladder" data-k="strength"></div>
         <p class="rank"><b>Why fourth:</b> the headroom is huge, from 16× to 1,000×, and lighter structures cut energy use everywhere. Launch costs, which are 3,000× above the energy floor, depend partly on it. The gap is defect control at scale, which is less certain to close by 2060.</p>
+        <figure class="road" data-r="strength"></figure>
       </div></li>
       <li class="pick"><div class="n">5</div><div>
         <h3>Efficient robots for an ageing world</h3>
         <p class="why">Legged robots use 3–14× more energy per kilogram per metre than a walking human. Electric motors already beat muscle on power, so the gap is in control, efficient force at low speed, and compliance. By the late 2070s, people over 65 will outnumber children.</p>
         <div class="ladder" data-k="robot"></div>
         <p class="rank"><b>Why fifth:</b> the demand is certain because of demographics, and the gap is real. The benchmark is biology rather than a hard physical limit, though, so it's the least rigorous of the five.</p>
+        <figure class="road" data-r="robot"></figure>
       </div></li>
     </ol>
   </section>
@@ -350,7 +376,7 @@ const L={
   [300,'now','EV cells',0],
   [500,'lab','Best cells (Amprius, CATL)',2],
   [550,'ref','Li-ion ceiling',3,'400–600'],
-  [1500,'mile','Regional e-aircraft pack',0],
+  [1000,'mile','Commuter e-aircraft pack (ICCT)',0],
   [2600,'limit','Li–S theory',1],
   [3500,'limit','Li–O₂ theory',2],
   [12000,'ref','Jet fuel, for scale',0]],
@@ -446,6 +472,129 @@ const L={
       el.dataset.mode=mode;
       const f=d.gap[1]/d.gap[0],fac=f<1?1/f:f;
       el.innerHTML=(narrow?vertical(el,d):horizontal(el,d))+`<p class="cap">${esc(d.unit)} · <b>${val(fac)}× headroom</b> ${d.note}</p>`;
+    });
+  }
+  render();
+  let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(render,150)});
+})();
+
+// Roadmaps: stages by time (columns) and parallel routes (lanes), ending at the limit
+const R={
+ compute:{cap:'Transistor scaling alone stalls near 10⁻¹⁸ J per switch. Past that, the roadmap needs logic that recovers its energy (reversible or superconducting) to approach Landauer.',st:[
+  {id:'s1',c:0,l:1,w:'2026–2028',t:'Gate-all-around + backside power',m:'≈ 46 fJ per FP4 op (Rubin); 73 GFLOPS/W FP64 system',tech:'N2 / 18A, A16 Super Power Rail, FP4/FP8, HBM4',who:'TSMC, Intel, NVIDIA, AMD',b:'Moving data costs more than the arithmetic',src:'https://top500.org/lists/green500/list/2026/06/'},
+  {id:'s3',c:1,l:0,w:'2027–2035',t:'In-memory, analog and photonic compute',m:'IBM analog chip 12.4 TOPS/W (≈ 80 fJ/op)',tech:'PCM / RRAM analog, SRAM compute-in-memory, photonic MACs',who:'IBM, TSMC, Lightmatter, EnCharge',b:'Converter overhead and precision; mainly helps AI',src:'https://www.nature.com/articles/s41586-023-06337-5'},
+  {id:'s2',c:1,l:1,w:'2028–2032',t:'Ångström nodes → CFET',m:'≈ 15–20 % better perf/W per node (est.)',tech:'A14 / 14A, stacked CFET, supply voltage 0.45 → 0.42 V',who:'TSMC, Intel, Samsung, imec',b:'Voltage and capacitance have stopped scaling',src:'https://irds.ieee.org/images/files/pdf/2024/2024IRDS_MM.pdf'},
+  {id:'s4',c:2,l:1,w:'2032–2040',t:'3D stacking + 2D-material channels',m:'≈ 10–50 aJ per gate switch (est.)',tech:'Monolithic 3D, 2D TMD channels (imec A3/A2), ≈ 0.38 V',who:'imec, TSMC, Intel, CEA-Leti',b:'60 mV/decade floor: irreversible CMOS stalls near 10⁻¹⁸ J',src:'https://www.imec-int.com/en/articles/introducing-2d-material-based-devices-logic-scaling-roadmap'},
+  {id:'s5a',c:3,l:1,w:'2027–2040',t:'Adiabatic / reversible CMOS',m:'Vaire test chip recovers 1.4–1.8× energy',tech:'Resonant energy-recovery clocks, reversible logic',who:'Vaire Computing, Sandia',b:'Slower switching, resonator Q, design tools',src:'https://spectrum.ieee.org/reversible-computing'},
+  {id:'s5b',c:3,l:2,w:'2030–2040',t:'Superconducting / spin logic',m:'AQFP ≈ 10 zJ per gate at 4 K; ≈ 4 aJ with cooling',tech:'AQFP, RSFQ, MESO spin logic',who:'Yokohama Natl Univ, SEEQC, NIST, Intel',b:'Cryogenic cooling and memory density',src:'https://www.nature.com/articles/s41598-019-46595-w'},
+  {id:'s6',c:4,l:1,w:'2040+',t:'Near-Landauer reversible computing',m:'≈ 10⁻¹⁹–10⁻²⁰ J/op (est.)',tech:'Fully reversible logic; erase only the bits you must',who:'Reversible-computing groups',b:'Speed, leakage, software that avoids erasure',src:'https://spectrum.ieee.org/reversible-computing',lim:'Limit: kT ln 2 = 2.9×10⁻²¹ J per bit'}],
+  e:[['s1','s2','node scaling'],['s1','s3','fix data movement'],['s2','s4','CFET → 3D'],['s3','s4','on 3D stacks'],['s4','s5a','below 10⁻¹⁸ J'],['s4','s5b','cryogenic'],['s5a','s6','main path'],['s5b','s6','']]},
+ dac:{cap:'Direct air capture scales up on heat-driven sorbents first. Electric-swing and moisture-swing routes then compete to reach 2–3× the thermodynamic minimum. Desalination follows a similar path, from 3–4 kWh/m³ whole-plant today toward about 2× its 1.06 kWh/m³ minimum.',st:[
+  {id:'d1',c:0,l:1,w:'Today',t:'First thermal DAC plants',m:'5.5–9.5 GJ/t CO₂; ≈ $1,000/t',tech:'Liquid solvent with 900 °C calciner; solid amine at 80–100 °C; limestone looping',who:'Climeworks, Oxy / 1PointFive, Heirloom',b:'Heat demand and capital cost',src:'https://iea.blob.core.windows.net/assets/9766b4da-a5e3-4d76-874d-ea286e333956/DirectAirCapture_Akeytechnologyfornetzero.pdf'},
+  {id:'d2',c:1,l:1,w:'2026–2030',t:'Structured sorbents + US DAC hubs',m:'≈ 4–5 GJ/t (est., from Gen 3 claim); hubs > 2 Mt/yr',tech:'Climeworks Gen 3, Project Cypress, South Texas DAC Hub',who:'Climeworks / Svante, Oxy, Heirloom; DOE',b:'Sorbent lifetime, capex, low-carbon heat',src:'https://climeworks.com/press-release/real-world-testing-proves-gen3-efficiency-leap-with-svantes-structure'},
+  {id:'d3a',c:2,l:0,w:'2028–2035',t:'Electro-swing capture',m:'0.9–2.0 GJ/t in lab cells',tech:'Quinone electro-swing, pH-swing',who:'Verdox, MIT, ARPA-E',b:'Oxygen sensitivity, electrode life',src:'https://arpa-e.energy.gov/programs-and-initiatives/search-all-projects/electro-swing-adsorption-high-efficiency-direct-air-capture'},
+  {id:'d3b',c:2,l:2,w:'2028–2035',t:'Moisture-swing sorbents',m:'≈ 1–2 GJ/t (est.)',tech:'Anion-exchange resins, vacuum-assisted swing',who:'Lackner / ASU',b:'Needs dry air; dilute product must be compressed',src:'https://pubs.acs.org/doi/10.1021/es201180v'},
+  {id:'d4',c:3,l:1,w:'2035–2050',t:'Practical floor',m:'≈ 1–1.5 GJ/t, 2–3× the minimum (est.); goal < $100/t',tech:'Best electric or moisture swing with heat integration',who:'DOE Carbon Negative Shot',b:'Fan energy for moving air, compression',src:'https://www.energy.gov/documents/strategy-carbon-negative-shot',lim:'Limit: 0.44 GJ/t at 400 ppm'}],
+  e:[['d1','d2','scale-up'],['d2','d3a','electric swing'],['d2','d3b','humidity swing'],['d2','d4','better heat use'],['d3a','d4',''],['d3b','d4','']]},
+ battery:{cap:'Lithium-ion tops out around 400–600 Wh/kg. Beyond that the roadmap swaps the anode to lithium metal, then the cathode to sulfur or air. Only lithium–air credibly reaches the 1,000 Wh/kg pack that electric commuter aircraft need.',st:[
+  {id:'s1',c:0,l:1,w:'now–2027',t:'High-silicon and condensed Li-ion',m:'450–500 Wh/kg cell',tech:'Silicon-dominant anodes, condensed cells, high-nickel cathodes',who:'Amprius, CATL, Sila, Group14',b:'Silicon swelling, cycle life, cost',src:'https://ir.amprius.com/news-events/press-releases/detail/174/amprius-introduces-sicore500-high-energy-density-cells-for-unmanned-aviation'},
+  {id:'s0',c:0,l:2,w:'2024–2027',t:'Sodium-ion (cost branch)',m:'≈ 175 Wh/kg: cheaper, not denser',tech:'CATL Naxtra, dual-chemistry packs',who:'CATL',b:'Low specific energy by nature',src:'https://www.catl.com/en/news/6720.html'},
+  {id:'s2',c:1,l:1,w:'2026–2029',t:'Lithium-metal anodes',m:'Goal 500 Wh/kg at 1,000 cycles (Battery500)',tech:'Li-metal anode, localized high-concentration electrolytes',who:'DOE Battery500 (PNNL), Stanford, UCSD',b:'Dendrites, dead lithium',src:'https://www.greencarcongress.com/2020/05/20200528-battery500.html'},
+  {id:'s3a',c:2,l:0,w:'2027–2030',t:'Solid-state lithium-metal',m:'844–900 Wh/L; ≈ 350–450 Wh/kg (est.)',tech:'Anode-free oxide separator, sulfide electrolytes',who:'QuantumScape / VW, Toyota, Samsung SDI',b:'Interface stability, stack pressure, yield',src:'https://electrek.co/2026/02/05/quantumscape-inaugurates-eagle-line-pilot-solid-state-battery-production/'},
+  {id:'s3b',c:2,l:2,w:'2027–2032',t:'Lithium–sulfur',m:'> 500 Wh/kg prototypes',tech:'Liquid Li-S (Lyten, Zeta), solid-state Li-S/Se (NASA SABERS)',who:'Lyten, Zeta / Stellantis, NASA',b:'Polysulfide shuttle, cycle life',src:'https://www.stellantis.com/en/news/press-releases/2024/december/stellantis-and-zeta-energy-announce-agreement-to-develop-lithium-sulfur-ev-batteries'},
+  {id:'s4',c:3,l:1,w:'2030–2035',t:'Solid-state Li-metal + sulfur',m:'600–800 Wh/kg cell; ≈ 500 pack (est.)',tech:'Solid electrolyte + Li-metal + S/Se cathode',who:'NASA SABERS, Battery 2030+, Toyota / SDI',b:'Needs a stable anode and no shuttle, together',src:'https://battery2030.eu/wp-content/uploads/2025/11/Deliverable-2.2_Roadmap_4th-edition_final_-2025.10.31.pdf'},
+  {id:'s5',c:4,l:1,w:'2035–2045+',t:'Lithium–air',m:'≈ 1,200 Wh/kg projected (Argonne)',tech:'Solid electrolyte, 4-electron Li₂O chemistry, air handling',who:'Argonne / IIT',b:'CO₂ and water in air, round-trip efficiency',src:'https://www.anl.gov/article/new-design-for-lithiumair-battery-could-offer-much-longer-driving-range-compared-with-the-lithiumion',lim:'Limit: ≈ 3,500 Wh/kg Li–O₂'}],
+  e:[['s1','s2','Li-metal anode'],['s2','s3a','solid electrolyte'],['s2','s3b','sulfur cathode'],['s3a','s4',''],['s3b','s4',''],['s4','s5','air cathode']]},
+ strength:{cap:'Lab nanotube fibres already beat carbon fibre over centimetres. The long road is length: one defect per metre caps a fibre, so the limit is reached only by growing defect-free tubes metres long.',st:[
+  {id:'s1',c:0,l:1,w:'Today',t:'Carbon fibre and nanotube yarn',m:'T1200 ≈ 8 GPa; CNT yarn 1.2–1.4 GPa',tech:'PAN carbon fibre, Miralon and Galvorn CNT yarn',who:'Toray, Huntsman, DexMat',b:'Precursor flaws; poorly aligned tubes',src:'https://www.prnewswire.com/news-releases/toray-develops-torayca-t1200-the-ultra-high-strength-carbon-fiber-301970625.html'},
+  {id:'s2a',c:1,l:0,w:'2024–2028',t:'Lab nanotube fibres',m:'12.5 GPa over 10 mm (2026)',tech:'Acid wet spinning + stretching, densified CVD fibre',who:'ECUST, Peking Univ., SINANO, Rice',b:'Load transfer between tubes; strength drops with length',src:'https://www.nature.com/articles/s41467-026-75150-1'},
+  {id:'s2b',c:1,l:1,w:'2024–2032',t:'Graphene and BN-nanotube fibres',m:'Graphene fibre 5.2 GPa',tech:'Folded-domain graphene fibre; BNNT for high temperature',who:'Zhejiang Univ., Georgia Tech, NASA Glenn',b:'Voids and sheet-edge defects; BNNT supply',src:'https://www.nature.com/articles/s41563-025-02384-7'},
+  {id:'s2c',c:1,l:2,w:'2024–2035',t:'Nanostructured metals',m:'3.05 GPa bulk; ceiling ≈ 4–5 GPa (est.)',tech:'Nanotwinned boundaries, high-entropy alloys',who:'Hunan Univ., USTB, MPIE',b:'Strength vs ductility; plateaus near E/20',src:'https://www.nature.com/articles/s41563-026-02479-9'},
+  {id:'s3',c:2,l:1,w:'2027–2035',t:'Industrial nanotube fibre beats CFRP',m:'8–12 GPa at metre scale (est.)',tech:'Tonne-scale densified CNT fibre, designed composites',who:'NASA US-COMP, DexMat, Huntsman',b:'Fibre-to-composite efficiency, cost per kg',src:'https://www.nasa.gov/directorates/stmd/space-tech-research-grants/the-institute-for-ultra-strong-composites-by-computational-design-us-comp/'},
+  {id:'s4',c:3,l:0,w:'2035–2045',t:'Ultralong defect-free nanotubes',m:'> 80 GPa in cm bundles today; 20–40 GPa at 1 m (est.)',tech:'Gas-flow ultralong growth, bundle tightening',who:'Tsinghua Univ.',b:'Defect-free odds fall exponentially with length',src:'https://www.nature.com/articles/s41565-018-0141-z'},
+  {id:'s5',c:4,l:0,w:'2045+',t:'Near-theoretical at human scale',m:'50–100 GPa at ≥ 1 m (est.)',tech:'Defect-free macro-crystals, covalent cross-links',who:'Nobody yet',b:'Weakest link: one vacancy per metre caps it',src:'https://www.nature.com/articles/s41565-018-0141-z',lim:'Limit: ≈ 130 GPa (graphene)'}],
+  e:[['s1','s2a','CNT route'],['s1','s2b','graphene route'],['s1','s2c','metals route'],['s2a','s3','scale-up'],['s2b','s3','hybrid fibres'],['s2c','s3','joints only'],['s2a','s4','ultralong growth'],['s3','s4','processes merge'],['s4','s5','defect-free']]},
+ robot:{cap:'Commercial humanoids publish runtime, not efficiency. The roadmap improves control, batteries and compliant muscles in parallel, then combines them. Human walking, at a cost of transport of about 0.2, is the benchmark.',st:[
+  {id:'s0',c:0,l:1,w:'2013–2019',t:'Research proof points',m:'Cost of transport: Cheetah 0.5, Cassie 0.7, Ranger 0.28',tech:'Quasi-direct-drive motors, passive dynamics, compliant legs',who:'MIT, Cornell, Agility / OSU',b:'Efficient only on narrow, specialised machines',src:'https://www.frontiersin.org/journals/robotics-and-ai/articles/10.3389/frobt.2018.00129/full'},
+  {id:'s1',c:1,l:0,w:'2024–2026',t:'Commercial electric humanoids',m:'2–5 h per charge; ≈ 0.6–1.0 (est.)',tech:'Rigid actuators, 0.8–2.3 kWh packs, battery swapping',who:'Figure, Boston Dynamics, Agility, 1X, Tesla, Unitree',b:'Pack size and electronics power; nobody publishes efficiency',src:'https://www.figure.ai/news/f-03-battery-development'},
+  {id:'s2a',c:2,l:0,w:'2025–2028',t:'Energy-aware learned control',m:'−31 % energy on hardware (Duke)',tech:'Energy-constrained RL, passive-dynamics rewards',who:'Duke, in-house RL teams',b:'Trade-off with robustness and speed',src:'https://arxiv.org/abs/2409.19795'},
+  {id:'s2b',c:2,l:1,w:'2025–2030',t:'Better battery packs',m:'> 4 h claimed; 6–8 h by ≈ 2028 (est.)',tech:'Semi- and solid-state cells',who:'Xpeng, LG, Samsung SDI',b:'Cost and supply of solid-state cells',src:'https://www.trendforce.com/presscenter/news/20260128-12902.html'},
+  {id:'s2c',c:2,l:2,w:'2024–2032',t:'Compliant and artificial muscles',m:'HASEL leg: 306 mW vs 25.3 W squatting',tech:'Electrohydraulic muscles, elastomer tendons, series elastics',who:'ETH Zurich / MPI-IS, Yale, SNU',b:'±10 kV tethered drives, durability',src:'https://www.nature.com/articles/s41467-024-51568-3'},
+  {id:'s3',c:3,l:1,w:'2028–2033',t:'Hybrid compliant humanoids',m:'≈ 0.3–0.4; 8+ h runtime (est.)',tech:'Motors + tuned elastic tendons, energy-optimal fleet control',who:'Likely today’s leaders + labs above',b:'Keeping versatility while exploiting passive dynamics',src:'https://www.nature.com/articles/s41467-024-51568-3'},
+  {id:'s4',c:4,l:1,w:'2033+',t:'Human-level efficiency',m:'Untethered low-voltage muscles',tech:'Artificial muscles, variable-stiffness joints',who:'Open',b:'Muscle power electronics and lifetime',src:'https://www.frontiersin.org/journals/robotics-and-ai/articles/10.3389/frobt.2018.00129/full',lim:'Benchmark: ≈ 0.2, human walking'}],
+  e:[['s0','s1','commercialised'],['s1','s2a','control'],['s1','s2b','battery'],['s0','s2c','compliant lineage'],['s2a','s3',''],['s2b','s3',''],['s2c','s3','elastic tendons'],['s3','s4','untethered muscles'],['s2c','s4','if HV drives shrink']]},
+};
+(function(){
+  const C={ink:'#E4E8EC',soft:'#C3CAD1',acc:'#8CC4FF',lim:'#E0B25C',mut:'#85909A',dim:'#56606A',rule:'#222A32',raise:'#11161C',bg:'#0B0E12'};
+  const esc=t=>String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+  const wrap=(t,n)=>{const out=[];let line='';t.split(' ').forEach(wd=>{if((line+' '+wd).trim().length>n&&line){out.push(line);line=wd}else line=(line+' '+wd).trim()});if(line)out.push(line);return out};
+  const host=u=>u.replace(/^https?:\/\/(www\.)?/,'').split('/')[0];
+  const tip=document.getElementById('tip');
+  const MONO='IBM Plex Mono,monospace',SANS='IBM Plex Sans,system-ui,sans-serif';
+  function svg(k,d){
+    const nc=Math.max(...d.st.map(s=>s.c))+1,colW=1000/nc,gap=84,bw=colW-gap,cm=Math.floor((bw-20)/6.9),ct=Math.floor((bw-20)/7.4);
+    const lanes=[...new Set(d.st.map(s=>s.l))].sort();
+    const S={};d.st.forEach(s=>{s.tl=wrap(s.t,ct);s.ml=wrap(s.m,cm);s.ll=s.lim?wrap(s.lim,cm):[];s.h=12+14+s.tl.length*16+4+s.ml.length*14+(s.ll.length?6+s.ll.length*14:0)+10;S[s.id]=s});
+    const laneH={},laneY={};let y=24;
+    lanes.forEach(l=>{laneH[l]=Math.max(...d.st.filter(s=>s.l===l).map(s=>s.h));laneY[l]=y;y+=laneH[l]+28});
+    const H=y-4;
+    d.st.forEach(s=>{s.x=s.c*colW+gap/2;s.y=laneY[s.l]+(laneH[s.l]-s.h)/2;s.cy=laneY[s.l]+laneH[s.l]/2});
+    let g=`<svg viewBox="0 0 1000 ${H}" role="img" aria-label="${esc(k.replace(/^./,m=>m.toUpperCase()))} roadmap: ${esc(d.st.map(s=>s.w+' '+s.t).join('; '))}">`;
+    g+=`<defs><marker id="ah-${k}" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="${C.mut}"/></marker></defs>`;
+    // time axis
+    const cols=[...new Set(d.st.map(s=>s.c))];
+    g+=`<text x="998" y="12" text-anchor="end" font-family="${MONO}" font-size="11" fill="${C.mut}">time →</text>`;
+    // edges first
+    d.e.forEach(([a,b,lab])=>{
+      const A=S[a],B=S[b],x1=A.x+bw,y1=A.cy,x2=B.x-2,y2=B.cy,skip=B.c-A.c>1;
+      const bx=skip?x2-gap+4:x1,xm=(bx+x2)/2;
+      const p=`M${x1},${y1} H${bx} C${xm},${y1} ${xm},${y2} ${x2},${y2}`;
+      g+=`<path d="${p}" fill="none" stroke="${C.mut}" stroke-width="1.3" marker-end="url(#ah-${k})"/>`;
+      if(lab){
+        const ls=wrap(lab,11),lx=skip?(x1+bx)/2:(x1+x2)/2,ly=skip?y1-8-(ls.length-1)*12:(y1===y2?y1-8-(ls.length-1)*12:(y1+y2)/2-(ls.length*12)/2+9);
+        const lw=Math.max(...ls.map(t=>t.length))*6.1+6;
+        if(y1!==y2&&!skip)g+=`<rect x="${lx-lw/2}" y="${ly-10}" width="${lw}" height="${ls.length*12+2}" fill="${C.bg}"/>`;
+        ls.forEach((t,i)=>g+=`<text x="${lx}" y="${ly+i*12}" text-anchor="middle" font-family="${MONO}" font-size="10" fill="${C.mut}">${esc(t)}</text>`);
+      }
+    });
+    d.st.forEach((s,i)=>{
+      const end=!!s.lim;
+      g+=`<a href="${esc(s.src)}" target="_blank" rel="noopener" class="node" data-k="${k}" data-i="${i}"><title>${esc(s.t)}: ${esc(s.b)}</title>`;
+      g+=`<rect x="${s.x}" y="${s.y}" width="${bw}" height="${s.h}" rx="3" fill="${C.raise}" stroke="${end?C.lim:C.rule}"/>`;
+      let ty=s.y+22;
+      g+=`<text x="${s.x+10}" y="${ty}" font-family="${MONO}" font-size="10.5" fill="${C.mut}">${esc(s.w)}</text>`;
+      s.tl.forEach(t=>{ty+=16;g+=`<text x="${s.x+10}" y="${ty}" font-family="${SANS}" font-size="13" font-weight="500" fill="${C.ink}">${esc(t)}</text>`});
+      ty+=4;
+      s.ml.forEach(t=>{ty+=14;g+=`<text x="${s.x+10}" y="${ty}" font-family="${MONO}" font-size="11" fill="${C.acc}">${esc(t)}</text>`});
+      if(s.ll.length){ty+=6;s.ll.forEach(t=>{ty+=14;g+=`<text x="${s.x+10}" y="${ty}" font-family="${MONO}" font-size="11" fill="${C.lim}">${esc(t)}</text>`})}
+      g+='</a>';
+    });
+    return g+'</svg>';
+  }
+  function cards(k,d){
+    const byC={};d.st.forEach(s=>(byC[s.c]=byC[s.c]||[]).push(s));
+    const S={};d.st.forEach(s=>S[s.id]=s);
+    let h='<ol class="rsteps">';
+    Object.keys(byC).sort((a,b)=>a-b).forEach((c,ci)=>{
+      const row=byC[c].sort((a,b)=>a.l-b.l);
+      if(ci){const into=d.e.filter(e=>S[e[1]].c==c);const labs=[...new Set(into.map(e=>e[2]).filter(Boolean))];
+        h+=`<li class="rjoin" aria-hidden="true">↓ ${labs.map(esc).join(' · ')}</li>`}
+      h+=`<li class="rrow${row.length>1?' par':''}">${row.length>1?'<span class="k">In parallel</span>':''}`;
+      row.forEach(s=>{h+=`<div class="rcard${s.lim?' end':''}"><span class="w">${esc(s.w)}</span><b>${esc(s.t)}</b><span class="m">${esc(s.m)}</span>${s.lim?`<span class="lim">${esc(s.lim)}</span>`:''}<span class="bk">Blocker: ${esc(s.b)}</span><a href="${esc(s.src)}" target="_blank" rel="noopener">${esc(host(s.src))}</a></div>`});
+      h+='</li>';
+    });
+    return h+'</ol>';
+  }
+  function showTip(e,a){const d=R[a.dataset.k],s=d.st[+a.dataset.i];
+    tip.innerHTML=`<b>${esc(s.t)}</b>${esc(s.tech)}<br>Who: ${esc(s.who)}<br>Blocker: ${esc(s.b)}<br>Source: ${esc(host(s.src))}`;tip.hidden=false;
+    const r=a.getBoundingClientRect(),px=e&&e.clientX?e.clientX:r.left+r.width/2,py=e&&e.clientY?e.clientY:r.top;
+    tip.style.left=Math.min(innerWidth-tip.offsetWidth-8,Math.max(8,px+14))+'px';tip.style.top=Math.max(8,py-tip.offsetHeight-12)+'px'}
+  function render(){
+    document.querySelectorAll('.road').forEach(el=>{
+      const k=el.dataset.r,d=R[k],mode=el.clientWidth<600?'v':'h';
+      if(el.dataset.mode===mode)return;el.dataset.mode=mode;
+      el.innerHTML=`<p class="k">Roadmap to the limit</p>${mode==='h'?svg(k,d):cards(k,d)}<figcaption>${esc(d.cap)}${mode==='h'?' Hover a stage for who is working on it and what blocks it; click to open the source.':''} Stages marked (est.) are extrapolations.</figcaption>`;
+      el.querySelectorAll('a.node').forEach(a=>{a.addEventListener('mousemove',e=>showTip(e,a));a.addEventListener('mouseleave',()=>tip.hidden=true);a.addEventListener('focus',()=>showTip(null,a));a.addEventListener('blur',()=>tip.hidden=true)});
     });
   }
   render();
