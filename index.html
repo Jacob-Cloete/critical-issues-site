@@ -51,6 +51,9 @@ h2{font:700 clamp(22px,3.2vw,32px)/1.1 var(--display);font-stretch:118%;margin:0
 .track .ref{position:absolute;top:-4px;bottom:-4px;width:0;border-left:1px dashed var(--limit);opacity:.7}
 .track .bar{position:absolute;top:9px;height:4px;border-radius:2px;background:var(--accent)}
 .track .dot{position:absolute;top:5px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 2px var(--bg)}
+.track .trail{position:absolute;top:10px;height:2px;background:var(--dim)}
+.track .then{position:absolute;top:6px;width:10px;height:10px;margin-left:-5px;border-radius:50%;border:2px solid var(--muted);background:var(--bg)}
+.crow .val small{display:block;margin-top:4px;font:400 11px/1 var(--mono);color:var(--muted)}
 .crow.req .bar{background:transparent;border:1px dashed var(--accent);height:6px;top:8px}
 .crow.req .dot{background:var(--bg);border:2px solid var(--accent)}
 .chart-note{font:400 12px/1.5 var(--mono);color:var(--muted);margin:14px 0 0;max-width:90ch}
@@ -125,9 +128,9 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:4
   </section>
 
   <section aria-labelledby="c1">
-    <div class="sec-head"><h2 id="c1">Headroom factor</h2><p>How many times better the limit is than typical practice today, on a log scale. Bars show the range across sources.</p></div>
+    <div class="sec-head"><h2 id="c1">Headroom: the gap to the physical limit</h2><p>How many times better the limit is than typical practice today (dot) and around 2010 (ring), on a log scale. The line between them is sixteen years of progress.</p></div>
     <div class="chart" id="chart"></div>
-    <p class="chart-note">Dashed <b>amber line at 3×</b>: below it, remaining gains are incremental. Hollow markers show a requirement that isn't met yet, not a gap to a limit. Hover or tap a row for the numbers.</p>
+    <p class="chart-note">Dashed <b>amber line at 3×</b>: below it, remaining gains are incremental. Hollow blue markers show a requirement that isn't met yet, not a gap to a limit. Grey rings mark roughly 2010; where a ring sits on the dot, the field has barely moved. Hover or tap a row for the numbers.</p>
   </section>
 
   <section aria-labelledby="t5">
@@ -138,6 +141,7 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:4
       <span><svg width="14" height="14"><circle cx="7" cy="7" r="5" fill="none" stroke="#8CC4FF" stroke-width="2"/></svg>Milestone that unlocks value</span>
       <span><svg width="12" height="16"><rect x="5" y="0" width="3" height="16" fill="#E0B25C"/></svg>Physics limit</span>
       <span><svg width="12" height="12"><rect x="1" y="1" width="10" height="10" transform="rotate(45 6 6)" fill="#56606A"/></svg>Reference point</span>
+      <span><svg width="14" height="14"><circle cx="7" cy="7" r="5" fill="none" stroke="#85909A" stroke-width="2"/></svg>Around 2010</span>
       <span>Every chart: log scale, better is always to the right.</span>
     </div>
     <ol class="top5">
@@ -262,6 +266,31 @@ const rows=[
  ['Wind turbines','Cp vs Betz',1.2,1.3,'near','Cp ≈ 0.45–0.50 vs 0.593.'],
  ['Electric motors','efficiency',1.03,1.05,'near','95–97.5 % vs 100 %.'],
 ];
+const THEN={
+ 'Logic energy per operation':[1e6,'≈ 1–10 fJ per gate switch (est.)'],
+ 'Launch to orbit':[7500,'Proton ≈ $4,300/kg, Atlas V ≈ $13,000/kg'],
+ 'Qubits for useful quantum':[1e5,'fewer than 10 programmable qubits'],
+ 'Areal data storage':[900,'HDDs ≈ 0.55 Tb/in²'],
+ 'Structural strength':[17.6,'T1000G carbon fibre, 6.37 GPa'],
+ 'Direct air capture':[20,'≈ 8.9 GJ/t (2011 design estimates)'],
+ 'Robot locomotion':[16,'ASIMO ≈ 3.2'],
+ 'Battery chemistry':[20,'Nissan Leaf cells, 155 Wh/kg'],
+ 'Crop photosynthesis':[5.5,'unchanged'],
+ 'Optical fibre capacity':[75,'≈ 3 Tb/s per fibre (est.)'],
+ 'Aircraft fuel burn':[4,'fleet ≈ 3.9–4.0 L/100 pkm (est.)'],
+ 'Desalination':[2.8,'3–4 kWh/m³, unchanged'],
+ 'Solar PV':[3.7,'modules ≈ 14–15 %'],
+ 'Cement clinker':[2.6,'≈ 3.6 GJ/t'],
+ 'Heat pumps':[2.7,'COP ≈ 3.0–3.5'],
+ 'LED lighting':[4.9,'luminaires ≈ 50–70 lm/W'],
+ 'Road EVs':[2.6,'Nissan Leaf ≈ 211 Wh/km'],
+ 'Aluminium smelting':[2.4,'≈ 14.5–15 kWh/kg'],
+ 'Steel from ore':[2.34,'20.1 GJ/t; today 21.0, slightly worse'],
+ 'Hydrogen electrolysis':[1.43,'≈ 53–60 kWh/kg'],
+ 'Gas combined cycle':[1.42,'best plants ≈ 59–60 %'],
+ 'Wind turbines':[1.25,'Cp ≈ 0.45–0.48, unchanged'],
+ 'Electric motors':[1.06,'IE2 ≈ 94–95 % (large motors)'],
+};
 (function(){
   const el=document.getElementById('chart'),tip=document.getElementById('tip');
   const MAX=6; const x=v=>Math.log10(v)/MAX*100;
@@ -275,12 +304,14 @@ const rows=[
     if(grp!==g){h+=`<div class="group ${grp==='near'?'near':''}">${titles[grp]}</div>`;g=grp}
     const mid=Math.sqrt(lo*hi);
     const val=lo===hi?fmt(lo)+'×':fmt(lo)+'–'+fmt(hi)+'×';
+    const th=THEN[lab];
+    const trail=th?`<div class="trail" style="left:${Math.min(x(th[0]),x(mid))}%;width:${Math.abs(x(th[0])-x(mid))}%"></div><div class="then" style="left:${x(th[0])}%"></div>`:'';
     h+=`<div class="crow${req?' req':''}" tabindex="0" data-i="${i}"><div class="lbl">${lab}<small>${sub}</small></div>
-      <div class="track">${grid}<div class="bar" style="left:${x(lo)}%;width:${Math.max(0,x(hi)-x(lo))}%"></div><div class="dot" style="left:${x(mid)}%"></div></div>
-      <div class="val">${val}</div></div>`;
+      <div class="track">${grid}${trail}<div class="bar" style="left:${x(lo)}%;width:${Math.max(0,x(hi)-x(lo))}%"></div><div class="dot" style="left:${x(mid)}%"></div></div>
+      <div class="val">${val}${th?`<small>2010: ${fmt(th[0])}×</small>`:''}</div></div>`;
   });
   el.innerHTML=h;
-  function show(e,row){const r=rows[+row.dataset.i];tip.innerHTML=`<b>${r[0]}</b>${r[5]}`;tip.hidden=false;
+  function show(e,row){const r=rows[+row.dataset.i];const th=THEN[r[0]];tip.innerHTML=`<b>${r[0]}</b>Today: ${r[5]}${th?`<br>Around 2010: ${th[1]}`:''}`;tip.hidden=false;
     const b=row.getBoundingClientRect(),px=e&&e.clientX?e.clientX:b.left+b.width/2,py=e&&e.clientY?e.clientY:b.top;
     const w=tip.offsetWidth,ht=tip.offsetHeight;tip.style.left=Math.min(innerWidth-w-8,Math.max(8,px+14))+'px';tip.style.top=Math.max(8,py-ht-12)+'px'}
   el.querySelectorAll('.crow').forEach(row=>{
@@ -294,7 +325,8 @@ const rows=[
 
 // Milestone ladders: log axis, worse → better left to right
 const L={
- compute:{unit:'J per operation',a:1e-10,b:1e-21,pts:[
+ compute:{unit:'J per operation',a:1e-9,b:1e-21,pts:[
+  [6e-10,'then','2010 best supercomputer',3],
   [1.4e-11,'now','Best supercomputer, FP64',0],
   [7e-13,'now','H100 GPU, FP16',1],
   [2e-14,'mile','Human-brain parity (est.)',2],
@@ -303,6 +335,7 @@ const L={
   [2.9e-21,'limit','Landauer, 1 bit at 300 K',2]],
   gap:[7e-13,3e-18],note:'from today’s GPUs to the Landauer floor for one FLOP'},
  dac:{unit:'GJ per tonne CO₂',a:20,b:0.2,pts:[
+  [8.9,'then','2011 design estimates',3],
   [9.5,'now','Climeworks (est.)',0],
   [8.8,'now','Carbon Engineering baseline',1],
   [6.6,'lab','Best published design',2],
@@ -310,6 +343,7 @@ const L={
   [0.44,'limit','Minimum work at 400 ppm',1]],
   gap:[8.8,0.44],note:'between today’s plants and the thermodynamic minimum'},
  battery:{unit:'Wh per kg',a:100,b:2e4,pts:[
+  [155,'then','2010 Nissan Leaf cells',4],
   [250,'now','EV packs',1],
   [300,'now','EV cells',0],
   [500,'lab','Best cells (Amprius, CATL)',2],
@@ -322,6 +356,7 @@ const L={
  strength:{unit:'GPa tensile strength',a:0.1,b:300,pts:[
   [0.4,'now','Structural steel',0],
   [2.45,'now','Maraging steel',1],
+  [6.37,'then','2010 T1000G fibre',3],
   [7,'now','Carbon fibre T1100G',0],
   [63,'lab','Carbon nanotube, tiny sample',1],
   [130,'limit','Graphene, intrinsic',0]],
@@ -329,7 +364,7 @@ const L={
  robot:{unit:'cost of transport (energy ÷ weight × distance)',a:30,b:0.001,pts:[
   [15,'now','BigDog',0],
   [2.8,'now','Walk-Man',1],
-  [2,'now','ASIMO',2],
+  [3.2,'then','ASIMO, best ~2010',2],
   [0.7,'lab','Cassie',0],
   [0.5,'lab','MIT Cheetah',1],
   [0.2,'mile','Human walking',2],
@@ -357,17 +392,18 @@ const L={
     for(let e=lo;e<=hi;e++){const tx=x(10**e);g+=`<line x1="${tx}" y1="${AY-4}" x2="${tx}" y2="${AY+4}" stroke="${C.dim}"/><text x="${tx}" y="${H-6}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="${C.mut}">${tick(e)}</text>`}
     g+=`<text x="${X1}" y="18" text-anchor="end" font-family="IBM Plex Mono,monospace" font-size="11" fill="${C.mut}">better →</text>`;
     // points
-    const TY=[AY-22,AY+30,AY-50,AY+56];
+    const TY=[AY-22,AY+30,AY-50,AY+56,AY-78];
     d.pts.forEach(([v,k,lab,t,shown])=>{
       const px=x(v),ty=TY[t],up=t%2===0;
       g+=`<g><title>${esc(lab)}: ${shown||val(v)} ${esc(d.unit)}</title>`;
       g+=`<line x1="${px}" y1="${AY}" x2="${px}" y2="${up?ty+4:ty-12}" stroke="${C.rule}"/>`;
       if(k==='limit')g+=`<rect x="${px-1.5}" y="${AY-13}" width="3" height="26" fill="${C.lim}"/>`;
       else if(k==='ref')g+=`<rect x="${px-5}" y="${AY-5}" width="10" height="10" transform="rotate(45 ${px} ${AY})" fill="${C.dim}"/>`;
+      else if(k==='then')g+=`<circle cx="${px}" cy="${AY}" r="5" fill="${C.bg}" stroke="${C.mut}" stroke-width="2"/>`;
       else if(k==='mile')g+=`<circle cx="${px}" cy="${AY}" r="6" fill="${C.bg}" stroke="${C.acc}" stroke-width="2"/>`;
       else g+=`<circle cx="${px}" cy="${AY}" r="6" fill="${k==='lab'?C.acc:C.ink}" stroke="${C.bg}" stroke-width="2"/>`;
       const anchor=px<X0+90?'start':px>X1-90?'end':'middle';
-      const col=k==='limit'?C.lim:k==='ref'?C.mut:k==='now'?C.ink:C.acc;
+      const col=k==='limit'?C.lim:k==='ref'||k==='then'?C.mut:k==='now'?C.ink:C.acc;
       g+=`<text x="${px}" y="${ty}" text-anchor="${anchor}" font-family="IBM Plex Mono,monospace" font-size="12"><tspan fill="${col}" font-weight="500">${shown||val(v)}</tspan><tspan fill="${C.mut}"> ${esc(lab)}</tspan></text></g>`;
     });
     g+='</svg>';
