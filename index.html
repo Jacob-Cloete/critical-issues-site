@@ -51,6 +51,9 @@ h2{font:700 clamp(22px,3.2vw,32px)/1.1 var(--display);font-stretch:118%;margin:0
 .track .ref{position:absolute;top:-4px;bottom:-4px;width:0;border-left:1px dashed var(--limit);opacity:.7}
 .track .bar{position:absolute;top:9px;height:4px;border-radius:2px;background:var(--accent)}
 .track .dot{position:absolute;top:5px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 2px var(--bg)}
+.track .trail{position:absolute;top:10px;height:2px;background:var(--dim)}
+.track .then{position:absolute;top:6px;width:10px;height:10px;margin-left:-5px;border-radius:50%;border:2px solid var(--muted);background:var(--bg)}
+.crow .val small{display:block;margin-top:4px;font:400 11px/1 var(--mono);color:var(--muted)}
 .crow.req .bar{background:transparent;border:1px dashed var(--accent);height:6px;top:8px}
 .crow.req .dot{background:var(--bg);border:2px solid var(--accent)}
 .chart-note{font:400 12px/1.5 var(--mono);color:var(--muted);margin:14px 0 0;max-width:90ch}
@@ -66,7 +69,9 @@ h2{font:700 clamp(22px,3.2vw,32px)/1.1 var(--display);font-stretch:118%;margin:0
 .legend span{display:inline-flex;align-items:center;gap:8px}
 .legend svg{flex:none}
 .ladder{overflow-x:auto;margin-top:6px;border-top:1px solid var(--rule)}
-.ladder svg{display:block;width:100%;min-width:640px;height:auto}
+.ladder svg{display:block;height:auto}
+.ladder svg.h{width:100%;min-width:640px}
+.ladder svg.v{max-width:100%}
 .ladder .cap{font:400 12px/1.5 var(--mono);color:var(--muted);margin:2px 0 0}
 .ladder .cap b{color:var(--accent);font-weight:500}
 
@@ -125,9 +130,9 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:4
   </section>
 
   <section aria-labelledby="c1">
-    <div class="sec-head"><h2 id="c1">Headroom factor</h2><p>How many times better the limit is than typical practice today, on a log scale. Bars show the range across sources.</p></div>
+    <div class="sec-head"><h2 id="c1">Headroom: the gap to the physical limit</h2><p>How many times better the limit is than typical practice today (dot) and around 2010 (ring), on a log scale. The line between them is sixteen years of progress.</p></div>
     <div class="chart" id="chart"></div>
-    <p class="chart-note">Dashed <b>amber line at 3×</b>: below it, remaining gains are incremental. Hollow markers show a requirement that isn't met yet, not a gap to a limit. Hover or tap a row for the numbers.</p>
+    <p class="chart-note">Dashed <b>amber line at 3×</b>: below it, remaining gains are incremental. Hollow blue markers show a requirement that isn't met yet, not a gap to a limit. Grey rings mark roughly 2010; where a ring sits on the dot, the field has barely moved. Hover or tap a row for the numbers.</p>
   </section>
 
   <section aria-labelledby="t5">
@@ -138,6 +143,7 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:4
       <span><svg width="14" height="14"><circle cx="7" cy="7" r="5" fill="none" stroke="#8CC4FF" stroke-width="2"/></svg>Milestone that unlocks value</span>
       <span><svg width="12" height="16"><rect x="5" y="0" width="3" height="16" fill="#E0B25C"/></svg>Physics limit</span>
       <span><svg width="12" height="12"><rect x="1" y="1" width="10" height="10" transform="rotate(45 6 6)" fill="#56606A"/></svg>Reference point</span>
+      <span><svg width="14" height="14"><circle cx="7" cy="7" r="5" fill="none" stroke="#85909A" stroke-width="2"/></svg>Around 2010</span>
       <span>Every chart: log scale, better is always to the right.</span>
     </div>
     <ol class="top5">
@@ -262,6 +268,31 @@ const rows=[
  ['Wind turbines','Cp vs Betz',1.2,1.3,'near','Cp ≈ 0.45–0.50 vs 0.593.'],
  ['Electric motors','efficiency',1.03,1.05,'near','95–97.5 % vs 100 %.'],
 ];
+const THEN={
+ 'Logic energy per operation':[1e6,'≈ 1–10 fJ per gate switch (est.)'],
+ 'Launch to orbit':[7500,'Proton ≈ $4,300/kg, Atlas V ≈ $13,000/kg'],
+ 'Qubits for useful quantum':[1e5,'fewer than 10 programmable qubits'],
+ 'Areal data storage':[900,'HDDs ≈ 0.55 Tb/in²'],
+ 'Structural strength':[17.6,'T1000G carbon fibre, 6.37 GPa'],
+ 'Direct air capture':[20,'≈ 8.9 GJ/t (2011 design estimates)'],
+ 'Robot locomotion':[16,'ASIMO ≈ 3.2'],
+ 'Battery chemistry':[20,'Nissan Leaf cells, 155 Wh/kg'],
+ 'Crop photosynthesis':[5.5,'unchanged'],
+ 'Optical fibre capacity':[75,'≈ 3 Tb/s per fibre (est.)'],
+ 'Aircraft fuel burn':[4,'fleet ≈ 3.9–4.0 L/100 pkm (est.)'],
+ 'Desalination':[2.8,'3–4 kWh/m³, unchanged'],
+ 'Solar PV':[3.7,'modules ≈ 14–15 %'],
+ 'Cement clinker':[2.6,'≈ 3.6 GJ/t'],
+ 'Heat pumps':[2.7,'COP ≈ 3.0–3.5'],
+ 'LED lighting':[4.9,'luminaires ≈ 50–70 lm/W'],
+ 'Road EVs':[2.6,'Nissan Leaf ≈ 211 Wh/km'],
+ 'Aluminium smelting':[2.4,'≈ 14.5–15 kWh/kg'],
+ 'Steel from ore':[2.34,'20.1 GJ/t; today 21.0, slightly worse'],
+ 'Hydrogen electrolysis':[1.43,'≈ 53–60 kWh/kg'],
+ 'Gas combined cycle':[1.42,'best plants ≈ 59–60 %'],
+ 'Wind turbines':[1.25,'Cp ≈ 0.45–0.48, unchanged'],
+ 'Electric motors':[1.06,'IE2 ≈ 94–95 % (large motors)'],
+};
 (function(){
   const el=document.getElementById('chart'),tip=document.getElementById('tip');
   const MAX=6; const x=v=>Math.log10(v)/MAX*100;
@@ -275,12 +306,14 @@ const rows=[
     if(grp!==g){h+=`<div class="group ${grp==='near'?'near':''}">${titles[grp]}</div>`;g=grp}
     const mid=Math.sqrt(lo*hi);
     const val=lo===hi?fmt(lo)+'×':fmt(lo)+'–'+fmt(hi)+'×';
+    const th=THEN[lab];
+    const trail=th?`<div class="trail" style="left:${Math.min(x(th[0]),x(mid))}%;width:${Math.abs(x(th[0])-x(mid))}%"></div><div class="then" style="left:${x(th[0])}%"></div>`:'';
     h+=`<div class="crow${req?' req':''}" tabindex="0" data-i="${i}"><div class="lbl">${lab}<small>${sub}</small></div>
-      <div class="track">${grid}<div class="bar" style="left:${x(lo)}%;width:${Math.max(0,x(hi)-x(lo))}%"></div><div class="dot" style="left:${x(mid)}%"></div></div>
-      <div class="val">${val}</div></div>`;
+      <div class="track">${grid}${trail}<div class="bar" style="left:${x(lo)}%;width:${Math.max(0,x(hi)-x(lo))}%"></div><div class="dot" style="left:${x(mid)}%"></div></div>
+      <div class="val">${val}${th?`<small>2010: ${fmt(th[0])}×</small>`:''}</div></div>`;
   });
   el.innerHTML=h;
-  function show(e,row){const r=rows[+row.dataset.i];tip.innerHTML=`<b>${r[0]}</b>${r[5]}`;tip.hidden=false;
+  function show(e,row){const r=rows[+row.dataset.i];const th=THEN[r[0]];tip.innerHTML=`<b>${r[0]}</b>Today: ${r[5]}${th?`<br>Around 2010: ${th[1]}`:''}`;tip.hidden=false;
     const b=row.getBoundingClientRect(),px=e&&e.clientX?e.clientX:b.left+b.width/2,py=e&&e.clientY?e.clientY:b.top;
     const w=tip.offsetWidth,ht=tip.offsetHeight;tip.style.left=Math.min(innerWidth-w-8,Math.max(8,px+14))+'px';tip.style.top=Math.max(8,py-ht-12)+'px'}
   el.querySelectorAll('.crow').forEach(row=>{
@@ -294,7 +327,8 @@ const rows=[
 
 // Milestone ladders: log axis, worse → better left to right
 const L={
- compute:{unit:'J per operation',a:1e-10,b:1e-21,pts:[
+ compute:{unit:'J per operation',a:1e-9,b:1e-21,pts:[
+  [6e-10,'then','2010 best supercomputer',3],
   [1.4e-11,'now','Best supercomputer, FP64',0],
   [7e-13,'now','H100 GPU, FP16',1],
   [2e-14,'mile','Human-brain parity (est.)',2],
@@ -303,6 +337,7 @@ const L={
   [2.9e-21,'limit','Landauer, 1 bit at 300 K',2]],
   gap:[7e-13,3e-18],note:'from today’s GPUs to the Landauer floor for one FLOP'},
  dac:{unit:'GJ per tonne CO₂',a:20,b:0.2,pts:[
+  [8.9,'then','2011 design estimates',3],
   [9.5,'now','Climeworks (est.)',0],
   [8.8,'now','Carbon Engineering baseline',1],
   [6.6,'lab','Best published design',2],
@@ -310,6 +345,7 @@ const L={
   [0.44,'limit','Minimum work at 400 ppm',1]],
   gap:[8.8,0.44],note:'between today’s plants and the thermodynamic minimum'},
  battery:{unit:'Wh per kg',a:100,b:2e4,pts:[
+  [155,'then','2010 Nissan Leaf cells',4],
   [250,'now','EV packs',1],
   [300,'now','EV cells',0],
   [500,'lab','Best cells (Amprius, CATL)',2],
@@ -322,6 +358,7 @@ const L={
  strength:{unit:'GPa tensile strength',a:0.1,b:300,pts:[
   [0.4,'now','Structural steel',0],
   [2.45,'now','Maraging steel',1],
+  [6.37,'then','2010 T1000G fibre',3],
   [7,'now','Carbon fibre T1100G',0],
   [63,'lab','Carbon nanotube, tiny sample',1],
   [130,'limit','Graphene, intrinsic',0]],
@@ -329,7 +366,7 @@ const L={
  robot:{unit:'cost of transport (energy ÷ weight × distance)',a:30,b:0.001,pts:[
   [15,'now','BigDog',0],
   [2.8,'now','Walk-Man',1],
-  [2,'now','ASIMO',2],
+  [3.2,'then','ASIMO, best ~2010',2],
   [0.7,'lab','Cassie',0],
   [0.5,'lab','MIT Cheetah',1],
   [0.2,'mile','Human walking',2],
@@ -344,36 +381,75 @@ const L={
   const W=900,H=190,X0=30,X1=870,AY=100;
   const C={ink:'#E4E8EC',acc:'#8CC4FF',lim:'#E0B25C',mut:'#85909A',dim:'#56606A',rule:'#222A32',bg:'#0B0E12'};
   const esc=t=>t.replace(/&/g,'&amp;').replace(/</g,'&lt;');
-  document.querySelectorAll('.ladder').forEach(el=>{
-    const d=L[el.dataset.k],la=Math.log10(d.a),lb=Math.log10(d.b);
+  function horizontal(el,d){
+    const la=Math.log10(d.a),lb=Math.log10(d.b);
     const x=v=>X0+(Math.log10(v)-la)/(lb-la)*(X1-X0);
-    let g=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(d.unit)}: ${d.pts.map(p=>esc(p[2])+' '+val(p[0])).join('; ')}">`;
-    // headroom band
+    let g=`<svg class="h" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(d.unit)}: ${d.pts.map(p=>esc(p[2])+' '+val(p[0])).join('; ')}">`;
     const g0=x(d.gap[0]),g1=x(d.gap[1]);
     g+=`<rect x="${Math.min(g0,g1)}" y="${AY-7}" width="${Math.abs(g1-g0)}" height="14" fill="${C.acc}" fill-opacity=".12"/>`;
-    // axis + decade ticks
     g+=`<line x1="${X0}" y1="${AY}" x2="${X1}" y2="${AY}" stroke="${C.dim}"/>`;
     const lo=Math.ceil(Math.min(la,lb)),hi=Math.floor(Math.max(la,lb));
     for(let e=lo;e<=hi;e++){const tx=x(10**e);g+=`<line x1="${tx}" y1="${AY-4}" x2="${tx}" y2="${AY+4}" stroke="${C.dim}"/><text x="${tx}" y="${H-6}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="${C.mut}">${tick(e)}</text>`}
     g+=`<text x="${X1}" y="18" text-anchor="end" font-family="IBM Plex Mono,monospace" font-size="11" fill="${C.mut}">better →</text>`;
-    // points
-    const TY=[AY-22,AY+30,AY-50,AY+56];
+    const TY=[AY-22,AY+30,AY-50,AY+56,AY-78];
     d.pts.forEach(([v,k,lab,t,shown])=>{
       const px=x(v),ty=TY[t],up=t%2===0;
       g+=`<g><title>${esc(lab)}: ${shown||val(v)} ${esc(d.unit)}</title>`;
       g+=`<line x1="${px}" y1="${AY}" x2="${px}" y2="${up?ty+4:ty-12}" stroke="${C.rule}"/>`;
-      if(k==='limit')g+=`<rect x="${px-1.5}" y="${AY-13}" width="3" height="26" fill="${C.lim}"/>`;
-      else if(k==='ref')g+=`<rect x="${px-5}" y="${AY-5}" width="10" height="10" transform="rotate(45 ${px} ${AY})" fill="${C.dim}"/>`;
-      else if(k==='mile')g+=`<circle cx="${px}" cy="${AY}" r="6" fill="${C.bg}" stroke="${C.acc}" stroke-width="2"/>`;
-      else g+=`<circle cx="${px}" cy="${AY}" r="6" fill="${k==='lab'?C.acc:C.ink}" stroke="${C.bg}" stroke-width="2"/>`;
+      g+=k==='limit'?`<rect x="${px-1.5}" y="${AY-13}" width="3" height="26" fill="${C.lim}"/>`:mark(k,px,AY);
       const anchor=px<X0+90?'start':px>X1-90?'end':'middle';
-      const col=k==='limit'?C.lim:k==='ref'?C.mut:k==='now'?C.ink:C.acc;
-      g+=`<text x="${px}" y="${ty}" text-anchor="${anchor}" font-family="IBM Plex Mono,monospace" font-size="12"><tspan fill="${col}" font-weight="500">${shown||val(v)}</tspan><tspan fill="${C.mut}"> ${esc(lab)}</tspan></text></g>`;
+      g+=`<text x="${px}" y="${ty}" text-anchor="${anchor}" font-family="IBM Plex Mono,monospace" font-size="12"><tspan fill="${colr(k)}" font-weight="500">${shown||val(v)}</tspan><tspan fill="${C.mut}"> ${esc(lab)}</tspan></text></g>`;
     });
-    g+='</svg>';
-    const f=d.gap[1]/d.gap[0],fac=f<1?1/f:f;
-    el.innerHTML=g+`<p class="cap">${esc(d.unit)} · <b>${val(fac)}× headroom</b> ${d.note}</p>`;
-  });
+    return g+'</svg>';
+  }
+  function vertical(el,d){
+    const w=Math.max(280,Math.round(el.clientWidth)),AX=58,LX=AX+28,TOP=36;
+    const la=Math.log10(d.a),lb=Math.log10(d.b),dec=Math.abs(lb-la);
+    const P=Math.max(300,Math.min(520,dec*44));
+    const y=v=>TOP+(1-(Math.log10(v)-la)/(lb-la))*P;
+    const maxc=Math.max(18,Math.floor((w-LX-8)/7.3));
+    const wrap=t=>{const out=[];let line='';t.split(' ').forEach(wd=>{if((line+' '+wd).trim().length>maxc&&line){out.push(line);line=wd}else line=(line+' '+wd).trim()});if(line)out.push(line);return out};
+    const pts=d.pts.map(([v,k,lab,t,shown])=>({v,k,lab,shown,py:y(v),lines:wrap(lab)})).sort((a,b)=>a.py-b.py);
+    let prev=TOP-24;
+    pts.forEach(p=>{const h=16+p.lines.length*15;p.h=h;p.ly=Math.max(p.py-h/2,prev+6);prev=p.ly+h});
+    const H=Math.max(TOP+P+30,prev+16);
+    let g=`<svg class="v" viewBox="0 0 ${w} ${H}" width="${w}" height="${H}" role="img" aria-label="${esc(d.unit)}: ${d.pts.map(p=>esc(p[2])+' '+val(p[0])).join('; ')}">`;
+    g+=`<text x="4" y="16" font-family="IBM Plex Mono,monospace" font-size="11" fill="${C.mut}">better ↑</text>`;
+    const g0=y(d.gap[0]),g1=y(d.gap[1]);
+    g+=`<rect x="${AX-7}" y="${Math.min(g0,g1)}" width="14" height="${Math.abs(g1-g0)}" fill="${C.acc}" fill-opacity=".12"/>`;
+    g+=`<line x1="${AX}" y1="${TOP}" x2="${AX}" y2="${TOP+P}" stroke="${C.dim}"/>`;
+    const lo=Math.ceil(Math.min(la,lb)),hi=Math.floor(Math.max(la,lb)),step=P/dec<26?2:1;
+    for(let e=lo;e<=hi;e++){const ty=y(10**e);g+=`<line x1="${AX-4}" y1="${ty}" x2="${AX+4}" y2="${ty}" stroke="${C.dim}"/>`;if((e-lo)%step===0)g+=`<text x="${AX-9}" y="${ty+4}" text-anchor="end" font-family="IBM Plex Mono,monospace" font-size="11" fill="${C.mut}">${tick(e)}</text>`}
+    pts.forEach(p=>{
+      const mid=p.ly+p.h/2-4;
+      g+=`<g><title>${esc(p.lab)}: ${p.shown||val(p.v)} ${esc(d.unit)}</title>`;
+      g+=`<polyline points="${AX+8},${p.py} ${LX-10},${mid} ${LX-4},${mid}" fill="none" stroke="${C.rule}"/>`;
+      g+=mark(p.k,AX,p.py);
+      g+=`<text x="${LX}" y="${p.ly+13}" font-family="IBM Plex Mono,monospace" font-size="13" font-weight="500" fill="${colr(p.k)}">${p.shown||val(p.v)}</text>`;
+      p.lines.forEach((ln,i)=>{g+=`<text x="${LX}" y="${p.ly+29+i*15}" font-family="IBM Plex Mono,monospace" font-size="12" fill="${C.mut}">${esc(ln)}</text>`});
+      g+='</g>';
+    });
+    return g+'</svg>';
+  }
+  function mark(k,px,py){
+    if(k==='limit')return `<rect x="${px-13}" y="${py-1.5}" width="26" height="3" fill="${C.lim}"/>`;
+    if(k==='ref')return `<rect x="${px-5}" y="${py-5}" width="10" height="10" transform="rotate(45 ${px} ${py})" fill="${C.dim}"/>`;
+    if(k==='then')return `<circle cx="${px}" cy="${py}" r="5" fill="${C.bg}" stroke="${C.mut}" stroke-width="2"/>`;
+    if(k==='mile')return `<circle cx="${px}" cy="${py}" r="6" fill="${C.bg}" stroke="${C.acc}" stroke-width="2"/>`;
+    return `<circle cx="${px}" cy="${py}" r="6" fill="${k==='lab'?C.acc:C.ink}" stroke="${C.bg}" stroke-width="2"/>`;
+  }
+  const colr=k=>k==='limit'?C.lim:k==='ref'||k==='then'?C.mut:k==='now'?C.ink:C.acc;
+  function render(){
+    document.querySelectorAll('.ladder').forEach(el=>{
+      const d=L[el.dataset.k],narrow=el.clientWidth<600,mode=narrow?'v':'h';
+      if(el.dataset.mode===mode&&mode==='h')return;
+      el.dataset.mode=mode;
+      const f=d.gap[1]/d.gap[0],fac=f<1?1/f:f;
+      el.innerHTML=(narrow?vertical(el,d):horizontal(el,d))+`<p class="cap">${esc(d.unit)} · <b>${val(fac)}× headroom</b> ${d.note}</p>`;
+    });
+  }
+  render();
+  let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(render,150)});
 })();
 </script>
 </body>
