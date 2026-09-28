@@ -1,3 +1,6 @@
 # Block public access to the .git directory (defense-in-depth; Hostinger
 # already returns 403 for it by default, but this makes it explicit).
 RedirectMatch 404 /\.git
+
+# The v2060 page moved from /v2060/ to the homepage; keep old links working.
+RedirectMatch 301 ^/v2060/?$ /
