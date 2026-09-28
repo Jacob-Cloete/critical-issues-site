@@ -117,6 +117,9 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:4
 .rcard b{font:500 15px/1.3 var(--body)}
 .rcard .m{font:400 12px/1.45 var(--mono);color:var(--accent)}
 .rcard .lim{font:400 12px/1.45 var(--mono);color:var(--limit)}
+.rcard .who{font:400 12px/1.4 var(--mono);color:var(--soft)}
+.rcard .ex{font-size:12px;line-height:1.4;color:var(--muted)}
+.road figcaption .where{display:block;margin-bottom:6px;color:var(--soft)}
 .rcard .bk{font-size:13px;line-height:1.4;color:var(--soft)}
 .rcard a{font:400 11px/1.3 var(--mono);overflow-wrap:anywhere}
 .rjoin{font:400 11px/1.4 var(--mono);color:var(--muted);margin:0 0 0 14px;padding:8px 0 8px 12px;border-left:1px solid var(--dim)}
@@ -477,17 +480,61 @@ const R={
   {id:'s4',c:4,l:1,w:'2033+',t:'Human-level efficiency',m:'Untethered low-voltage muscles',tech:'Artificial muscles, variable-stiffness joints',who:'Open',b:'Muscle power electronics and lifetime',src:'https://www.frontiersin.org/journals/robotics-and-ai/articles/10.3389/frobt.2018.00129/full',lim:'Benchmark: ≈ 0.2, human walking'}],
   e:[['s0','s1','commercialised'],['s1','s2a','control'],['s1','s2b','battery'],['s0','s2c','compliant lineage'],['s2a','s3',''],['s2b','s3',''],['s2c','s3','elastic tendons'],['s3','s4','untethered muscles'],['s2c','s4','if HV drives shrink']]},
 };
+// Who drives each stage (organisation types) and where (countries / regions)
+const W={
+ compute:{sum:'Near-term gains come from a handful of fabs in Taiwan, the US and South Korea; Taiwan held 69 % of sub-10 nm logic capacity in 2022. Beyond CMOS it is small university and national-lab groups.',src:'https://manufacturing.asia/manufacturing/in-focus/taiwan-korea-see-market-lead-in-advanced-chips-drop-in-2032-us-plays-catch',st:{
+  s1:{d:['industry'],w:['Taiwan','US','South Korea','Japan'],x:['TSMC (industry, Taiwan)','Intel (industry, US)','Samsung (industry, South Korea)','Rapidus (industry, Japan)','NVIDIA (industry, US)']},
+  s3:{d:['startup','university','industry'],w:['US','China','Germany','Switzerland'],x:['EnCharge AI (startup, US)','Lightmatter (startup, US)','Q.ANT (startup, Germany)','Peking University (university, China)','IBM Research Zurich (industry, Switzerland)']},
+  s2:{d:['industry','research institute'],w:['Taiwan','US','South Korea','Belgium'],x:['TSMC (industry, Taiwan)','Intel (industry, US)','Samsung (industry, South Korea)','imec (research institute, Belgium)']},
+  s4:{d:['research institute','university','industry'],w:['Belgium','France','China','Taiwan'],x:['imec (research institute, Belgium)','CEA-Leti (government lab, France)','Fudan University (university, China)','TSMC (industry, Taiwan)','MIT (university, US)']},
+  s5a:{d:['startup','government lab','university'],w:['UK','US'],x:['Vaire Computing (startup, UK / US)','Sandia (government lab, US)','Univ. of Tennessee (university, US)']},
+  s5b:{d:['university','government lab','startup'],w:['Japan','US','Taiwan'],x:['Yokohama National Univ. (university, Japan)','SEEQC (startup, US)','ITRI (government lab, Taiwan)','Tohoku University (university, Japan)']},
+  s6:{e:1,d:['university','government lab'],w:['US','UK','Japan'],x:['Sandia (government lab, US)','Vaire Computing (startup, UK / US)','Yokohama National Univ. (university, Japan)']}}},
+ dac:{sum:'US suppliers account for 81 % of direct-air-capture tonnes sold and Europe for 18 %. Desalination and membrane research is led by China, then the US, South Korea and Saudi Arabia.',src:'https://www.cdr.fyi/blog/direct-air-capture-market-snapshot-2025',st:{
+  d1:{d:['startup','industry'],w:['Switzerland','US','Iceland','Canada'],x:['Climeworks (startup, Switzerland)','1PointFive / Occidental (industry, US)','Heirloom (startup, US)','Carbon Engineering (Oxy, Canada)','Octavia Carbon (startup, Kenya)']},
+  d2:{d:['startup','industry','government lab'],w:['US','Switzerland','Canada','Japan'],x:['Climeworks + Svante (startups, Switzerland / Canada)','Kawasaki Heavy Industries (industry, Japan)','Shanghai Jiao Tong Univ. (university, China)','DOE DAC hubs (government, US)']},
+  d3a:{d:['startup','university','government lab'],w:['US','UK','Israel'],x:['Verdox (startup, US)','MIT Hatton lab (university, US)','Mission Zero (startup, UK)','RepAir (startup, Israel)','ARPA-E (government, US)']},
+  d3b:{d:['university','startup'],w:['US'],x:['ASU Center for Negative Carbon Emissions (university, US)','Avnos (startup, US)']},
+  d4:{e:1,d:['government lab','university'],w:['US','Japan','EU'],x:['DOE Carbon Negative Shot (government, US)','NEDO Moonshot Goal 4 (government, Japan)']}}},
+ battery:{sum:'China makes over 80 % of the world’s lithium-ion cells; the EU and US about 6–7 % each. Next-generation chemistry R&D is led from Japan, South Korea and the US.',src:'https://www.iea.org/reports/global-ev-outlook-2026/electric-vehicle-batteries',st:{
+  s1:{d:['startup','industry'],w:['US','China','South Korea'],x:['Amprius (startup, US)','Sila (startup, US)','Group14 (startup, US)','CATL (industry, China)','Nexeon (startup, UK)']},
+  s0:{d:['industry','startup'],w:['China','EU','US'],x:['CATL (industry, China)','BYD (industry, China)','HiNa (startup, China)','Tiamat (startup, France)','Peak Energy (startup, US)']},
+  s2:{d:['government lab','startup','university'],w:['US','China','South Korea'],x:['Battery500 / PNNL (government lab, US)','SES AI (startup, US)','WeLion (startup, China)','Stanford, UCSD (university, US)']},
+  s3a:{d:['industry','startup'],w:['Japan','China','South Korea','US'],x:['Toyota + Idemitsu (industry, Japan)','Samsung SDI (industry, South Korea)','CATL (industry, China)','QuantumScape (startup, US)','Solid Power (startup, US)']},
+  s3b:{d:['startup','university'],w:['US','EU','Australia'],x:['Lyten (startup, US)','Zeta Energy (startup, US)','Theion (startup, Germany)','Li-S Energy (startup, Australia)','Gelion (startup, UK)']},
+  s4:{e:1,d:['government lab','university','startup'],w:['US','China','EU'],x:['NASA SABERS (government lab, US)','Battery 2030+ (EU programme)','Chinese Academy of Sciences (government lab, China)','Theion (startup, Germany)']},
+  s5:{e:1,d:['government lab','university'],w:['US','Japan','China'],x:['Argonne + IIT (government lab / university, US)','NIMS + SoftBank (government lab / industry, Japan)','Nanjing University (university, China)']}}},
+ strength:{sum:'China leads: 52 % of world carbon-fibre capacity (2025) and most record nanotube and graphene fibre papers. The US leads in NASA-funded composites and nanotube-yarn startups.',src:'https://faxiangongchang.com/en/reports/china-carbon-fiber-2026',st:{
+  s1:{d:['industry','startup'],w:['China','Japan','US'],x:['Jilin Chemical Fiber (industry, China)','Toray (industry, Japan)','Huntsman Miralon (industry, US)','DexMat (startup, US)','Tortech (startup, Israel)']},
+  s2a:{d:['university','government lab'],w:['China','US','UK'],x:['ECUST (university, China)','Peking Univ. (university, China)','SINANO, CAS (government lab, China)','Rice University (university, US)','Northumbria Univ. (university, UK)']},
+  s2b:{d:['university','government lab'],w:['China','US','Canada'],x:['Zhejiang Univ. (university, China)','Georgia Tech (university, US)','NASA Langley / Glenn (government lab, US)','BNNT Materials (startup, US)','Tekna (industry, Canada)']},
+  s2c:{d:['university','government lab'],w:['China','Germany','Japan'],x:['IMR Shenyang, CAS (government lab, China)','USTB (university, China)','Max Planck MPIE (government lab, Germany)','NIMS (government lab, Japan)']},
+  s3:{d:['government lab','industry','startup'],w:['US','China'],x:['NASA US-COMP (government lab, US)','Huntsman (industry, US)','DexMat (startup, US)','SINANO, CAS (government lab, China)']},
+  s4:{d:['university'],w:['China'],x:['Tsinghua Univ. (university, China): one main group']},
+  s5:{d:[],w:[],x:[]}}},
+ robot:{sum:'Commercial humanoids are concentrated in China, with most 2025 shipments (AgiBot, Unitree), and the US. China held 61 % of humanoid patent filings in early 2026; the muscle research is mostly in Europe and the US.',src:'https://english.news.cn/20260109/72047a00f7894044b0fa2c35d11176ed/c.html',st:{
+  s0:{d:['university','startup'],w:['US','Switzerland','Italy'],x:['MIT Biomimetic Robotics Lab (university, US)','Oregon State / Cassie (university, US)','Agility Robotics (startup, US)','ETH Zurich / ANYbotics (university, Switzerland)','IIT HyQ (government lab, Italy)']},
+  s1:{d:['startup','industry'],w:['China','US','South Korea'],x:['AgiBot (startup, China)','Unitree (startup, China)','UBTECH (industry, China)','Figure AI (startup, US)','Tesla (industry, US)','Boston Dynamics / Hyundai (industry, US / South Korea)']},
+  s2a:{d:['university','industry'],w:['China','US','Switzerland'],x:['BIGAI + Tsinghua / PKU (government lab, China)','Duke General Robotics Lab (university, US)','ETH Zurich (university, Switzerland)']},
+  s2b:{d:['industry'],w:['South Korea','China','Japan'],x:['LG Energy Solution (industry, South Korea)','Samsung SDI (industry, South Korea)','SK On (industry, South Korea)','Xpeng (industry, China)']},
+  s2c:{d:['university','startup','government lab'],w:['Switzerland','Germany','US','South Korea'],x:['ETH Zurich + MPI-IS (university / government lab, Switzerland / Germany)','Artimus Robotics (startup, US)','Clone Robotics (startup, Poland / US)','MIT Media Lab (university, US)','Seoul National Univ. (university, South Korea)']},
+  s3:{e:1,d:['startup','industry'],w:['US','China','EU'],x:['Agility Robotics (startup, US)','Clone Robotics (startup, Poland / US)','Boston Dynamics (industry, US)','Unitree (startup, China)']},
+  s4:{e:1,d:['university','government lab'],w:['Germany','Switzerland','US','South Korea'],x:['MPI-IS / ETH Zurich (Germany / Switzerland)','MIT Media Lab (university, US)','Seoul National Univ. (university, South Korea)']}}},
+};
 (function(){
   const C={ink:'#E4E8EC',soft:'#C3CAD1',acc:'#8CC4FF',lim:'#E0B25C',mut:'#85909A',dim:'#56606A',rule:'#222A32',raise:'#11161C',bg:'#0B0E12'};
   const esc=t=>String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
   const wrap=(t,n)=>{const out=[];let line='';t.split(' ').forEach(wd=>{if((line+' '+wd).trim().length>n&&line){out.push(line);line=wd}else line=(line+' '+wd).trim()});if(line)out.push(line);return out};
   const host=u=>u.replace(/^https?:\/\/(www\.)?/,'').split('/')[0];
   const tip=document.getElementById('tip');
+  const TY={startup:'Startups',university:'Universities',industry:'Industry','government lab':'Gov labs','research institute':'Institutes'};
+  const who=(k,s)=>{const x=W[k]&&W[k].st[s.id];if(!x)return '';if(!x.d.length)return 'No one yet';return (x.e?'Likely: ':'')+x.d.map(t=>TY[t]||t).join(' + ')+' · '+x.w.map(c=>c.replace('South Korea','S. Korea')).join(', ')};
+  const exs=(k,s)=>{const x=W[k]&&W[k].st[s.id];return x&&x.x.length?x.x.join('; '):s.who};
   const MONO='IBM Plex Mono,monospace',SANS='IBM Plex Sans,system-ui,sans-serif';
   function svg(k,d){
     const nc=Math.max(...d.st.map(s=>s.c))+1,colW=1000/nc,gap=84,bw=colW-gap,cm=Math.floor((bw-20)/6.9),ct=Math.floor((bw-20)/7.4);
     const lanes=[...new Set(d.st.map(s=>s.l))].sort();
-    const S={};d.st.forEach(s=>{s.tl=wrap(s.t,ct);s.ml=wrap(s.m,cm);s.ll=s.lim?wrap(s.lim,cm):[];s.h=12+14+s.tl.length*16+4+s.ml.length*14+(s.ll.length?6+s.ll.length*14:0)+10;S[s.id]=s});
+    const S={};d.st.forEach(s=>{s.tl=wrap(s.t,ct);s.ml=wrap(s.m,cm);s.ll=s.lim?wrap(s.lim,cm):[];s.wl=wrap(who(k,s),cm);s.h=12+14+s.tl.length*16+4+s.ml.length*14+(s.wl.length?6+s.wl.length*13:0)+(s.ll.length?6+s.ll.length*14:0)+10;S[s.id]=s});
     const laneH={},laneY={};let y=24;
     lanes.forEach(l=>{laneH[l]=Math.max(...d.st.filter(s=>s.l===l).map(s=>s.h));laneY[l]=y;y+=laneH[l]+28});
     const H=y-4;
@@ -519,6 +566,7 @@ const R={
       s.tl.forEach(t=>{ty+=16;g+=`<text x="${s.x+10}" y="${ty}" font-family="${SANS}" font-size="13" font-weight="500" fill="${C.ink}">${esc(t)}</text>`});
       ty+=4;
       s.ml.forEach(t=>{ty+=14;g+=`<text x="${s.x+10}" y="${ty}" font-family="${MONO}" font-size="11" fill="${C.acc}">${esc(t)}</text>`});
+      if(s.wl.length){ty+=6;s.wl.forEach(t=>{ty+=13;g+=`<text x="${s.x+10}" y="${ty}" font-family="${MONO}" font-size="10.5" fill="${C.soft}">${esc(t)}</text>`})}
       if(s.ll.length){ty+=6;s.ll.forEach(t=>{ty+=14;g+=`<text x="${s.x+10}" y="${ty}" font-family="${MONO}" font-size="11" fill="${C.lim}">${esc(t)}</text>`})}
       g+='</a>';
     });
@@ -533,13 +581,13 @@ const R={
       if(ci){const into=d.e.filter(e=>S[e[1]].c==c);const labs=[...new Set(into.map(e=>e[2]).filter(Boolean))];
         h+=`<li class="rjoin" aria-hidden="true">↓ ${labs.map(esc).join(' · ')}</li>`}
       h+=`<li class="rrow${row.length>1?' par':''}">${row.length>1?'<span class="k">In parallel</span>':''}`;
-      row.forEach(s=>{h+=`<div class="rcard${s.lim?' end':''}"><span class="w">${esc(s.w)}</span><b>${esc(s.t)}</b><span class="m">${esc(s.m)}</span>${s.lim?`<span class="lim">${esc(s.lim)}</span>`:''}<span class="bk">Blocker: ${esc(s.b)}</span><a href="${esc(s.src)}" target="_blank" rel="noopener">${esc(host(s.src))}</a></div>`});
+      row.forEach(s=>{h+=`<div class="rcard${s.lim?' end':''}"><span class="w">${esc(s.w)}</span><b>${esc(s.t)}</b><span class="m">${esc(s.m)}</span>${s.lim?`<span class="lim">${esc(s.lim)}</span>`:''}<span class="who">${esc(who(k,s))}</span><span class="ex">${esc(exs(k,s).replace(/ \([^)]*\)/g,''))}</span><span class="bk">Blocker: ${esc(s.b)}</span><a href="${esc(s.src)}" target="_blank" rel="noopener">${esc(host(s.src))}</a></div>`});
       h+='</li>';
     });
     return h+'</ol>';
   }
   function showTip(e,a){const d=R[a.dataset.k],s=d.st[+a.dataset.i];
-    tip.innerHTML=`<b>${esc(s.t)}</b>${esc(s.tech)}<br>Who: ${esc(s.who)}<br>Blocker: ${esc(s.b)}<br>Source: ${esc(host(s.src))}`;tip.hidden=false;
+    tip.innerHTML=`<b>${esc(s.t)}</b>${esc(s.tech)}<br>Who: ${esc(exs(a.dataset.k,s))}<br>Blocker: ${esc(s.b)}<br>Source: ${esc(host(s.src))}`;tip.hidden=false;
     const r=a.getBoundingClientRect(),px=e&&e.clientX?e.clientX:r.left+r.width/2,py=e&&e.clientY?e.clientY:r.top;
     tip.style.left=Math.min(innerWidth-tip.offsetWidth-8,Math.max(8,px+14))+'px';tip.style.top=Math.max(8,py-tip.offsetHeight-12)+'px'}
   function render(){
@@ -547,7 +595,7 @@ const R={
       const dt=el.closest('details');if(dt&&!dt.open)return;
       const k=el.dataset.r,d=R[k],mode=el.clientWidth<600?'v':'h';
       if(el.dataset.mode===mode)return;el.dataset.mode=mode;
-      el.innerHTML=`${mode==='h'?svg(k,d):cards(k,d)}<figcaption>${esc(d.cap)}${mode==='h'?' Hover a stage for who is working on it and what blocks it; click to open the source.':''} Stages marked (est.) are extrapolations.</figcaption>`;
+      el.innerHTML=`${mode==='h'?svg(k,d):cards(k,d)}<figcaption><span class="where">Who and where: ${esc(W[k].sum)} <a href="${esc(W[k].src)}" target="_blank" rel="noopener">Source</a></span>${esc(d.cap)}${mode==='h'?' Hover a stage for named organisations and what blocks it; click to open the source.':''} Stages marked (est.) are extrapolations.</figcaption>`;
       el.querySelectorAll('a.node').forEach(a=>{a.addEventListener('mousemove',e=>showTip(e,a));a.addEventListener('mouseleave',()=>tip.hidden=true);a.addEventListener('focus',()=>showTip(null,a));a.addEventListener('blur',()=>tip.hidden=true)});
     });
   }
