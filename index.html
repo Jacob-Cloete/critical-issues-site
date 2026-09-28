@@ -172,6 +172,7 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:4
       <span><svg width="12" height="12"><circle cx="6" cy="6" r="5" fill="#8CC4FF"/></svg>Best lab result</span>
       <span><svg width="14" height="14"><circle cx="7" cy="7" r="5" fill="none" stroke="#8CC4FF" stroke-width="2"/></svg>Milestone that unlocks value</span>
       <span><svg width="12" height="16"><rect x="5" y="0" width="3" height="16" fill="#E0B25C"/></svg>Physics limit</span>
+      <span><svg width="12" height="16"><line x1="6" y1="0" x2="6" y2="16" stroke="#E0B25C" stroke-width="2" stroke-dasharray="3 3"/></svg>Limit of one technology</span>
       <span><svg width="12" height="12"><rect x="1" y="1" width="10" height="10" transform="rotate(45 6 6)" fill="#56606A"/></svg>Reference point</span>
       <span><svg width="14" height="14"><circle cx="7" cy="7" r="5" fill="none" stroke="#85909A" stroke-width="2"/></svg>Around 2010</span>
       <span>Every chart: log scale, better is always to the right.</span>
@@ -313,7 +314,7 @@ const L={
   [1.4e-11,'now','Best supercomputer, FP64',0],
   [7e-13,'now','H100 GPU, FP16',1],
   [2e-14,'mile','Human-brain parity (est.)',2],
-  [2e-16,'mile','CMOS ceiling (est.)',1],
+  [3.4e-15,'tlim','Limit of irreversible CMOS (FP16)',4],
   [3e-18,'mile','Landauer floor for one FLOP (~10³ bits, est.)',0],
   [2.9e-21,'limit','Landauer, 1 bit at 300 K',2]],
   gap:[7e-13,3e-18],note:'from today’s GPUs to the Landauer floor for one FLOP'},
@@ -322,7 +323,9 @@ const L={
   [9.5,'now','Climeworks (est.)',0],
   [8.8,'now','Carbon Engineering baseline',1],
   [6.6,'lab','Best published design',2],
-  [1.3,'mile','Mature-process line, 3× limit (my est.)',0],
+  [1.6,'tlim','Heat-swing sorbent floor',2],
+  [1.3,'mile','Mature electric swing, 3× limit (est.)',0],
+  [0.75,'tlim','Minimum + compression to 100 atm',3],
   [0.44,'limit','Minimum work at 400 ppm',1]],
   gap:[8.8,0.44],note:'between today’s plants and the thermodynamic minimum'},
  battery:{unit:'Wh per kg',a:100,b:2e4,pts:[
@@ -330,7 +333,9 @@ const L={
   [250,'now','EV packs',1],
   [300,'now','EV cells',0],
   [500,'lab','Best cells (Amprius, CATL)',2],
-  [550,'ref','Li-ion ceiling',3,'400–600'],
+  [350,'tlim','Graphite Li-ion ceiling',3],
+  [600,'tlim','Practical Li–S cell',1],
+  [1200,'tlim','Practical Li–air cell',4],
   [1000,'mile','Commuter e-aircraft pack (ICCT)',0],
   [2600,'limit','Li–S theory',1],
   [3500,'limit','Li–O₂ theory',2],
@@ -341,6 +346,7 @@ const L={
   [2.45,'now','Maraging steel',1],
   [6.37,'then','2010 T1000G fibre',3],
   [7,'now','Carbon fibre T1100G',0],
+  [12.6,'tlim','Ideal strength of iron',2],
   [63,'lab','Carbon nanotube, tiny sample',1],
   [130,'limit','Graphene, intrinsic',0]],
   gap:[7,130],note:'from the best commercial fibre to graphene'},
@@ -351,6 +357,7 @@ const L={
   [0.7,'lab','Cassie',0],
   [0.5,'lab','MIT Cheetah',1],
   [0.2,'mile','Human walking',2],
+  [0.05,'tlim','Mechanical work of walking',3],
   [0.0015,'ref','Steel wheel on rail (est.)',0]],
   gap:[2.8,0.2],note:'from a typical humanoid to a walking human'},
 };
@@ -377,7 +384,7 @@ const L={
       const px=x(v),ty=TY[t],up=t%2===0;
       g+=`<g><title>${esc(lab)}: ${shown||val(v)} ${esc(d.unit)}</title>`;
       g+=`<line x1="${px}" y1="${AY}" x2="${px}" y2="${up?ty+4:ty-12}" stroke="${C.rule}"/>`;
-      g+=k==='limit'?`<rect x="${px-1.5}" y="${AY-13}" width="3" height="26" fill="${C.lim}"/>`:mark(k,px,AY);
+      g+=k==='limit'?`<rect x="${px-1.5}" y="${AY-13}" width="3" height="26" fill="${C.lim}"/>`:k==='tlim'?`<line x1="${px}" y1="${AY-12}" x2="${px}" y2="${AY+12}" stroke="${C.lim}" stroke-width="2" stroke-dasharray="3 3"/>`:mark(k,px,AY);
       const anchor=px<X0+90?'start':px>X1-90?'end':'middle';
       g+=`<text x="${px}" y="${ty}" text-anchor="${anchor}" font-family="IBM Plex Mono,monospace" font-size="12"><tspan fill="${colr(k)}" font-weight="500">${shown||val(v)}</tspan><tspan fill="${C.mut}"> ${esc(lab)}</tspan></text></g>`;
     });
@@ -414,12 +421,13 @@ const L={
   }
   function mark(k,px,py){
     if(k==='limit')return `<rect x="${px-13}" y="${py-1.5}" width="26" height="3" fill="${C.lim}"/>`;
+    if(k==='tlim')return `<line x1="${px-12}" y1="${py}" x2="${px+12}" y2="${py}" stroke="${C.lim}" stroke-width="2" stroke-dasharray="3 3"/>`;
     if(k==='ref')return `<rect x="${px-5}" y="${py-5}" width="10" height="10" transform="rotate(45 ${px} ${py})" fill="${C.dim}"/>`;
     if(k==='then')return `<circle cx="${px}" cy="${py}" r="5" fill="${C.bg}" stroke="${C.mut}" stroke-width="2"/>`;
     if(k==='mile')return `<circle cx="${px}" cy="${py}" r="6" fill="${C.bg}" stroke="${C.acc}" stroke-width="2"/>`;
     return `<circle cx="${px}" cy="${py}" r="6" fill="${k==='lab'?C.acc:C.ink}" stroke="${C.bg}" stroke-width="2"/>`;
   }
-  const colr=k=>k==='limit'?C.lim:k==='ref'||k==='then'?C.mut:k==='now'?C.ink:C.acc;
+  const colr=k=>k==='limit'||k==='tlim'?C.lim:k==='ref'||k==='then'?C.mut:k==='now'?C.ink:C.acc;
   function render(){
     document.querySelectorAll('.ladder').forEach(el=>{
       const d=L[el.dataset.k],narrow=el.clientWidth<600,mode=narrow?'v':'h';
