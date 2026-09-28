@@ -149,6 +149,11 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:4
 <body>
 <div class="wrap">
   <header class="top"><a class="mark" href="/" style="text-decoration:none">v2060</a><span>Notes · updated 28 Sep 2026</span></header>
+  <section aria-labelledby="c1">
+    <div class="sec-head"><h2 id="c1">Headroom across 25 fields</h2><p>How many times better the limit is than typical practice today (dot) and around 2010 (ring), on a log scale. The line between them is sixteen years of progress.</p></div>
+    <div class="chart" id="chart"></div>
+    <p class="chart-note">Dashed <b>amber line at 3×</b>: below it, remaining gains are incremental. Hollow blue markers show a requirement that isn't met yet, not a gap to a limit. Grey rings mark roughly 2010; where a ring sits on the dot, the field has barely moved. Hover or tap a row for the numbers.</p>
+  </section>
   <section aria-labelledby="n1">
     <div class="sec-head"><h2 id="n1">Also on the radar, and where not to aim</h2></div>
     <div class="cols">
@@ -170,6 +175,14 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:4
 
   <section class="method" aria-labelledby="m1">
     <div class="sec-head"><h2 id="m1">Method and caveats</h2></div>
+    <p>The home page ranks sixteen problems three ways. <b>Limit headroom</b> ranks only problems with a proven physical or mathematical limit; problems measured against humans (robots, learning from little data, building) or with no known ceiling are grouped separately. <b>Current bottleneck</b> is judgement: how much progress this decade the problem blocks, across how many sectors. <b>Value if solved</b> is a rough annual value by 2060 times the chance of solving it, good to about 3×. The five picks sit in the top half on both bottleneck and value. Biology and health are out of scope because this site is about engineering limits.</p>
+    <ul class="src">
+      <li><a href="https://emp.lbl.gov/publications/queued-2026-edition-characteristics">LBNL, Queued Up 2026</a></li>
+      <li><a href="https://behavior.stanford.edu/challenge/archive/2025/index.html">BEHAVIOR-1K challenge 2025</a></li>
+      <li><a href="https://transitcosts.com/new-data/">Transit Costs Project</a></li>
+      <li><a href="https://www.nber.org/papers/w30845">Goolsbee &amp; Syverson, construction productivity</a></li>
+      <li><a href="https://worldsteel.org/">worldsteel</a></li>
+    </ul>
     <p>Headroom is the typical commercial value divided by the fundamental limit, or the other way round where lower is better. Where sources disagree, the bar shows the range. Limits are physical (Landauer, Carnot, Shockley–Queisser, Betz, Shannon, minimum work of separation) except where marked as a biological benchmark or an engineering requirement.</p>
     <p>A few figures are estimates rather than sourced values: the physics floors for aircraft and road vehicles, typical EV consumption, and the most optimistic transistor-density limit. Treat headroom as an order of magnitude, not a precise number.</p>
     <ul class="src">
@@ -201,10 +214,105 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:4
       <li><a href="https://www.energy.gov/sites/default/files/2024-12/hydrogen-shot-water-electrolysis-technology-assessment.pdf">US DOE electrolysis assessment</a></li>
       <li><a href="https://www.ge.com/news/press-releases/ha-technology-now-available-industry-first-64-percent-efficiency">GE HA combined cycle</a></li>
       <li><a href="https://en.wikipedia.org/wiki/Betz%27s_law">Betz's law</a></li>
+      <li><a href="https://epoch.ai/blog/limits-to-the-energy-efficiency-of-cmos-microprocessors">Epoch AI / Ho et al., CMOS energy limits</a></li>
+      <li><a href="https://www.theclimatebrink.com/p/thermodynamics-of-air-capture-of">Thermodynamics of air capture with compression</a></li>
+      <li><a href="https://pubs.rsc.org/en/content/articlehtml/2023/re/d2re00211f">Amine sorbent heats of adsorption (RSC 2023)</a></li>
+      <li><a href="https://www.nature.com/articles/s41560-019-0338-x">Liu et al., Nature Energy 2019 (Li-metal cells)</a></li>
+      <li><a href="https://web.stanford.edu/group/cui_group/papers/s41560-022-01001-0.pdf">Cui group, practical Li–S cells</a></li>
+      <li><a href="https://www.osti.gov/servlets/purl/812864">Ideal tensile strength of iron (DFT)</a></li>
+      <li><a href="https://www.science.org/doi/full/10.1126/science.1107799">Collins et al., Science 2005 (walking efficiency)</a></li>
     </ul>
   </section>
 
   <footer><span><a href="/">← Back to v2060</a></span><span>Limits are physics. Rankings are judgement.</span></footer>
 </div>
+<div id="tip" hidden></div>
+<script>
+// [label, sub, lo, hi, group, detail, requirement?]
+const rows=[
+ ['Logic energy per operation','vs Landauer kT ln 2',3e4,3e5,'big','CMOS gate ≈ 0.1–1 fJ vs 2.9×10⁻²¹ J at 300 K.'],
+ ['Launch to orbit','$/kg vs energy floor',3000,4200,'big','Falcon 9 ≈ $3,200–4,200/kg vs ≈ $1/kg of electricity for 33 MJ/kg.'],
+ ['Qubits for useful quantum','requirement, not a limit',1000,1000,'big','< 1M physical qubits needed for RSA-2048; devices have ~10³.',true],
+ ['Areal data storage','vs atomic-scale memory',250,330,'big','HAMR HDD ≈ 1.5–2 Tb/in² vs 502 Tb/in² atomic memory.'],
+ ['Structural strength','specific strength vs graphene',16,1000,'big','Carbon fibre (16×) to mild steel (1,000×) vs graphene ≈ 130 GPa.'],
+ ['Direct air capture','GJ per t CO₂',15,21,'big','≈ 6.6–9.5 GJ/t vs 0.44 GJ/t second-law minimum.'],
+ ['Robot locomotion','cost of transport vs human',3,14,'big','Cassie 0.7, ASIMO ≈ 2, Walk-Man 2.8 vs human ≈ 0.2 (biological benchmark).'],
+ ['Battery chemistry','Wh/kg, Li–S / Li–air theory',9,12,'big','EV cells 250–300 Wh/kg vs ≈ 2,600 (Li–S) to 3,500 (Li–O₂).'],
+ ['Chemical separations','distillation, 2nd-law',5,10,'big','10–15 % of world energy; distillation 5–20 % second-law efficient.'],
+ ['Crop photosynthesis','solar → biomass',5,6,'big','0.5–1 % season average vs 4.6 % (C3) / 6 % (C4).'],
+ ['Optical fibre capacity','Tb/s per fibre',2,10,'big','≈ 51 Tb/s deployed vs ≈ 0.5–1 Pb/s nonlinear Shannon, mostly bandwidth.'],
+ ['Aircraft fuel burn','L per 100 pkm',2,3.5,'mid','Fleet 3.5, best 2.2 vs ≈ 1 L/100 pkm (estimate from Breguet).'],
+ ['Desalination','kWh/m³, whole plant',2,4,'mid','3–4 kWh/m³ vs 1.06 kWh/m³ at 50 % recovery.'],
+ ['Solar PV','module efficiency',1.5,4,'mid','21–23 % vs 33.7 % single junction; 68.7 % multi-junction at 1 sun.'],
+ ['Cement clinker','GJ/t thermal',2,3.2,'mid','3.5–3.6 GJ/t vs 1.12–1.8 GJ/t.'],
+ ['Heat pumps','COP vs Carnot',2,2.5,'mid','COP 3.5–4.5 vs Carnot 8.8 at 0 °C → 35 °C.'],
+ ['LED lighting','luminaire lm/W',2,2.5,'mid','130–160 lm/W vs ≈ 255–330 lm/W for white light.'],
+ ['Road EVs','Wh/km at 100 km/h',2,2.5,'mid','150–200 Wh/km vs ≈ 80 Wh/km drag + rolling floor (estimate).'],
+ ['Aluminium smelting','kWh/kg',2.2,2.5,'mid','13.5–15.4 kWh/kg vs 6.23 kWh/kg.'],
+ ['Steel from ore','GJ/t',1.6,2.4,'mid','13.6 (ironmaking) – 21 GJ/t vs 8.6 GJ/t minimum.'],
+ ['Ammonia','GJ/t incl. feedstock',2.2,2.2,'mid','41 GJ/t net world average vs 18.6 GJ/t.'],
+ ['Hydrogen electrolysis','kWh/kg H₂',1.4,1.7,'near','≈ 55 kWh/kg vs 39.4 (HHV) or 32.7 (ΔG).'],
+ ['Gas combined cycle','efficiency vs Carnot',1.35,1.6,'near','50–63 % vs ≈ 84 % Carnot.'],
+ ['Wind turbines','Cp vs Betz',1.2,1.3,'near','Cp ≈ 0.45–0.50 vs 0.593.'],
+ ['Electric motors','efficiency',1.03,1.05,'near','95–97.5 % vs 100 %.'],
+];
+const THEN={
+ 'Logic energy per operation':[1e6,'≈ 1–10 fJ per gate switch (est.)'],
+ 'Launch to orbit':[7500,'Proton ≈ $4,300/kg, Atlas V ≈ $13,000/kg'],
+ 'Qubits for useful quantum':[1e5,'fewer than 10 programmable qubits'],
+ 'Areal data storage':[900,'HDDs ≈ 0.55 Tb/in²'],
+ 'Structural strength':[17.6,'T1000G carbon fibre, 6.37 GPa'],
+ 'Direct air capture':[20,'≈ 8.9 GJ/t (2011 design estimates)'],
+ 'Robot locomotion':[16,'ASIMO ≈ 3.2'],
+ 'Battery chemistry':[20,'Nissan Leaf cells, 155 Wh/kg'],
+ 'Crop photosynthesis':[5.5,'unchanged'],
+ 'Optical fibre capacity':[75,'≈ 3 Tb/s per fibre (est.)'],
+ 'Aircraft fuel burn':[4,'fleet ≈ 3.9–4.0 L/100 pkm (est.)'],
+ 'Desalination':[2.8,'3–4 kWh/m³, unchanged'],
+ 'Solar PV':[3.7,'modules ≈ 14–15 %'],
+ 'Cement clinker':[2.6,'≈ 3.6 GJ/t'],
+ 'Heat pumps':[2.7,'COP ≈ 3.0–3.5'],
+ 'LED lighting':[4.9,'luminaires ≈ 50–70 lm/W'],
+ 'Road EVs':[2.6,'Nissan Leaf ≈ 211 Wh/km'],
+ 'Aluminium smelting':[2.4,'≈ 14.5–15 kWh/kg'],
+ 'Steel from ore':[2.34,'20.1 GJ/t; today 21.0, slightly worse'],
+ 'Hydrogen electrolysis':[1.43,'≈ 53–60 kWh/kg'],
+ 'Gas combined cycle':[1.42,'best plants ≈ 59–60 %'],
+ 'Wind turbines':[1.25,'Cp ≈ 0.45–0.48, unchanged'],
+ 'Electric motors':[1.06,'IE2 ≈ 94–95 % (large motors)'],
+};
+(function(){
+  const el=document.getElementById('chart'),tip=document.getElementById('tip');
+  const MAX=6; const x=v=>Math.log10(v)/MAX*100;
+  const fmt=v=>v>=1e4?(()=>{const e=Math.floor(Math.log10(v)),m=Math.round(v/10**e);return (m>1?m+'×':'')+'10'+['⁰','¹','²','³','⁴','⁵','⁶'][e]})():v>=100?Math.round(v).toLocaleString('en'):String(+v.toFixed(v<10?2:0));
+  const grid=[0,1,2,3,4,5,6].map(e=>`<div class="grid" style="left:${e/MAX*100}%"></div>`).join('')+`<div class="ref" style="left:${x(3)}%"></div>`;
+  let h=`<div class="axis"><span class="lblh">Field</span><div class="scale">${['1×','10×','100×','1,000×','10⁴×','10⁵×','10⁶×'].map((t,i)=>`<span style="left:${i/MAX*100}%;${i===0?'transform:none':''}${i===MAX?';transform:translateX(-100%)':''}">${t}</span>`).join('')}</div><span class="valh" style="text-align:right">Headroom</span></div>`;
+  const titles={big:'Big headroom · more than 3×',mid:'Some headroom · 2–4×',near:'Near the ceiling · under 2×'};
+  let g='';
+  rows.forEach((r,i)=>{
+    const [lab,sub,lo,hi,grp,det,req]=r;
+    if(grp!==g){h+=`<div class="group ${grp==='near'?'near':''}">${titles[grp]}</div>`;g=grp}
+    const mid=Math.sqrt(lo*hi);
+    const val=lo===hi?fmt(lo)+'×':fmt(lo)+'–'+fmt(hi)+'×';
+    const th=THEN[lab];
+    const trail=th?`<div class="trail" style="left:${Math.min(x(th[0]),x(mid))}%;width:${Math.abs(x(th[0])-x(mid))}%"></div><div class="then" style="left:${x(th[0])}%"></div>`:'';
+    h+=`<div class="crow${req?' req':''}" tabindex="0" data-i="${i}"><div class="lbl">${lab}<small>${sub}</small></div>
+      <div class="track">${grid}${trail}<div class="bar" style="left:${x(lo)}%;width:${Math.max(0,x(hi)-x(lo))}%"></div><div class="dot" style="left:${x(mid)}%"></div></div>
+      <div class="val">${val}${th?`<small>2010: ${fmt(th[0])}×</small>`:''}</div></div>`;
+  });
+  el.innerHTML=h;
+  function show(e,row){const r=rows[+row.dataset.i];const th=THEN[r[0]];tip.innerHTML=`<b>${r[0]}</b>Today: ${r[5]}${th?`<br>Around 2010: ${th[1]}`:''}`;tip.hidden=false;
+    const b=row.getBoundingClientRect(),px=e&&e.clientX?e.clientX:b.left+b.width/2,py=e&&e.clientY?e.clientY:b.top;
+    const w=tip.offsetWidth,ht=tip.offsetHeight;tip.style.left=Math.min(innerWidth-w-8,Math.max(8,px+14))+'px';tip.style.top=Math.max(8,py-ht-12)+'px'}
+  el.querySelectorAll('.crow').forEach(row=>{
+    row.addEventListener('mousemove',e=>show(e,row));
+    row.addEventListener('mouseleave',()=>tip.hidden=true);
+    row.addEventListener('focus',()=>show(null,row));
+    row.addEventListener('blur',()=>tip.hidden=true);
+    row.addEventListener('click',e=>show(e,row));
+  });
+})();
+
+</script>
 </body>
 </html>
