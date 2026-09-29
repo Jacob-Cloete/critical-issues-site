@@ -183,7 +183,7 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:4
       <li><a href="https://www.nber.org/papers/w30845">Goolsbee &amp; Syverson, construction productivity</a></li>
       <li><a href="https://worldsteel.org/">worldsteel</a></li>
     </ul>
-    <p>Headroom is the fundamental limit divided by the typical commercial value, or the other way round where lower is better. Where sources disagree, the bar shows the range. Limits are physical (Landauer, Carnot, Shockley–Queisser, Betz, Shannon, minimum work of separation) except where marked as a biological benchmark or an engineering requirement.</p>
+    <p>Headroom is the fundamental limit divided by the typical commercial value, or the other way round where lower is better. Where sources disagree, the bar shows the range. Limits are physical (Landauer, Carnot, Shockley–Queisser, Betz, Shannon, minimum work of separation) except where marked as a biological benchmark, a practical ceiling, a lab demonstration or an engineering requirement.</p>
     <p>A few figures are estimates rather than sourced values: the physics floors for aircraft and road vehicles and typical EV consumption. Treat headroom as an order of magnitude, not a precise number.</p>
     <ul class="src">
       <li><a href="https://www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary">IEA, Key Questions on Energy and AI (2026)</a></li>
@@ -207,7 +207,7 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:4
       <li><a href="https://www.fluxim.com/research-blogs/perovskite-silicon-tandem-pv-record-updates">Perovskite–silicon tandem records</a></li>
       <li><a href="https://annual.llnl.gov/fy-2025/national-ignition-facility-2025">LLNL, NIF 2025</a></li>
       <li><a href="https://arxiv.org/abs/2505.15917">Gidney 2025, RSA-2048 resources</a></li>
-      <li><a href="https://www.nict.go.jp/en/press/2025/11/11-1.html">NICT fibre record, 2025</a></li>
+      <li><a href="https://www.nict.go.jp/en/press/2026/06/01-1.html">NICT/UCL fibre record, 2026</a></li>
       <li><a href="https://www.nature.com/articles/nnano.2016.131">Kalff et al., atomic memory</a></li>
       <li><a href="https://doi.org/10.1016/j.copbio.2008.02.004">Zhu, Long &amp; Ort 2008, photosynthesis</a></li>
       <li><a href="https://news.unl.edu/article/yield-gap-study-highlights-potential-for-higher-crop-yields-in-africa">Global Yield Gap Atlas, Africa</a></li>
@@ -233,11 +233,11 @@ const rows=[
  ['Logic energy per operation','vs Landauer kT ln 2',3e4,3e5,'big','CMOS gate ≈ 0.1–1 fJ vs 2.9×10⁻²¹ J at 300 K.'],
  ['Launch to orbit','$/kg vs energy floor',3200,4200,'big','Falcon 9 ≈ $3,200–4,200/kg vs ≈ $1/kg of electricity for 33 MJ/kg.'],
  ['Qubits for useful quantum','requirement, not a limit',1000,1000,'big','< 1M physical qubits needed for RSA-2048; devices have ~10³.',true],
- ['Areal data storage','vs atomic-scale memory',250,330,'big','HAMR HDD ≈ 1.5–2 Tb/in² vs 502 Tb/in² atomic memory (lab demo, not a hard limit).'],
+ ['Areal data storage','vs atomic-scale memory',250,420,'big','Nearline HDD ≈ 1.2–2 Tb/in² (ePMR to HAMR) vs 502 Tb/in² atomic memory (lab demo, not a hard limit).'],
  ['Structural strength','specific strength vs graphene',16,1300,'big','Carbon fibre (16×) to mild steel (1,300×) vs graphene ≈ 130 GPa.'],
- ['Direct air capture','GJ per t CO₂',15,21,'big','≈ 6.6–9.5 GJ/t vs ≈ 0.44–0.5 GJ/t second-law minimum.'],
+ ['Direct air capture','GJ per t CO₂',9,21,'big','≈ 6.6–9.5 GJ/t (design, incl. compression) vs ≈ 0.44–0.5 GJ/t separation only, ≈ 0.7 with compression.'],
  ['Robot locomotion','cost of transport vs human',3.5,14,'big','Cassie 0.7, Walk-Man 2.8 vs human ≈ 0.2 (biological benchmark).'],
- ['Battery chemistry','Wh/kg, Li–S / Li–air theory',9,14,'big','EV cells 250–300 Wh/kg vs ≈ 2,600 (Li–S) to 3,500 (Li–O₂).'],
+ ['Battery chemistry','Wh/kg, Li–S / Li–air theory',10,22,'big','EV cells ≈ 160–265 Wh/kg (LFP to NMC) vs ≈ 2,600 (Li–S) to 3,500 (Li–O₂).'],
  ['Chemical separations','distillation, 2nd-law',5,20,'big','10–15 % of world energy; distillation 5–20 % second-law efficient.'],
  ['Crop photosynthesis','solar → biomass',5,12,'big','0.5–1 % season average vs 4.6 % (C3) / 6 % (C4).'],
  ['Optical fibre capacity','Tb/s per fibre',10,20,'big','≈ 51 Tb/s deployed vs ≈ 0.5–1 Pb/s nonlinear Shannon, mostly bandwidth.'],
@@ -249,7 +249,7 @@ const rows=[
  ['LED lighting','luminaire lm/W',1.6,2.5,'mid','130–160 lm/W vs ≈ 255–330 lm/W practical LED ceiling (414 lm/W lossless).'],
  ['Road EVs','Wh/km at 100 km/h',2,2.5,'mid','150–200 Wh/km vs ≈ 80 Wh/km drag + rolling floor (estimate).'],
  ['Aluminium smelting','kWh/kg',2.2,2.5,'mid','13.5–15.4 kWh/kg vs 6.23 kWh/kg.'],
- ['Steel from ore','GJ/t',1.6,2.5,'mid','13.6 (ironmaking) – 21 GJ/t vs 8.4 GJ/t minimum.'],
+ ['Steel from ore','GJ/t',1.6,2.5,'mid','13.6 (ironmaking) – 21 GJ/t (all crude steel, incl. scrap EAF) vs 8.4 GJ/t minimum.'],
  ['Ammonia','GJ/t incl. feedstock',2.2,2.2,'mid','41 GJ/t net world average vs 18.6 GJ/t.'],
  ['Hydrogen electrolysis','kWh/kg H₂',1.4,1.7,'near','≈ 55 kWh/kg vs 39.4 (HHV) or 32.7 (ΔG).'],
  ['Gas combined cycle','efficiency vs Carnot',1.3,1.7,'near','50–64 % vs ≈ 84 % Carnot.'],
@@ -273,12 +273,12 @@ const THEN={
  'Cement clinker':[2.6,'≈ 3.6 GJ/t'],
  'Heat pumps':[2.7,'COP ≈ 3.0–3.5'],
  'LED lighting':[4.9,'luminaires ≈ 50–70 lm/W'],
- 'Road EVs':[2.6,'Nissan Leaf ≈ 211 Wh/km'],
+ 'Road EVs':[2.9,'Nissan Leaf ≈ 230 Wh/km (EPA highway)'],
  'Aluminium smelting':[2.4,'≈ 14.5–15 kWh/kg'],
  'Steel from ore':[1.9,'20.1 GJ/t; today 21.0, slightly worse'],
  'Hydrogen electrolysis':[1.57,'≈ 53–60 kWh/kg'],
  'Gas combined cycle':[1.53,'fleet ≈ 50 %, best ≈ 59–60 %'],
- 'Wind turbines':[1.25,'Cp ≈ 0.45–0.48, unchanged'],
+ 'Wind turbines':[1.28,'Cp ≈ 0.45–0.48, unchanged'],
  'Electric motors':[1.06,'IE2 ≈ 94–95 % (large motors)'],
 };
 (function(){
