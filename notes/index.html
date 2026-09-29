@@ -166,7 +166,7 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:4
       <div><h3>Already near the ceiling</h3><ul>
         <li><b>Electric motors:</b> 95–97.5 % efficient.</li>
         <li><b>Wind turbines:</b> Cp about 0.48 against the Betz limit of 0.593.</li>
-        <li><b>Gas combined cycle:</b> 63 % against about 84 % Carnot.</li>
+        <li><b>Gas combined cycle:</b> 64 % against about 84 % Carnot.</li>
         <li><b>Electrolysers:</b> 1.4× their minimum.</li>
         <li><b>Fibre and radio links:</b> within 1–2 dB of Shannon. Gains now come from more bandwidth and more channels, not better coding.</li>
       </ul></div>
@@ -183,10 +183,10 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:4
       <li><a href="https://www.nber.org/papers/w30845">Goolsbee &amp; Syverson, construction productivity</a></li>
       <li><a href="https://worldsteel.org/">worldsteel</a></li>
     </ul>
-    <p>Headroom is the typical commercial value divided by the fundamental limit, or the other way round where lower is better. Where sources disagree, the bar shows the range. Limits are physical (Landauer, Carnot, Shockley–Queisser, Betz, Shannon, minimum work of separation) except where marked as a biological benchmark or an engineering requirement.</p>
-    <p>A few figures are estimates rather than sourced values: the physics floors for aircraft and road vehicles, typical EV consumption, and the most optimistic transistor-density limit. Treat headroom as an order of magnitude, not a precise number.</p>
+    <p>Headroom is the fundamental limit divided by the typical commercial value, or the other way round where lower is better. Where sources disagree, the bar shows the range. Limits are physical (Landauer, Carnot, Shockley–Queisser, Betz, Shannon, minimum work of separation) except where marked as a biological benchmark or an engineering requirement.</p>
+    <p>A few figures are estimates rather than sourced values: the physics floors for aircraft and road vehicles and typical EV consumption. Treat headroom as an order of magnitude, not a precise number.</p>
     <ul class="src">
-      <li><a href="https://www.iea.org/reports/energy-and-ai/executive-summary">IEA, Energy and AI (2025)</a></li>
+      <li><a href="https://www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary">IEA, Key Questions on Energy and AI (2026)</a></li>
       <li><a href="https://arxiv.org/html/2312.08595v1">Ho et al., limits of CMOS energy efficiency</a></li>
       <li><a href="https://top500.org/lists/green500/list/2026/06/">Green500, June 2026</a></li>
       <li><a href="https://coefficientgiving.org/research/how-much-computational-power-does-it-take-to-match-the-human-brain/">Carlsmith, brain compute estimate</a></li>
@@ -212,7 +212,7 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:4
       <li><a href="https://doi.org/10.1016/j.copbio.2008.02.004">Zhu, Long &amp; Ort 2008, photosynthesis</a></li>
       <li><a href="https://news.unl.edu/article/yield-gap-study-highlights-potential-for-higher-crop-yields-in-africa">Global Yield Gap Atlas, Africa</a></li>
       <li><a href="https://www.energy.gov/sites/default/files/2024-12/hydrogen-shot-water-electrolysis-technology-assessment.pdf">US DOE electrolysis assessment</a></li>
-      <li><a href="https://www.ge.com/news/press-releases/ha-technology-now-available-industry-first-64-percent-efficiency">GE HA combined cycle</a></li>
+      <li><a href="https://www.guinnessworldrecords.com/world-records/431420-most-efficient-combined-cycle-power-plant">Keadby 2, 64.18 % combined-cycle record</a></li>
       <li><a href="https://en.wikipedia.org/wiki/Betz%27s_law">Betz's law</a></li>
       <li><a href="https://epoch.ai/blog/limits-to-the-energy-efficiency-of-cmos-microprocessors">Epoch AI / Ho et al., CMOS energy limits</a></li>
       <li><a href="https://www.theclimatebrink.com/p/thermodynamics-of-air-capture-of">Thermodynamics of air capture with compression</a></li>
@@ -231,28 +231,28 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:4
 // [label, sub, lo, hi, group, detail, requirement?]
 const rows=[
  ['Logic energy per operation','vs Landauer kT ln 2',3e4,3e5,'big','CMOS gate ≈ 0.1–1 fJ vs 2.9×10⁻²¹ J at 300 K.'],
- ['Launch to orbit','$/kg vs energy floor',3000,4200,'big','Falcon 9 ≈ $3,200–4,200/kg vs ≈ $1/kg of electricity for 33 MJ/kg.'],
+ ['Launch to orbit','$/kg vs energy floor',3200,4200,'big','Falcon 9 ≈ $3,200–4,200/kg vs ≈ $1/kg of electricity for 33 MJ/kg.'],
  ['Qubits for useful quantum','requirement, not a limit',1000,1000,'big','< 1M physical qubits needed for RSA-2048; devices have ~10³.',true],
  ['Areal data storage','vs atomic-scale memory',250,330,'big','HAMR HDD ≈ 1.5–2 Tb/in² vs 502 Tb/in² atomic memory.'],
  ['Structural strength','specific strength vs graphene',16,1000,'big','Carbon fibre (16×) to mild steel (1,000×) vs graphene ≈ 130 GPa.'],
  ['Direct air capture','GJ per t CO₂',15,21,'big','≈ 6.6–9.5 GJ/t vs 0.44 GJ/t second-law minimum.'],
- ['Robot locomotion','cost of transport vs human',3,14,'big','Cassie 0.7, ASIMO ≈ 2, Walk-Man 2.8 vs human ≈ 0.2 (biological benchmark).'],
- ['Battery chemistry','Wh/kg, Li–S / Li–air theory',9,12,'big','EV cells 250–300 Wh/kg vs ≈ 2,600 (Li–S) to 3,500 (Li–O₂).'],
- ['Chemical separations','distillation, 2nd-law',5,10,'big','10–15 % of world energy; distillation 5–20 % second-law efficient.'],
- ['Crop photosynthesis','solar → biomass',5,6,'big','0.5–1 % season average vs 4.6 % (C3) / 6 % (C4).'],
- ['Optical fibre capacity','Tb/s per fibre',2,10,'big','≈ 51 Tb/s deployed vs ≈ 0.5–1 Pb/s nonlinear Shannon, mostly bandwidth.'],
- ['Aircraft fuel burn','L per 100 pkm',2,3.5,'mid','Fleet 3.5, best 2.2 vs ≈ 1 L/100 pkm (estimate from Breguet).'],
- ['Desalination','kWh/m³, whole plant',2,4,'mid','3–4 kWh/m³ vs 1.06 kWh/m³ at 50 % recovery.'],
- ['Solar PV','module efficiency',1.5,4,'mid','21–23 % vs 33.7 % single junction; 68.7 % multi-junction at 1 sun.'],
+ ['Robot locomotion','cost of transport vs human',3.5,14,'big','Cassie 0.7, Walk-Man 2.8 vs human ≈ 0.2 (biological benchmark).'],
+ ['Battery chemistry','Wh/kg, Li–S / Li–air theory',9,14,'big','EV cells 250–300 Wh/kg vs ≈ 2,600 (Li–S) to 3,500 (Li–O₂).'],
+ ['Chemical separations','distillation, 2nd-law',5,20,'big','10–15 % of world energy; distillation 5–20 % second-law efficient.'],
+ ['Crop photosynthesis','solar → biomass',5,12,'big','0.5–1 % season average vs 4.6 % (C3) / 6 % (C4).'],
+ ['Optical fibre capacity','Tb/s per fibre',10,20,'big','≈ 51 Tb/s deployed vs ≈ 0.5–1 Pb/s nonlinear Shannon, mostly bandwidth.'],
+ ['Aircraft fuel burn','L per 100 pkm',2.2,3.5,'mid','Fleet 3.5, best 2.2 vs ≈ 1 L/100 pkm (estimate from Breguet).'],
+ ['Desalination','kWh/m³, whole plant',2.8,3.8,'mid','3–4 kWh/m³ vs 1.06 kWh/m³ at 50 % recovery.'],
+ ['Solar PV','module efficiency',1.5,3.3,'mid','21–23 % vs 33.7 % single junction; 68.7 % multi-junction at 1 sun.'],
  ['Cement clinker','GJ/t thermal',2,3.2,'mid','3.5–3.6 GJ/t vs 1.12–1.8 GJ/t.'],
  ['Heat pumps','COP vs Carnot',2,2.5,'mid','COP 3.5–4.5 vs Carnot 8.8 at 0 °C → 35 °C.'],
- ['LED lighting','luminaire lm/W',2,2.5,'mid','130–160 lm/W vs ≈ 255–330 lm/W for white light.'],
+ ['LED lighting','luminaire lm/W',1.6,2.5,'mid','130–160 lm/W vs ≈ 255–330 lm/W for white light.'],
  ['Road EVs','Wh/km at 100 km/h',2,2.5,'mid','150–200 Wh/km vs ≈ 80 Wh/km drag + rolling floor (estimate).'],
  ['Aluminium smelting','kWh/kg',2.2,2.5,'mid','13.5–15.4 kWh/kg vs 6.23 kWh/kg.'],
- ['Steel from ore','GJ/t',1.6,2.4,'mid','13.6 (ironmaking) – 21 GJ/t vs 8.6 GJ/t minimum.'],
+ ['Steel from ore','GJ/t',1.6,2.5,'mid','13.6 (ironmaking) – 21 GJ/t vs 8.4 GJ/t minimum.'],
  ['Ammonia','GJ/t incl. feedstock',2.2,2.2,'mid','41 GJ/t net world average vs 18.6 GJ/t.'],
  ['Hydrogen electrolysis','kWh/kg H₂',1.4,1.7,'near','≈ 55 kWh/kg vs 39.4 (HHV) or 32.7 (ΔG).'],
- ['Gas combined cycle','efficiency vs Carnot',1.35,1.6,'near','50–63 % vs ≈ 84 % Carnot.'],
+ ['Gas combined cycle','efficiency vs Carnot',1.3,1.7,'near','50–64 % vs ≈ 84 % Carnot.'],
  ['Wind turbines','Cp vs Betz',1.2,1.3,'near','Cp ≈ 0.45–0.50 vs 0.593.'],
  ['Electric motors','efficiency',1.03,1.05,'near','95–97.5 % vs 100 %.'],
 ];
@@ -266,7 +266,7 @@ const THEN={
  'Robot locomotion':[16,'ASIMO ≈ 3.2'],
  'Battery chemistry':[20,'Nissan Leaf cells, 155 Wh/kg'],
  'Crop photosynthesis':[5.5,'unchanged'],
- 'Optical fibre capacity':[75,'≈ 3 Tb/s per fibre (est.)'],
+ 'Optical fibre capacity':[230,'≈ 3 Tb/s per fibre (est.)'],
  'Aircraft fuel burn':[4,'fleet ≈ 3.9–4.0 L/100 pkm (est.)'],
  'Desalination':[2.8,'3–4 kWh/m³, unchanged'],
  'Solar PV':[3.7,'modules ≈ 14–15 %'],
