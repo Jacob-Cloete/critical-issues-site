@@ -148,7 +148,7 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:4
 </head>
 <body>
 <div class="wrap">
-  <header class="top"><a class="mark" href="/" style="text-decoration:none">v2060</a><span>Notes · updated 28 Sep 2026</span></header>
+  <header class="top"><a class="mark" href="/" style="text-decoration:none">v2060</a><span>Notes · updated 29 Sep 2026</span></header>
   <section aria-labelledby="c1">
     <div class="sec-head"><h2 id="c1">Headroom across 25 fields</h2><p>How many times better the limit is than typical practice today (dot) and around 2010 (ring), on a log scale. The line between them is sixteen years of progress.</p></div>
     <div class="chart" id="chart"></div>
@@ -158,9 +158,9 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:4
     <div class="sec-head"><h2 id="n1">Also on the radar, and where not to aim</h2></div>
     <div class="cols">
       <div><h3>Big but different</h3><ul>
-        <li><b>Launch to orbit:</b> about 3,000× above the energy floor. The gap is hardware and operations cost, not physics.</li>
+        <li><b>Launch to orbit:</b> about 3,200–4,200× above the energy floor. The gap is hardware and operations cost, not physics.</li>
         <li><b>Fusion:</b> NIF reached a target gain of 4.13 in 2025. A plant needs about 50–100 at the target, before counting how efficiently the laser turns grid power into light.</li>
-        <li><b>Quantum computing:</b> breaking RSA-2048 needs under a million physical qubits at 0.1 % error. Today's devices have hundreds to about a thousand.</li>
+        <li><b>Quantum computing:</b> breaking RSA-2048 needs under a million physical qubits at 0.1 % error. Today's gate-based devices have hundreds to about a thousand; atom arrays now trap over 6,000.</li>
         <li><b>Crops:</b> photosynthesis runs at 0.5–1 % against a 4.6–6 % limit. Sub-Saharan yields sit at 20–30 % of their water-limited potential.</li>
       </ul></div>
       <div><h3>Already near the ceiling</h3><ul>
@@ -168,14 +168,14 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:4
         <li><b>Wind turbines:</b> Cp about 0.48 against the Betz limit of 0.593.</li>
         <li><b>Gas combined cycle:</b> 64 % against about 84 % Carnot.</li>
         <li><b>Electrolysers:</b> 1.4× their minimum.</li>
-        <li><b>Fibre and radio links:</b> within 1–2 dB of Shannon. Gains now come from more bandwidth and more channels, not better coding.</li>
+        <li><b>Fibre and radio coding:</b> within 1–2 dB of Shannon per hertz. Capacity gains now come from more bandwidth and more channels (fibre: 10–20× above).</li>
       </ul></div>
     </div>
   </section>
 
   <section class="method" aria-labelledby="m1">
     <div class="sec-head"><h2 id="m1">Method and caveats</h2></div>
-    <p>The home page ranks sixteen problems three ways. <b>Limit headroom</b> ranks only problems with a proven physical or mathematical limit; problems measured against humans (robots, learning from little data, building) or with no known ceiling are grouped separately. <b>Current bottleneck</b> is judgement: how much progress this decade the problem blocks, across how many sectors. <b>Value if solved</b> is a rough annual value by 2060 times the chance of solving it, good to about 3×. The five picks sit in the top half on both bottleneck and value. Biology and health are out of scope because this site is about engineering limits.</p>
+    <p>The home page ranks sixteen problems three ways. <b>Limit headroom</b> ranks only problems with a proven or well-established limit, and discounts limits that assume ideal, defect-free materials (battery weight, strong materials); weather’s two-week limit comes from chaos models rather than a proof, and quantum speedups assume factoring is classically hard; problems measured against humans (robots, learning from little data) or other countries (building) or with no known ceiling are grouped separately. <b>Current bottleneck</b> is judgement: how much progress this decade the problem blocks, across how many sectors. <b>Value if solved</b> is a rough annual value by 2060 times the chance of solving it, good to about 3×. The five picks sit in the top half on both bottleneck and value. Biology and health are out of scope because this site is about engineering limits.</p>
     <ul class="src">
       <li><a href="https://emp.lbl.gov/publications/queued-2026-edition-characteristics">LBNL, Queued Up 2026</a></li>
       <li><a href="https://behavior.stanford.edu/challenge/archive/2025/index.html">BEHAVIOR-1K challenge 2025</a></li>
@@ -183,7 +183,7 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:4
       <li><a href="https://www.nber.org/papers/w30845">Goolsbee &amp; Syverson, construction productivity</a></li>
       <li><a href="https://worldsteel.org/">worldsteel</a></li>
     </ul>
-    <p>Headroom is the fundamental limit divided by the typical commercial value, or the other way round where lower is better. Where sources disagree, the bar shows the range. Limits are physical (Landauer, Carnot, Shockley–Queisser, Betz, Shannon, minimum work of separation) except where marked as a biological benchmark or an engineering requirement.</p>
+    <p>Headroom is the fundamental limit divided by the typical commercial value, or the other way round where lower is better. Where sources disagree, the bar shows the range. Limits are physical (Landauer, Carnot, Shockley–Queisser, Betz, Shannon, minimum work of separation) except where marked as a biological benchmark, a practical ceiling, a lab demonstration or an engineering requirement.</p>
     <p>A few figures are estimates rather than sourced values: the physics floors for aircraft and road vehicles and typical EV consumption. Treat headroom as an order of magnitude, not a precise number.</p>
     <ul class="src">
       <li><a href="https://www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary">IEA, Key Questions on Energy and AI (2026)</a></li>
@@ -207,7 +207,7 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:4
       <li><a href="https://www.fluxim.com/research-blogs/perovskite-silicon-tandem-pv-record-updates">Perovskite–silicon tandem records</a></li>
       <li><a href="https://annual.llnl.gov/fy-2025/national-ignition-facility-2025">LLNL, NIF 2025</a></li>
       <li><a href="https://arxiv.org/abs/2505.15917">Gidney 2025, RSA-2048 resources</a></li>
-      <li><a href="https://www.nict.go.jp/en/press/2025/11/11-1.html">NICT fibre record, 2025</a></li>
+      <li><a href="https://www.nict.go.jp/en/press/2026/06/01-1.html">NICT/UCL fibre record, 2026</a></li>
       <li><a href="https://www.nature.com/articles/nnano.2016.131">Kalff et al., atomic memory</a></li>
       <li><a href="https://doi.org/10.1016/j.copbio.2008.02.004">Zhu, Long &amp; Ort 2008, photosynthesis</a></li>
       <li><a href="https://news.unl.edu/article/yield-gap-study-highlights-potential-for-higher-crop-yields-in-africa">Global Yield Gap Atlas, Africa</a></li>
@@ -233,23 +233,23 @@ const rows=[
  ['Logic energy per operation','vs Landauer kT ln 2',3e4,3e5,'big','CMOS gate ≈ 0.1–1 fJ vs 2.9×10⁻²¹ J at 300 K.'],
  ['Launch to orbit','$/kg vs energy floor',3200,4200,'big','Falcon 9 ≈ $3,200–4,200/kg vs ≈ $1/kg of electricity for 33 MJ/kg.'],
  ['Qubits for useful quantum','requirement, not a limit',1000,1000,'big','< 1M physical qubits needed for RSA-2048; devices have ~10³.',true],
- ['Areal data storage','vs atomic-scale memory',250,330,'big','HAMR HDD ≈ 1.5–2 Tb/in² vs 502 Tb/in² atomic memory.'],
- ['Structural strength','specific strength vs graphene',16,1000,'big','Carbon fibre (16×) to mild steel (1,000×) vs graphene ≈ 130 GPa.'],
- ['Direct air capture','GJ per t CO₂',15,21,'big','≈ 6.6–9.5 GJ/t vs 0.44 GJ/t second-law minimum.'],
+ ['Areal data storage','vs atomic-scale memory',250,420,'big','Nearline HDD ≈ 1.2–2 Tb/in² (ePMR to HAMR) vs 502 Tb/in² atomic memory (lab demo, not a hard limit).'],
+ ['Structural strength','specific strength vs graphene',16,1300,'big','Carbon fibre (16×) to mild steel (1,300×) vs graphene ≈ 130 GPa.'],
+ ['Direct air capture','GJ per t CO₂',9,21,'big','≈ 6.6–9.5 GJ/t (design, incl. compression) vs ≈ 0.44–0.5 GJ/t separation only, ≈ 0.7 with compression.'],
  ['Robot locomotion','cost of transport vs human',3.5,14,'big','Cassie 0.7, Walk-Man 2.8 vs human ≈ 0.2 (biological benchmark).'],
- ['Battery chemistry','Wh/kg, Li–S / Li–air theory',9,14,'big','EV cells 250–300 Wh/kg vs ≈ 2,600 (Li–S) to 3,500 (Li–O₂).'],
+ ['Battery chemistry','Wh/kg, Li–S / Li–air theory',10,22,'big','EV cells ≈ 160–265 Wh/kg (LFP to NMC) vs ≈ 2,600 (Li–S) to 3,500 (Li–O₂).'],
  ['Chemical separations','distillation, 2nd-law',5,20,'big','10–15 % of world energy; distillation 5–20 % second-law efficient.'],
  ['Crop photosynthesis','solar → biomass',5,12,'big','0.5–1 % season average vs 4.6 % (C3) / 6 % (C4).'],
  ['Optical fibre capacity','Tb/s per fibre',10,20,'big','≈ 51 Tb/s deployed vs ≈ 0.5–1 Pb/s nonlinear Shannon, mostly bandwidth.'],
- ['Aircraft fuel burn','L per 100 pkm',2.2,3.5,'mid','Fleet 3.5, best 2.2 vs ≈ 1 L/100 pkm (estimate from Breguet).'],
+ ['Aircraft fuel burn','L per 100 pkm',2.2,3.5,'mid','Fleet 3.5, best 2.2 (est.) vs ≈ 1 L/100 pkm (estimate from Breguet).'],
  ['Desalination','kWh/m³, whole plant',2.8,3.8,'mid','3–4 kWh/m³ vs 1.06 kWh/m³ at 50 % recovery.'],
  ['Solar PV','module efficiency',1.5,3.3,'mid','21–23 % vs 33.7 % single junction; 68.7 % multi-junction at 1 sun.'],
  ['Cement clinker','GJ/t thermal',2,3.2,'mid','3.5–3.6 GJ/t vs 1.12–1.8 GJ/t.'],
  ['Heat pumps','COP vs Carnot',2,2.5,'mid','COP 3.5–4.5 vs Carnot 8.8 at 0 °C → 35 °C.'],
- ['LED lighting','luminaire lm/W',1.6,2.5,'mid','130–160 lm/W vs ≈ 255–330 lm/W for white light.'],
+ ['LED lighting','luminaire lm/W',1.6,2.5,'mid','130–160 lm/W vs ≈ 255–330 lm/W practical LED ceiling (414 lm/W lossless).'],
  ['Road EVs','Wh/km at 100 km/h',2,2.5,'mid','150–200 Wh/km vs ≈ 80 Wh/km drag + rolling floor (estimate).'],
  ['Aluminium smelting','kWh/kg',2.2,2.5,'mid','13.5–15.4 kWh/kg vs 6.23 kWh/kg.'],
- ['Steel from ore','GJ/t',1.6,2.5,'mid','13.6 (ironmaking) – 21 GJ/t vs 8.4 GJ/t minimum.'],
+ ['Steel from ore','GJ/t',1.6,2.5,'mid','13.6 (ironmaking) – 21 GJ/t (all crude steel, incl. scrap EAF) vs 8.4 GJ/t minimum.'],
  ['Ammonia','GJ/t incl. feedstock',2.2,2.2,'mid','41 GJ/t net world average vs 18.6 GJ/t.'],
  ['Hydrogen electrolysis','kWh/kg H₂',1.4,1.7,'near','≈ 55 kWh/kg vs 39.4 (HHV) or 32.7 (ΔG).'],
  ['Gas combined cycle','efficiency vs Carnot',1.3,1.7,'near','50–64 % vs ≈ 84 % Carnot.'],
@@ -265,20 +265,20 @@ const THEN={
  'Direct air capture':[20,'≈ 8.9 GJ/t (2011 design estimates)'],
  'Robot locomotion':[16,'ASIMO ≈ 3.2'],
  'Battery chemistry':[20,'Nissan Leaf cells, 155 Wh/kg'],
- 'Crop photosynthesis':[5.5,'unchanged'],
+ 'Crop photosynthesis':[7.7,'unchanged'],
  'Optical fibre capacity':[230,'≈ 3 Tb/s per fibre (est.)'],
  'Aircraft fuel burn':[4,'fleet ≈ 3.9–4.0 L/100 pkm (est.)'],
- 'Desalination':[2.8,'3–4 kWh/m³, unchanged'],
- 'Solar PV':[3.7,'modules ≈ 14–15 %'],
+ 'Desalination':[3.3,'3–4 kWh/m³, unchanged'],
+ 'Solar PV':[3.3,'modules ≈ 14–15 %'],
  'Cement clinker':[2.6,'≈ 3.6 GJ/t'],
  'Heat pumps':[2.7,'COP ≈ 3.0–3.5'],
  'LED lighting':[4.9,'luminaires ≈ 50–70 lm/W'],
- 'Road EVs':[2.6,'Nissan Leaf ≈ 211 Wh/km'],
+ 'Road EVs':[2.9,'Nissan Leaf ≈ 230 Wh/km (EPA highway)'],
  'Aluminium smelting':[2.4,'≈ 14.5–15 kWh/kg'],
- 'Steel from ore':[2.34,'20.1 GJ/t; today 21.0, slightly worse'],
- 'Hydrogen electrolysis':[1.43,'≈ 53–60 kWh/kg'],
- 'Gas combined cycle':[1.42,'best plants ≈ 59–60 %'],
- 'Wind turbines':[1.25,'Cp ≈ 0.45–0.48, unchanged'],
+ 'Steel from ore':[1.9,'20.1 GJ/t; today 21.0, slightly worse'],
+ 'Hydrogen electrolysis':[1.57,'≈ 53–60 kWh/kg'],
+ 'Gas combined cycle':[1.53,'fleet ≈ 50 %, best ≈ 59–60 %'],
+ 'Wind turbines':[1.28,'Cp ≈ 0.45–0.48, unchanged'],
  'Electric motors':[1.06,'IE2 ≈ 94–95 % (large motors)'],
 };
 (function(){
@@ -287,7 +287,7 @@ const THEN={
   const fmt=v=>v>=1e4?(()=>{const e=Math.floor(Math.log10(v)),m=Math.round(v/10**e);return (m>1?m+'×':'')+'10'+['⁰','¹','²','³','⁴','⁵','⁶'][e]})():v>=100?Math.round(v).toLocaleString('en'):String(+v.toFixed(v<10?2:0));
   const grid=[0,1,2,3,4,5,6].map(e=>`<div class="grid" style="left:${e/MAX*100}%"></div>`).join('')+`<div class="ref" style="left:${x(3)}%"></div>`;
   let h=`<div class="axis"><span class="lblh">Field</span><div class="scale">${['1×','10×','100×','1,000×','10⁴×','10⁵×','10⁶×'].map((t,i)=>`<span style="left:${i/MAX*100}%;${i===0?'transform:none':''}${i===MAX?';transform:translateX(-100%)':''}">${t}</span>`).join('')}</div><span class="valh" style="text-align:right">Headroom</span></div>`;
-  const titles={big:'Big headroom · more than 3×',mid:'Some headroom · 2–4×',near:'Near the ceiling · under 2×'};
+  const titles={big:'Big headroom · more than 3×',mid:'Some headroom · 1.5–4×',near:'Near the ceiling · under 2×'};
   let g='';
   rows.forEach((r,i)=>{
     const [lab,sub,lo,hi,grp,det,req]=r;

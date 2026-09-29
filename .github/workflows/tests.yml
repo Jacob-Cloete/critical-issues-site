@@ -28,3 +28,5 @@ jobs:
           package-manager-cache: false
       - name: Check JavaScript syntax and local links
         run: node tools/check-site.cjs
+      - name: Check data consistency (ranks, who/where, repeated figures)
+        run: node tools/check-data.cjs
