@@ -168,14 +168,14 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:4
         <li><b>Wind turbines:</b> Cp about 0.48 against the Betz limit of 0.593.</li>
         <li><b>Gas combined cycle:</b> 64 % against about 84 % Carnot.</li>
         <li><b>Electrolysers:</b> 1.4× their minimum.</li>
-        <li><b>Fibre and radio links:</b> within 1–2 dB of Shannon. Gains now come from more bandwidth and more channels, not better coding.</li>
+        <li><b>Fibre and radio coding:</b> within 1–2 dB of Shannon per hertz. Capacity gains now come from more bandwidth and more channels (fibre: 10–20× above).</li>
       </ul></div>
     </div>
   </section>
 
   <section class="method" aria-labelledby="m1">
     <div class="sec-head"><h2 id="m1">Method and caveats</h2></div>
-    <p>The home page ranks sixteen problems three ways. <b>Limit headroom</b> ranks only problems with a proven physical or mathematical limit, and ranks limits that assume ideal, defect-free materials (battery weight, strong materials) below proven process limits; problems measured against humans (robots, learning from little data, building) or with no known ceiling are grouped separately. <b>Current bottleneck</b> is judgement: how much progress this decade the problem blocks, across how many sectors. <b>Value if solved</b> is a rough annual value by 2060 times the chance of solving it, good to about 3×. The five picks sit in the top half on both bottleneck and value. Biology and health are out of scope because this site is about engineering limits.</p>
+    <p>The home page ranks sixteen problems three ways. <b>Limit headroom</b> ranks only problems with a proven or well-established limit, and discounts limits that assume ideal, defect-free materials (battery weight, strong materials); weather’s two-week limit comes from chaos models rather than a proof, and quantum speedups assume factoring is classically hard; problems measured against humans (robots, learning from little data) or other countries (building) or with no known ceiling are grouped separately. <b>Current bottleneck</b> is judgement: how much progress this decade the problem blocks, across how many sectors. <b>Value if solved</b> is a rough annual value by 2060 times the chance of solving it, good to about 3×. The five picks sit in the top half on both bottleneck and value. Biology and health are out of scope because this site is about engineering limits.</p>
     <ul class="src">
       <li><a href="https://emp.lbl.gov/publications/queued-2026-edition-characteristics">LBNL, Queued Up 2026</a></li>
       <li><a href="https://behavior.stanford.edu/challenge/archive/2025/index.html">BEHAVIOR-1K challenge 2025</a></li>
@@ -233,8 +233,8 @@ const rows=[
  ['Logic energy per operation','vs Landauer kT ln 2',3e4,3e5,'big','CMOS gate ≈ 0.1–1 fJ vs 2.9×10⁻²¹ J at 300 K.'],
  ['Launch to orbit','$/kg vs energy floor',3200,4200,'big','Falcon 9 ≈ $3,200–4,200/kg vs ≈ $1/kg of electricity for 33 MJ/kg.'],
  ['Qubits for useful quantum','requirement, not a limit',1000,1000,'big','< 1M physical qubits needed for RSA-2048; devices have ~10³.',true],
- ['Areal data storage','vs atomic-scale memory',250,330,'big','HAMR HDD ≈ 1.5–2 Tb/in² vs 502 Tb/in² atomic memory.'],
- ['Structural strength','specific strength vs graphene',16,1000,'big','Carbon fibre (16×) to mild steel (1,000×) vs graphene ≈ 130 GPa.'],
+ ['Areal data storage','vs atomic-scale memory',250,330,'big','HAMR HDD ≈ 1.5–2 Tb/in² vs 502 Tb/in² atomic memory (lab demo, not a hard limit).'],
+ ['Structural strength','specific strength vs graphene',16,1300,'big','Carbon fibre (16×) to mild steel (1,300×) vs graphene ≈ 130 GPa.'],
  ['Direct air capture','GJ per t CO₂',15,21,'big','≈ 6.6–9.5 GJ/t vs ≈ 0.44–0.5 GJ/t second-law minimum.'],
  ['Robot locomotion','cost of transport vs human',3.5,14,'big','Cassie 0.7, Walk-Man 2.8 vs human ≈ 0.2 (biological benchmark).'],
  ['Battery chemistry','Wh/kg, Li–S / Li–air theory',9,14,'big','EV cells 250–300 Wh/kg vs ≈ 2,600 (Li–S) to 3,500 (Li–O₂).'],
@@ -246,7 +246,7 @@ const rows=[
  ['Solar PV','module efficiency',1.5,3.3,'mid','21–23 % vs 33.7 % single junction; 68.7 % multi-junction at 1 sun.'],
  ['Cement clinker','GJ/t thermal',2,3.2,'mid','3.5–3.6 GJ/t vs 1.12–1.8 GJ/t.'],
  ['Heat pumps','COP vs Carnot',2,2.5,'mid','COP 3.5–4.5 vs Carnot 8.8 at 0 °C → 35 °C.'],
- ['LED lighting','luminaire lm/W',1.6,2.5,'mid','130–160 lm/W vs ≈ 255–330 lm/W for white light.'],
+ ['LED lighting','luminaire lm/W',1.6,2.5,'mid','130–160 lm/W vs ≈ 255–330 lm/W practical LED ceiling (414 lm/W lossless).'],
  ['Road EVs','Wh/km at 100 km/h',2,2.5,'mid','150–200 Wh/km vs ≈ 80 Wh/km drag + rolling floor (estimate).'],
  ['Aluminium smelting','kWh/kg',2.2,2.5,'mid','13.5–15.4 kWh/kg vs 6.23 kWh/kg.'],
  ['Steel from ore','GJ/t',1.6,2.5,'mid','13.6 (ironmaking) – 21 GJ/t vs 8.4 GJ/t minimum.'],
